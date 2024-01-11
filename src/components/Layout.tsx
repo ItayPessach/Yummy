@@ -1,32 +1,83 @@
-import { Outlet, Link } from 'react-router-dom'
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
+import { useState, MouseEvent } from "react";
+import { Outlet, useNavigate } from 'react-router-dom'
+import {AppBar, Toolbar, Typography, Box, IconButton, Avatar, Menu, MenuItem} from '@mui/material';
+import FoodIcon from '@mui/icons-material/Fastfood'
+import NavButton from './NavButton'
+import { LinkItem } from '@/types'
+
+const pages: Array<LinkItem> = [{
+  path: '/explore',
+  title: 'Explore'
+}, {
+  path: '/upload',
+  title: 'upload'
+}];
+
+const settings: Array<LinkItem> = [{
+  path: '/profile',
+  title: 'Profile'
+}, {
+  path: '/login',
+  title: 'Logout'
+}];
 
 function Layout() {
-    return (
-        <>
-            <AppBar position='sticky'>
-                <Toolbar >
-                    <FastfoodIcon sx={{color: 'white' }} />
-                    <Typography variant="h6" component="div" color={'white'} ml={1}>Yummy</Typography>
-                    <Link to='explore' style={{marginLeft: '32px'}} >
-                        <Button sx={{color: 'white'}}>
-                            <Typography variant="subtitle1" component="div" mt={0.75}>Explore</Typography>
-                        </Button>
-                    </Link>
-                    <Link to='upload' style={{marginLeft: '32px'}}>
-                        <Button sx={{color: 'white'}}>
-                            <Typography variant="subtitle1" component="div" mt={0.75}>Upload</Typography>
-                        </Button>
-                    </Link>
-                </Toolbar>
-            </AppBar>
-            <Outlet />
-        </>
-    )
+  const navigate = useNavigate();
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+  const openUserMenu = (event: MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget)
+  };
+
+  const closeUserMenu = () => {
+    setAnchorElUser(null)
+  }
+  const selectMenuOption = (path: string) => {
+    closeUserMenu()
+    navigate(path)
+  };
+
+  return (
+    <>
+      <AppBar position='static'>
+        <Toolbar>
+          <FoodIcon sx={{color: 'white' }} />
+          <Typography variant="h6" component="div" color={'white'} ml={1}>Yummy</Typography>
+          <Box sx={{flexGrow: 1}}>
+            {pages.map((page) => <NavButton path={page.path} title={page.title} />)}
+          </Box>
+          <Box sx={{flexGrow: 0}}>
+            <IconButton onClick={openUserMenu} sx={{ p: 0 }}>
+              <Avatar src="profile.png" />
+            </IconButton>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={closeUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting.title} onClick={() => selectMenuOption(setting.path)}>
+                  <Typography textAlign="center">{setting.title}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Outlet />
+    </>
+  )
 }
 
 export default Layout

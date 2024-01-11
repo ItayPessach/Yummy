@@ -12,7 +12,6 @@ const theme = createTheme({
     primary: {
       main: '#00C2E8'
     },
-    
   }
 })
 
@@ -28,6 +27,6 @@ function App() {
         </Route>
       </Routes>
     </ThemeProvider>
-)}
+  )}
 
 export default App
