@@ -1,13 +1,13 @@
-import React from "react";
+import { ElementType} from "react";
 import { Box, InputBase } from "@mui/material";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 
-interface TextInputProps {
+interface Props {
   placeholder: string;
-  Icon?: React.ElementType<SvgIconProps>;
+  Icon?: ElementType<SvgIconProps>;
 }
 
-const TextInput = ({ placeholder, Icon }: TextInputProps) => {
+const TextInput = ({ placeholder, Icon }: Props) => {
   return (
     <Box
       sx={{

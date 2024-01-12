@@ -41,10 +41,10 @@ function Layout() {
     <>
       <AppBar position='static'>
         <Toolbar>
-          <FoodIcon sx={{color: 'white' }} />
+          <FoodIcon sx={{color: 'white'}} />
           <Typography variant="h6" component="div" color={'white'} ml={1}>Yummy</Typography>
           <Box sx={{flexGrow: 1}}>
-            {pages.map((page) => <NavButton path={page.path} title={page.title} />)}
+            {pages.map((page) => <NavButton path={page.path} title={page.title} key={page.title} />)}
           </Box>
           <Box sx={{flexGrow: 0}}>
             <IconButton onClick={openUserMenu} sx={{ p: 0 }}>

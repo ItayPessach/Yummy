@@ -1,46 +1,33 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Divider } from "@mui/material";
 
-interface HorizontalLineWithTextProps {
+interface Props {
   text: string;
 }
 
-const HorizontalLineWithText = ({ text }: HorizontalLineWithTextProps) => {
+function HorizontalLineWithText({ text }: Props) {
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row",
         alignItems: "center",
-        width: "23vw",
+        width: "25vw",
         my: 1,
         mx: "auto",
       }}
     >
-      <Box
-        sx={{
-          flexGrow: 1,
-          height: "1px",
-          backgroundColor: "black",
-        }}
-      />
+      <Divider sx={{width: '11vw', backgroundColor: 'black'}}/>
       <Typography
         variant="body2"
         sx={{
           mx: 2,
-          color: "#071032",
+          color: "black",
         }}
       >
         {text}
       </Typography>
-      <Box
-        sx={{
-          flexGrow: 1,
-          height: "1px",
-          backgroundColor: "black",
-        }}
-      />
+      <Divider sx={{width: '11vw', backgroundColor: 'black'}}/>
     </Box>
   );
-};
+}
 
 export default HorizontalLineWithText;
