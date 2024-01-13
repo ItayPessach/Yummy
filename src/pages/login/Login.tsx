@@ -8,19 +8,22 @@ import HorizontalLineWithText from "@/components/HorizontalLineWithText";
 
 function Login() {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const resetFields = () => {
-    setName('')
+    setUsername('')
     setPassword('')
   }
   const login = () => {
-    console.log(name, password);
-    navigate('/explore');
+    navigate('/explore')
     resetFields()
-
   }
+
+  const register = () => {
+    navigate('/register')
+    resetFields()
+  };
 
   return (
     <Box
@@ -38,8 +41,8 @@ function Login() {
       <Typography variant="h2" sx={{ fontWeight: "bold", mb: 5 }}>
         Welcome To Yummy Food Community
       </Typography>
-      <TextField label="username" value={name} onChange={(event: ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value)}} sx={{ width: '60%', mx: 'auto'}} placeholder='username' variant="outlined" InputProps={{
+      <TextField label="username" value={username} onChange={(event: ChangeEvent<HTMLInputElement>) => {
+        setUsername(event.target.value)}} sx={{ width: '60%', mx: 'auto'}} placeholder='username' variant="outlined" InputProps={{
         startAdornment: (
           <InputAdornment position="start">
             <PersonOutlineIcon />
@@ -86,6 +89,7 @@ function Login() {
       </Button>
       <Button
         variant='contained'
+        onClick={register}
         sx={{
           color: "white",
           backgroundColor: "black",
