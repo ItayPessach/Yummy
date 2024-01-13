@@ -18,7 +18,7 @@ function Explore() {
   const [selectedCity, setSelectedCity] = useState(user?.homeCity ?? "");
 
   return (
-    <Stack sx={{ p: 2, gap: 2 }}>
+    <Stack sx={{ p: 4, gap: 2 }}>
       <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
         <Typography variant="h6" sx={{ color: "#4B5563", fontWeight: "bold" }}>
           Only My Posts
@@ -43,7 +43,11 @@ function Explore() {
         value={selectedCity}
         onChange={(event) => setSelectedCity(event.target.value)}
       />
-      <Grid container spacing={3}>
+      <Grid
+        container
+        spacing={5}
+        sx={{ maxHeight: "80vh", overflowY: "auto", mt: 1 }}
+      >
         <Post />
       </Grid>
     </Stack>
