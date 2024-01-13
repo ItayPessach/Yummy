@@ -17,20 +17,21 @@ import userBase64Png from "../../images/profiles/user";
 import gdbBase64Png from "../../images/posts/gdb";
 
 const mockPost = {
-  id: "123456789",
+  _id: "123456789",
   restaurant: "GDB",
   description:
     "Yesterday I eat at this place And It was amazing, the fries were so crispy and i cant even describe this uniuqunique burger ",
   image: gdbBase64Png,
   city: "Tel Aviv",
   user: {
+    _id: "123456710",
     name: "Itay Hasson",
     image: userBase64Png,
   },
   createdAt: new Date(),
   comments: [
     {
-      id: "172658781",
+      _id: "172658781",
       username: "Itay Pessach",
       createdAt: new Date(),
       body: "Wow, this looks amazing!",
@@ -41,18 +42,19 @@ const mockPost = {
 interface Props {
   // TODO: replace with real post type that must be passed from parent (remove optional)
   post?: {
-    id: string;
+    _id: string;
     restaurant: string;
     description: string;
     image: string; // base64
     city: string;
     user: {
+      _id: string;
       name: string;
       image: string; // base64
     };
     createdAt: Date;
     comments: {
-      id: string;
+      _id: string;
       username: string;
       createdAt: Date;
       body: string;
@@ -64,7 +66,7 @@ function Post({ post = mockPost }: Props) {
   return (
     <Grid item md={3}>
       <Card sx={{ backgroundColor: "#00C2E8", position: "relative" }}>
-        <PostOptions />
+        <PostOptions postedByUserId={post.user._id} />
         <CardMedia
           title={post.restaurant}
           sx={{

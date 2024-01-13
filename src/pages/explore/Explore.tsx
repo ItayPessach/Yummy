@@ -10,10 +10,12 @@ import {
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import AntSwitch from "../../components/AntSwitch";
 import Post from "./Post";
+import { useUserContext } from "@/context/UserContext";
 
 function Explore() {
+  const { user } = useUserContext();
   const [myPostsChecked, setMyPostsChecked] = useState(true);
-  const [selectedCity, setSelectedCity] = useState(""); // TODO: set user's home city as default
+  const [selectedCity, setSelectedCity] = useState(user?.homeCity ?? "");
 
   return (
     <Stack sx={{ p: 2, gap: 2 }}>
