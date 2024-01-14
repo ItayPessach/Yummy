@@ -66,11 +66,7 @@ function Layout() {
           <Box sx={{flexGrow: 0}}>
             <IconButton onClick={openUserMenu} sx={{ p: 0 }}>
               <Avatar
-                src={
-                  user?.profilePicture
-                    ? `data:image/png;base64, ${user.profilePicture}` // TODO: check on real data
-                    : "profile.png"
-                }
+                src={user?.profilePicture ? user.profilePicture : "profile.png"}
               />
             </IconButton>
             <Menu

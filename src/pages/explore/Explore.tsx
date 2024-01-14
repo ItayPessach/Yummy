@@ -20,7 +20,10 @@ function Explore() {
   return (
     <Stack sx={{ p: 4, gap: 2 }}>
       <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
-        <Typography variant="h6" sx={{ color: "#4B5563", fontWeight: "bold" }}>
+        <Typography
+          variant="h6"
+          sx={{ color: "secondary.main", fontWeight: "bold" }}
+        >
           Only My Posts
         </Typography>
         <AntSwitch

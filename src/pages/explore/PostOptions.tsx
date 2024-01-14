@@ -6,9 +6,10 @@ import { useUserContext } from "@/context/UserContext";
 
 interface Props {
   postedByUserId: string;
+  onExpandClick: () => void;
 }
 
-function PostOptions({ postedByUserId }: Props) {
+function PostOptions({ postedByUserId, onExpandClick }: Props) {
   const { user } = useUserContext();
 
   return (
@@ -48,6 +49,7 @@ function PostOptions({ postedByUserId }: Props) {
         </Box>
       )}
       <IconButton
+        onClick={onExpandClick}
         sx={{
           ml: "auto",
           color: "#00C2E8",
