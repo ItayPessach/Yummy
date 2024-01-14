@@ -1,16 +1,16 @@
-import { useState, MouseEvent } from "react";
-import { Outlet, useNavigate } from 'react-router-dom'
+import { useState, MouseEvent } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {AppBar, Toolbar, Typography, Box, IconButton, Avatar, Menu, MenuItem} from '@mui/material';
-import FoodIcon from '@mui/icons-material/Fastfood'
-import NavButton from './NavButton'
-import { LinkItem } from '@/types'
+import FoodIcon from '@mui/icons-material/Fastfood';
+import NavButton from './NavButton';
+import { LinkItem } from '@/types';
 
 const pages: Array<LinkItem> = [{
   path: '/explore',
   title: 'Explore'
 }, {
   path: '/upload',
-  title: 'upload'
+  title: 'Upload'
 }];
 
 const settings: Array<LinkItem> = [{
@@ -26,15 +26,15 @@ function Layout() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const openUserMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget)
+    setAnchorElUser(event.currentTarget);
   };
 
   const closeUserMenu = () => {
-    setAnchorElUser(null)
-  }
+    setAnchorElUser(null);
+  };
   const selectMenuOption = (path: string) => {
-    closeUserMenu()
-    navigate(path)
+    closeUserMenu();
+    navigate(path);
   };
 
   return (
@@ -77,7 +77,7 @@ function Layout() {
       </AppBar>
       <Outlet />
     </>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

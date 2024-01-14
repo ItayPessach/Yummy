@@ -1,10 +1,10 @@
-import './App.css'
-import { Routes, Route } from 'react-router-dom'
-import Login from '@/pages/login/Login'
-import Register from '@/pages/register/Register'
-import Explore from '@/pages/explore/Explore'
-import UploadPost from '@/pages/upload-post/UploadPost'
-import Layout from '@/components/Layout'
+import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import Login from '@/pages/login/Login';
+import Register from '@/pages/register/Register';
+import Explore from '@/pages/explore/Explore';
+import UploadPost from '@/pages/upload-post/UploadPost';
+import Layout from '@/components/Layout';
 
 function App() {
   return (
@@ -16,6 +16,6 @@ function App() {
         <Route path='upload' element={<UploadPost />} />
       </Route>
     </Routes>
-  )}
+  );}
 
-export default App
+export default App;
