@@ -7,9 +7,12 @@ const theme = createTheme({
     },
     secondary: {
       main: "#4B5563",
+      "100": "#8B99AE",
     },
     background: {
       default: '#F5F5F5',
+      default: "#F5F5F5",
+      paper: "#DDF4F8",
     },
   },
   typography: {
