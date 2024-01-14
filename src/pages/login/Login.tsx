@@ -1,45 +1,48 @@
-import { useNavigate } from 'react-router-dom'
-import { useState, ChangeEvent } from "react"
-import { Box, Typography, Button, TextField, InputAdornment } from "@mui/material";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import GoogleIcon from "@mui/icons-material/Google";
-import HorizontalLineWithText from "@/components/HorizontalLineWithText";
+import { useNavigate } from 'react-router-dom';
+import { useState, ChangeEvent } from 'react';
+import { Box, Typography, Button, TextField, InputAdornment } from '@mui/material';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import GoogleIcon from '@mui/icons-material/Google';
+import HorizontalLineWithText from '@/components/HorizontalLineWithText';
 
 function Login() {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const resetFields = () => {
-    setName('')
-    setPassword('')
-  }
+    setUsername('');
+    setPassword('');
+  };
   const login = () => {
-    console.log(name, password);
     navigate('/explore');
-    resetFields()
+    resetFields();
+  };
 
-  }
+  const register = () => {
+    navigate('/register');
+    resetFields();
+  };
 
   return (
     <Box
       sx={{
         p: 10,
-        textAlign: "center",
-        display: "flex",
-        flexDirection: "column",
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
         width: '60%',
         mx: 'auto',
-        justifyContent: "space-between",
+        justifyContent: 'space-between',
         gap: 5,
       }}
     >
-      <Typography variant="h2" sx={{ fontWeight: "bold", mb: 5 }}>
+      <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 5 }}>
         Welcome To Yummy Food Community
       </Typography>
-      <TextField label="username" value={name} onChange={(event: ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value)}} sx={{ width: '60%', mx: 'auto'}} placeholder='username' variant="outlined" InputProps={{
+      <TextField label="username" value={username} onChange={(event: ChangeEvent<HTMLInputElement>) => {
+        setUsername(event.target.value);}} sx={{ width: '60%', mx: 'auto'}} placeholder='username' variant="outlined" InputProps={{
         startAdornment: (
           <InputAdornment position="start">
             <PersonOutlineIcon />
@@ -47,7 +50,7 @@ function Login() {
         ),
       }} />
       <TextField label="password" value={password} onChange={(event: ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value)}} sx={{ width: '60%', mx: 'auto'}} placeholder='paswword' variant="outlined" type='password' InputProps={{
+        setPassword(event.target.value);}} sx={{ width: '60%', mx: 'auto'}} placeholder='paswword' variant="outlined" type='password' InputProps={{
         startAdornment: (
           <InputAdornment position="start">
             <LockOutlinedIcon />
@@ -58,13 +61,13 @@ function Login() {
         variant='contained'
         onClick={login}
         sx={{
-          color: "white",
-          backgroundColor: "primary.main",
-          ":hover": {backgroundColor: 'primary.main'},
-          width: "25vw",
-          height: "6vh",
+          color: 'white',
+          backgroundColor: 'primary.main',
+          ':hover': {backgroundColor: 'primary.main'},
+          width: '25vw',
+          height: '6vh',
           mt: 3,
-          mx: "auto",
+          mx: 'auto',
         }}
       >
         login
@@ -73,12 +76,12 @@ function Login() {
       <Button
         variant='contained'
         sx={{
-          color: "black",
-          backgroundColor: "white",
-          ":hover": {backgroundColor: 'white'},
-          width: "25vw",
-          height: "6vh",
-          mx: "auto",
+          color: 'black',
+          backgroundColor: 'white',
+          ':hover': {backgroundColor: 'white'},
+          width: '25vw',
+          height: '6vh',
+          mx: 'auto',
         }}
         startIcon={<GoogleIcon />}
       >
@@ -86,13 +89,14 @@ function Login() {
       </Button>
       <Button
         variant='contained'
+        onClick={register}
         sx={{
-          color: "white",
-          backgroundColor: "black",
-          ":hover": {backgroundColor: 'black'},
-          width: "25vw",
-          height: "6vh",
-          mx: "auto",
+          color: 'white',
+          backgroundColor: 'black',
+          ':hover': {backgroundColor: 'black'},
+          width: '25vw',
+          height: '6vh',
+          mx: 'auto',
         }}
       >
         new to this website? join Now

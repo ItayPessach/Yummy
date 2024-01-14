@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -9,11 +9,14 @@ const theme = createTheme({
       main: '#4B5563',
     },
     background: {
-      default: "#F5F5F5",
+      default: '#F5F5F5',
     },
   },
   typography: {
-    fontFamily: "Outfit",
+    fontFamily: 'Outfit',
+    button: {
+      textTransform: 'none'
+    }
   },
   components: {
     MuiButton: {
