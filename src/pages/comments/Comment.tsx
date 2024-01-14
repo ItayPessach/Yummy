@@ -1,34 +1,57 @@
 import { Comment as CommentType } from "@/types";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import defaultUserImage from "../../assets/defaultUserImage.png";
+import { calculateTimeAgo } from "@/utils/calculateTimeAgo";
+import { useEffect, useState } from "react";
 
 interface Props {
   comment: CommentType;
 }
 
 function Comment({ comment }: Props) {
+  const [timeAgo, setTimeAgo] = useState<string>("");
+
+  useEffect(() => {
+    setTimeAgo(calculateTimeAgo(comment.createdAt));
+  }, [comment.createdAt]);
+
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "row",
-        borderRadius: "10px",
-        backgroundColor: "#DDF4F8",
+        backgroundColor: "background.paper",
+        borderRadius: 7,
         mt: 3,
         p: 2,
-        gap: 2,
+        gap: 4,
       }}
     >
-      <Avatar src={comment.user.profilePicture ?? defaultUserImage}></Avatar>
+      <Avatar
+        src={comment.user.profilePicture ?? defaultUserImage}
+        sx={{ width: 56, height: 56 }}
+      ></Avatar>
       <Stack
         key={comment._id}
         sx={{
           gap: 1,
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          {comment.user.username}
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 3,
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            {comment.user.username}
+          </Typography>
+          <Typography variant="body2" color="secondary.100">
+            {timeAgo}
+          </Typography>
+        </Box>
         <Typography variant="body1">{comment.body}</Typography>
       </Stack>
     </Box>
