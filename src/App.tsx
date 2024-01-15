@@ -5,8 +5,8 @@ import Register from '@/pages/register/Register';
 import Explore from '@/pages/explore/Explore';
 import UploadPost from '@/pages/upload-post/UploadPost';
 import Layout from '@/components/Layout';
-import { UserContextProvider } from './context/UserContext';
-import Comments from './pages/comments/Comments';
+import UserContextProvider from '@/context/UserContext';
+import Comments from '@/pages/comments/Comments';
 
 function App() {
   return (
