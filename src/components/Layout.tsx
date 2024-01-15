@@ -1,27 +1,42 @@
-import { useState, MouseEvent } from 'react';
-import { Outlet, useNavigate, Navigate } from 'react-router-dom';
-import {AppBar, Toolbar, Typography, Box, IconButton, Avatar, Menu, MenuItem} from '@mui/material';
-import FoodIcon from '@mui/icons-material/Fastfood';
-import NavButton from './NavButton';
-import { LinkItem } from '@/types';
-import { useUserContext } from '@/context/UserContext';
-import { useAuth } from '@/hooks/use-auth';
+import { useState, MouseEvent } from "react";
+import { Outlet, useNavigate, Navigate } from "react-router-dom";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  IconButton,
+  Avatar,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import FoodIcon from "@mui/icons-material/Fastfood";
+import NavButton from "./NavButton";
+import { LinkItem } from "@/types";
+import { useUserContext } from "@/context/useUserContext";
+import { useAuth } from "@/hooks/use-auth";
 
-const pages: Array<LinkItem> = [{
-  path: '/explore',
-  title: 'Explore'
-}, {
-  path: '/upload',
-  title: 'Upload'
-}];
+const pages: Array<LinkItem> = [
+  {
+    path: "/explore",
+    title: "Explore",
+  },
+  {
+    path: "/upload",
+    title: "Upload",
+  },
+];
 
-const settings: Array<LinkItem> = [{
-  path: '/profile',
-  title: 'Profile'
-}, {
-  path: '/login',
-  title: 'Logout'
-}];
+const settings: Array<LinkItem> = [
+  {
+    path: "/profile",
+    title: "Profile",
+  },
+  {
+    path: "/login",
+    title: "Logout",
+  },
+];
 
 function Layout() {
   const { user } = useUserContext();
@@ -42,39 +57,46 @@ function Layout() {
     navigate(path);
   };
 
-  return (getToken() ?
+  return getToken() ? (
     <>
-      <AppBar position='static'>
+      <AppBar position="static">
         <Toolbar>
-          <FoodIcon sx={{color: 'white'}} />
-          <Typography variant="h6" component="div" color={'white'} ml={1}>Yummy</Typography>
-          <Box sx={{flexGrow: 1}}>
-            {pages.map((page) => <NavButton path={page.path} title={page.title} key={page.title} />)}
+          <FoodIcon sx={{ color: "white" }} />
+          <Typography variant="h6" component="div" color={"white"} ml={1}>
+            Yummy
+          </Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            {pages.map((page) => (
+              <NavButton path={page.path} title={page.title} key={page.title} />
+            ))}
           </Box>
-          <Box sx={{flexGrow: 0}}>
+          <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={openUserMenu} sx={{ p: 0 }}>
               <Avatar
-                src={user?.profilePicture ? user.profilePicture : 'profile.png'}
+                src={user?.profilePicture ? user.profilePicture : "profile.png"}
               />
             </IconButton>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={closeUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.title} onClick={() => selectMenuOption(setting.path)}>
+                <MenuItem
+                  key={setting.title}
+                  onClick={() => selectMenuOption(setting.path)}
+                >
                   <Typography textAlign="center">{setting.title}</Typography>
                 </MenuItem>
               ))}
@@ -84,7 +106,9 @@ function Layout() {
       </AppBar>
       <Outlet />
     </>
-    : <Navigate to='/login' />);
+  ) : (
+    <Navigate to="/login" />
+  );
 }
 
 export default Layout;

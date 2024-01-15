@@ -1,22 +1,6 @@
-import { createContext, useContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
-import { User } from '@/types';
-
-interface UserContextType {
-  user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;
-}
-
-const UserContext = createContext<UserContextType | undefined>(undefined);
-
-export const useUserContext = (): UserContextType => {
-  const context = useContext(UserContext);
-
-  if (!context) {
-    throw new Error('useUserContext must be used within a UserContextProvider');
-  }
-
-  return context;
-};
+import { ReactNode, useState } from "react";
+import { User } from "@/types";
+import { UserContext } from "./useUserContext";
 
 interface UserContextProviderProps {
   children: ReactNode;
