@@ -1,8 +1,8 @@
-import { Box, IconButton } from "@mui/material";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import OpenWithOutlinedIcon from "@mui/icons-material/OpenWithOutlined";
-import { useUserContext } from "@/context/UserContext";
+import { Box, IconButton } from '@mui/material';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import OpenWithOutlinedIcon from '@mui/icons-material/OpenWithOutlined';
+import { useUserContext } from '@/context/UserContext';
 
 interface Props {
   userId: string;
@@ -15,22 +15,22 @@ function PostActions({ userId, onExpandClick }: Props) {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        position: "absolute",
-        width: "100%",
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        position: 'absolute',
+        width: '100%',
         zIndex: 1,
         pt: 1,
       }}
     >
       {user?._id === userId && (
-        <Box sx={{ mr: "auto" }}>
+        <Box sx={{ mr: 'auto' }}>
           <IconButton
             sx={{
-              color: "primary.main",
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.75)",
+              color: 'primary.main',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.75)',
               },
             }}
           >
@@ -38,9 +38,9 @@ function PostActions({ userId, onExpandClick }: Props) {
           </IconButton>
           <IconButton
             sx={{
-              color: "primary.main",
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.75)",
+              color: 'primary.main',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.75)',
               },
             }}
           >
@@ -51,10 +51,10 @@ function PostActions({ userId, onExpandClick }: Props) {
       <IconButton
         onClick={onExpandClick}
         sx={{
-          ml: "auto",
-          color: "primary.main",
-          "&:hover": {
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
+          ml: 'auto',
+          color: 'primary.main',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.75)',
           },
         }}
       >

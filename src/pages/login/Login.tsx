@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import { useState, ChangeEvent } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useState, ChangeEvent } from 'react';
 import {
   Typography,
   Button,
   TextField,
   InputAdornment,
   Stack,
-} from "@mui/material";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import GoogleIcon from "@mui/icons-material/Google";
-import HorizontalLineWithText from "@/components/HorizontalLineWithText";
+} from '@mui/material';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import GoogleIcon from '@mui/icons-material/Google';
+import HorizontalLineWithText from '@/components/HorizontalLineWithText';
 
 function Login() {
   const navigate = useNavigate();
@@ -35,10 +35,10 @@ function Login() {
     <Stack
       sx={{
         p: 10,
-        textAlign: "center",
-        width: "60%",
-        mx: "auto",
-        justifyContent: "space-between",
+        textAlign: 'center',
+        width: '60%',
+        mx: 'auto',
+        justifyContent: 'space-between',
         gap: 5,
       }}
     >

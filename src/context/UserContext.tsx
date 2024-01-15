@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState } from "react";
+import React, { createContext, useContext, ReactNode, useState } from 'react';
 
 interface User {
   _id: string;
@@ -19,7 +19,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const useUserContext = (): UserContextType => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error("useUserContext must be used within a UserContextProvider");
+    throw new Error('useUserContext must be used within a UserContextProvider');
   }
   return context;
 };

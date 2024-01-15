@@ -4,22 +4,7 @@ import {AppBar, Toolbar, Typography, Box, IconButton, Avatar, Menu, MenuItem} fr
 import FoodIcon from '@mui/icons-material/Fastfood';
 import NavButton from './NavButton';
 import { LinkItem } from '@/types';
-import { useState, MouseEvent } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Box,
-  IconButton,
-  Avatar,
-  Menu,
-  MenuItem,
-} from "@mui/material";
-import FoodIcon from "@mui/icons-material/Fastfood";
-import NavButton from "./NavButton";
-import { LinkItem } from "@/types";
-import { useUserContext } from "@/context/UserContext";
+import { useUserContext } from '@/context/UserContext';
 
 const pages: Array<LinkItem> = [{
   path: '/explore',
@@ -66,7 +51,7 @@ function Layout() {
           <Box sx={{flexGrow: 0}}>
             <IconButton onClick={openUserMenu} sx={{ p: 0 }}>
               <Avatar
-                src={user?.profilePicture ? user.profilePicture : "profile.png"}
+                src={user?.profilePicture ? user.profilePicture : 'profile.png'}
               />
             </IconButton>
             <Menu

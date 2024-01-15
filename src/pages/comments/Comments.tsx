@@ -1,29 +1,29 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
-import { Comment as CommentType } from "@/types";
-import Comment from "./Comment";
-import { useUserContext } from "@/context/UserContext";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
+import { Comment as CommentType } from '@/types';
+import Comment from './Comment';
+import { useUserContext } from '@/context/UserContext';
 
 const mockComment: CommentType = {
-  _id: "172658781",
+  _id: '172658781',
   user: {
-    _id: "172658781",
-    username: "Itay Pessach",
-    email: "",
-    name: "Itay Pessach",
+    _id: '172658781',
+    username: 'Itay Pessach',
+    email: '',
+    name: 'Itay Pessach',
     profilePicture: undefined, // base64
   },
   createdAt: new Date(),
-  body: "This looks such a good place. i must go there and try the new burger! ",
+  body: 'This looks such a good place. i must go there and try the new burger! ',
 };
 
 function Comments() {
   const { user } = useUserContext();
   const { postId } = useParams();
   const [comments, setComments] = useState<CommentType[]>([]);
-  const [commentText, setCommentText] = useState("");
+  const [commentText, setCommentText] = useState('');
 
   useEffect(() => {
     // TODO: fetch comments by postId and setComments
@@ -45,11 +45,11 @@ function Comments() {
       <Typography
         variant="h4"
         color="secondary.main"
-        sx={{ fontWeight: "bold", textAlign: "center", mb: 1.5 }}
+        sx={{ fontWeight: 'bold', textAlign: 'center', mb: 1.5 }}
       >
         Post Comments
       </Typography>
-      <Box sx={{ height: "58vh", overflowY: "auto" }}>
+      <Box sx={{ height: '58vh', overflowY: 'auto' }}>
         {comments.map((comment) => (
           <Comment comment={comment} />
         ))}
@@ -62,24 +62,24 @@ function Comments() {
         onChange={(event) => setCommentText(event.target.value)}
         sx={{
           mt: 3,
-          backgroundColor: "background.paper",
+          backgroundColor: 'background.paper',
           borderRadius: 7,
-          "& .MuiOutlinedInput-root": {
+          '& .MuiOutlinedInput-root': {
             borderRadius: 7,
           },
         }}
-        inputProps={{ sx: { color: "#53606D" } }}
+        inputProps={{ sx: { color: '#53606D' } }}
       ></TextField>
       <Button
         sx={{
-          backgroundColor: "primary.main",
-          color: "white",
-          width: "15vw",
-          height: "5vh",
+          backgroundColor: 'primary.main',
+          color: 'white',
+          width: '15vw',
+          height: '5vh',
           mt: 3,
-          mx: "auto",
+          mx: 'auto',
           gap: 1,
-          ":hover": {backgroundColor: 'primary.main'}
+          ':hover': {backgroundColor: 'primary.main'}
         }}
         onClick={postComment}
       >
