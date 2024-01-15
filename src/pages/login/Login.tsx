@@ -74,7 +74,7 @@ function Login() {
           mx: 'auto',
         }}
       >
-        login
+        Login
       </Button>
       <HorizontalLineWithText text="OR" />
       <Button
@@ -89,7 +89,7 @@ function Login() {
         }}
         startIcon={<GoogleIcon />}
       >
-        sign in with google
+        Sign in with google
       </Button>
       <Button
         variant='contained'
@@ -103,7 +103,7 @@ function Login() {
           mx: 'auto',
         }}
       >
-        new to this website? join Now
+        New to this website? Join Now
       </Button>
     </Stack>
   );
