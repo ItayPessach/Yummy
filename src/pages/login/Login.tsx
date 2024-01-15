@@ -1,6 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, ChangeEvent } from 'react';
-import { Box, Typography, Button, TextField, InputAdornment } from '@mui/material';
+import {
+  Typography,
+  Button,
+  TextField,
+  InputAdornment,
+  Stack,
+} from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -26,12 +32,10 @@ function Login() {
   };
 
   return (
-    <Box
+    <Stack
       sx={{
         p: 10,
         textAlign: 'center',
-        display: 'flex',
-        flexDirection: 'column',
         width: '60%',
         mx: 'auto',
         justifyContent: 'space-between',
@@ -70,7 +74,7 @@ function Login() {
           mx: 'auto',
         }}
       >
-        login
+        Login
       </Button>
       <HorizontalLineWithText text="OR" />
       <Button
@@ -85,7 +89,7 @@ function Login() {
         }}
         startIcon={<GoogleIcon />}
       >
-        sign in with google
+        Sign in with google
       </Button>
       <Button
         variant='contained'
@@ -99,9 +103,9 @@ function Login() {
           mx: 'auto',
         }}
       >
-        new to this website? join Now
+        New to this website? Join Now
       </Button>
-    </Box>
+    </Stack>
   );
 }
 

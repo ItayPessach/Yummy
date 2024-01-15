@@ -4,6 +4,7 @@ import {AppBar, Toolbar, Typography, Box, IconButton, Avatar, Menu, MenuItem} fr
 import FoodIcon from '@mui/icons-material/Fastfood';
 import NavButton from './NavButton';
 import { LinkItem } from '@/types';
+import { useUserContext } from '@/context/UserContext';
 
 const pages: Array<LinkItem> = [{
   path: '/explore',
@@ -22,6 +23,7 @@ const settings: Array<LinkItem> = [{
 }];
 
 function Layout() {
+  const { user } = useUserContext();
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -48,7 +50,9 @@ function Layout() {
           </Box>
           <Box sx={{flexGrow: 0}}>
             <IconButton onClick={openUserMenu} sx={{ p: 0 }}>
-              <Avatar src="profile.png" />
+              <Avatar
+                src={user?.profilePicture ? user.profilePicture : 'profile.png'}
+              />
             </IconButton>
             <Menu
               sx={{ mt: '45px' }}
