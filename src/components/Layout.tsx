@@ -18,7 +18,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 const pages: Array<LinkItem> = [
   {
-    path: "/explore",
+    path: "/",
     title: "Explore",
   },
   {

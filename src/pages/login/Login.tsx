@@ -12,8 +12,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
 import HorizontalLineWithText from "@/components/HorizontalLineWithText";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserContext } from "@/context/useUserContext";
 
 function Login() {
+  const { setUser } = useUserContext();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +27,15 @@ function Login() {
   };
   const login = () => {
     setToken(username);
-    navigate("/explore");
+    setUser({
+      _id: "123",
+      username: "HASOS",
+      fullname: "Itay Hasson",
+      email: "123@123.123",
+      homeCity: "Tel Aviv",
+      token: "123",
+    });
+    navigate("/");
     resetFields();
   };
 
