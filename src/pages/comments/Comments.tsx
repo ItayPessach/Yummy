@@ -12,8 +12,9 @@ const mockComment: CommentType = {
     _id: "172658781",
     username: "Itay Pessach",
     email: "",
-    name: "Itay Pessach",
     profilePicture: undefined, // base64
+    homeCity: "Tel Aviv",
+    token: "1",
   },
   createdAt: new Date(),
   body: "This looks such a good place. i must go there and try the new burger! ",

@@ -4,35 +4,37 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Grid, Stack,
+  Grid,
+  Stack,
   Tooltip,
   Typography,
-} from '@mui/material';
-import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
-import { useNavigate } from 'react-router-dom';
-import { Post as PostType } from '@/types';
-import PostActions from './PostActions';
-import defaultUserImage from '../../assets/defaultUserImage.png';
+} from "@mui/material";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import { useNavigate } from "react-router-dom";
+import { Post as PostType } from "@/types";
+import PostActions from "./PostActions";
+import defaultUserImage from "../../assets/defaultUserImage.png";
 
 // TODO: remove mock data
-import userBase64Png from '../../images/profiles/user';
-import gdbBase64Png from '../../images/posts/gdb';
+import userBase64Png from "../../images/profiles/user";
+import gdbBase64Png from "../../images/posts/gdb";
 
 const mockPost = {
-  _id: '123456789',
-  restaurant: 'GDB',
+  _id: "123456789",
+  restaurant: "GDB",
   description:
-    'Yesterday I eat at this place And It was amazing, the fries were so crispy and i cant even describe this uniuqunique burger ',
+    "Yesterday I eat at this place And It was amazing, the fries were so crispy and i cant even describe this uniuqunique burger ",
   image: gdbBase64Png,
-  city: 'Tel Aviv',
+  city: "Tel Aviv",
   user: {
-    _id: '123456710',
-    name: 'Itay Hasson',
-    username: 'HASOS',
-    email: '123@123.123',
+    _id: "123456710",
+    username: "HASOS",
+    email: "123@123.123",
     profilePicture: userBase64Png,
+    homeCity: "Tel Aviv",
+    token: "1",
   },
-  comments: ['172658781'],
+  comments: ["172658781"],
   createdAt: new Date(),
 };
 
@@ -50,16 +52,16 @@ function Post({ post = mockPost }: Props) {
 
   return (
     <Grid item md={3}>
-      <Card elevation={0} sx={{ backgroundColor: 'primary.main', position: 'relative' }}>
-        <PostActions
-          userId={post.user._id}
-          onExpandClick={showPostComments}
-        />
+      <Card
+        elevation={0}
+        sx={{ backgroundColor: "primary.main", position: "relative" }}
+      >
+        <PostActions userId={post.user._id} onExpandClick={showPostComments} />
         <CardMedia
           title={post.restaurant}
           sx={{
-            height: '25vh',
-            position: 'relative',
+            height: "25vh",
+            position: "relative",
           }}
         >
           <Box
@@ -67,12 +69,12 @@ function Post({ post = mockPost }: Props) {
             src={post.image}
             alt={post.restaurant}
             sx={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              filter: 'blur(10px)',
-              transform: 'scale(1.1)',
-              pointerEvents: 'none',
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              filter: "blur(10px)",
+              transform: "scale(1.1)",
+              pointerEvents: "none",
             }}
           />
           <Box
@@ -80,55 +82,60 @@ function Post({ post = mockPost }: Props) {
             src={post.image}
             alt={post.restaurant}
             sx={{
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              pointerEvents: 'none',
+              position: "relative",
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              pointerEvents: "none",
             }}
           />
         </CardMedia>
         <CardContent sx={{ mt: 2 }}>
           <Stack>
-            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-              <Box sx={{display: 'flex'}}>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box sx={{ display: "flex" }}>
                 <Typography
                   variant="h6"
                   color="white"
                   sx={{
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    flexDirection: 'row',
+                    fontWeight: "bold",
+                    display: "flex",
+                    flexDirection: "row",
                     gap: 0.5,
                   }}
                 >
                   {post.restaurant}
                 </Typography>
-                <Tooltip title={post.user.name} placement="top">
+                <Tooltip title={post.user.username} placement="top">
                   <Avatar
                     src={
                       post.user.profilePicture
                         ? post.user.profilePicture
                         : defaultUserImage
                     }
-                    alt={post.user.name}
+                    alt={post.user.username}
                     sx={{
-                      width: '3vh',
-                      height: '3vh',
-                      borderRadius: '50%',
+                      width: "3vh",
+                      height: "3vh",
+                      borderRadius: "50%",
                       ml: 1,
                     }}
                   ></Avatar>
                 </Tooltip>
               </Box>
-              <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <Typography
-                  variant="subtitle1"
-                  color="white"
-                >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="subtitle1" color="white">
                   {post.comments.length}
                 </Typography>
-                <ChatOutlinedIcon sx={{color: 'white', width: '20px', ml: 0.5 }} />
+                <ChatOutlinedIcon
+                  sx={{ color: "white", width: "20px", ml: 0.5 }}
+                />
               </Box>
             </Box>
           </Stack>
@@ -145,9 +152,9 @@ function Post({ post = mockPost }: Props) {
               item
               md={2}
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'end',
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "end",
               }}
             >
               <Typography variant="body2" color="white">

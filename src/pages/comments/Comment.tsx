@@ -1,15 +1,15 @@
-import { Comment as CommentType } from '@/types';
-import { Avatar, Box, Stack, Typography } from '@mui/material';
-import defaultUserImage from '../../assets/defaultUserImage.png';
-import { calculateTimeAgo } from '@/utils/calculate-time-ago.ts';
-import { useEffect, useState } from 'react';
+import { Comment as CommentType } from "@/types";
+import { Avatar, Box, Stack, Typography } from "@mui/material";
+import defaultUserImage from "../../assets/defaultUserImage.png";
+import { calculateTimeAgo } from "@/utils/calculateTimeAgo.ts";
+import { useEffect, useState } from "react";
 
 interface Props {
   comment: CommentType;
 }
 
 function Comment({ comment }: Props) {
-  const [timeAgo, setTimeAgo] = useState('');
+  const [timeAgo, setTimeAgo] = useState("");
 
   useEffect(() => {
     setTimeAgo(calculateTimeAgo(comment.createdAt));
@@ -18,9 +18,9 @@ function Comment({ comment }: Props) {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        backgroundColor: 'background.paper',
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "background.paper",
         borderRadius: 7,
         mt: 3,
         p: 2,
@@ -39,13 +39,13 @@ function Comment({ comment }: Props) {
       >
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
             gap: 3,
           }}
         >
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
             {comment.user.username}
           </Typography>
           <Typography variant="body2" color="secondary.100">

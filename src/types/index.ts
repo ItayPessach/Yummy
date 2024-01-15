@@ -25,7 +25,7 @@ export interface User {
   _id: string;
   username: string;
   email: string;
-  profilePicture: string; //base64
+  profilePicture?: string; //base64
   homeCity: string;
   token: string;
 }

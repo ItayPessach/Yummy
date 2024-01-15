@@ -14,7 +14,7 @@ import FoodIcon from "@mui/icons-material/Fastfood";
 import NavButton from "./NavButton";
 import { LinkItem } from "@/types";
 import { useUserContext } from "@/context/useUserContext";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@/hooks/useAuth";
 
 const pages: Array<LinkItem> = [
   {
