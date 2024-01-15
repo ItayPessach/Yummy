@@ -46,7 +46,7 @@ function Comment({ comment }: Props) {
           }}
         >
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            {comment.user.username}
+            {comment.user.fullname}
           </Typography>
           <Typography variant="body2" color="secondary.100">
             {timeAgo}

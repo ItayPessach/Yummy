@@ -11,6 +11,7 @@ const mockComment: CommentType = {
   user: {
     _id: "172658781",
     username: "Itay Pessach",
+    fullname: "Itay Pessach",
     email: "",
     profilePicture: undefined, // base64
     homeCity: "Tel Aviv",

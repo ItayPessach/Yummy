@@ -29,6 +29,7 @@ const mockPost = {
   user: {
     _id: "123456710",
     username: "HASOS",
+    fullname: "HASOS",
     email: "123@123.123",
     profilePicture: userBase64Png,
     homeCity: "Tel Aviv",
@@ -106,7 +107,7 @@ function Post({ post = mockPost }: Props) {
                 >
                   {post.restaurant}
                 </Typography>
-                <Tooltip title={post.user.username} placement="top">
+                <Tooltip title={post.user.fullname} placement="top">
                   <Avatar
                     src={
                       post.user.profilePicture

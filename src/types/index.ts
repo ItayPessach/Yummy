@@ -24,6 +24,7 @@ export interface Comment {
 export interface User {
   _id: string;
   username: string;
+  fullname: string;
   email: string;
   profilePicture?: string; //base64
   homeCity: string;
