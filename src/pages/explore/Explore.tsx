@@ -14,7 +14,7 @@ import { useUserContext } from "@/context/UserContext";
 
 function Explore() {
   const { user } = useUserContext();
-  const [myPostsChecked, setMyPostsChecked] = useState(true);
+  const [isShowOnlyMyPosts, setIsShowOnlyMyPosts] = useState(true);
   const [selectedCity, setSelectedCity] = useState(user?.homeCity ?? "");
 
   return (
@@ -27,8 +27,8 @@ function Explore() {
           Only My Posts
         </Typography>
         <AntSwitch
-          checked={myPostsChecked}
-          onChange={(event) => setMyPostsChecked(event.target.checked)}
+          checked={isShowOnlyMyPosts}
+          onChange={(event) => setIsShowOnlyMyPosts(event.target.checked)}
           inputProps={{ "aria-label": "ant design" }}
           sx={{ my: "auto" }}
         />
@@ -48,9 +48,11 @@ function Explore() {
       />
       <Grid
         container
-        spacing={5}
-        sx={{ maxHeight: "80vh", overflowY: "auto", mt: 1 }}
+        spacing={3}
+        sx={{ maxHeight: "80vh", overflowY: "auto", mt: 1, pb: 4, px: 2}}
       >
+        <Post />
+        <Post />
         <Post />
       </Grid>
     </Stack>

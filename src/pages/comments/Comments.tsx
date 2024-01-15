@@ -79,6 +79,7 @@ function Comments() {
           mt: 3,
           mx: "auto",
           gap: 1,
+          ":hover": {backgroundColor: 'primary.main'}
         }}
         onClick={postComment}
       >

@@ -5,11 +5,11 @@ import OpenWithOutlinedIcon from "@mui/icons-material/OpenWithOutlined";
 import { useUserContext } from "@/context/UserContext";
 
 interface Props {
-  postedByUserId: string;
+  userId: string;
   onExpandClick: () => void;
 }
 
-function PostOptions({ postedByUserId, onExpandClick }: Props) {
+function PostActions({ userId, onExpandClick }: Props) {
   const { user } = useUserContext();
 
   return (
@@ -24,11 +24,11 @@ function PostOptions({ postedByUserId, onExpandClick }: Props) {
         pt: 1,
       }}
     >
-      {user?._id === postedByUserId && (
+      {user?._id === userId && (
         <Box sx={{ mr: "auto" }}>
           <IconButton
             sx={{
-              color: "#00C2E8",
+              color: "primary.main",
               "&:hover": {
                 backgroundColor: "rgba(255, 255, 255, 0.75)",
               },
@@ -38,7 +38,7 @@ function PostOptions({ postedByUserId, onExpandClick }: Props) {
           </IconButton>
           <IconButton
             sx={{
-              color: "#00C2E8",
+              color: "primary.main",
               "&:hover": {
                 backgroundColor: "rgba(255, 255, 255, 0.75)",
               },
@@ -52,7 +52,7 @@ function PostOptions({ postedByUserId, onExpandClick }: Props) {
         onClick={onExpandClick}
         sx={{
           ml: "auto",
-          color: "#00C2E8",
+          color: "primary.main",
           "&:hover": {
             backgroundColor: "rgba(255, 255, 255, 0.75)",
           },
@@ -64,4 +64,4 @@ function PostOptions({ postedByUserId, onExpandClick }: Props) {
   );
 }
 
-export default PostOptions;
+export default PostActions;
