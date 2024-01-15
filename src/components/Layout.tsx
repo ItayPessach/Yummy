@@ -1,10 +1,11 @@
 import { useState, MouseEvent } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, Navigate } from 'react-router-dom';
 import {AppBar, Toolbar, Typography, Box, IconButton, Avatar, Menu, MenuItem} from '@mui/material';
 import FoodIcon from '@mui/icons-material/Fastfood';
 import NavButton from './NavButton';
 import { LinkItem } from '@/types';
 import { useUserContext } from '@/context/UserContext';
+import { useAuth } from '@/hooks/use-auth';
 
 const pages: Array<LinkItem> = [{
   path: '/explore',
@@ -25,6 +26,8 @@ const settings: Array<LinkItem> = [{
 function Layout() {
   const { user } = useUserContext();
   const navigate = useNavigate();
+  const { getToken } = useAuth();
+
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const openUserMenu = (event: MouseEvent<HTMLElement>) => {
@@ -39,7 +42,7 @@ function Layout() {
     navigate(path);
   };
 
-  return (
+  return (getToken() ?
     <>
       <AppBar position='static'>
         <Toolbar>
@@ -81,7 +84,7 @@ function Layout() {
       </AppBar>
       <Outlet />
     </>
-  );
+    : <Navigate to='/login' />);
 }
 
 export default Layout;

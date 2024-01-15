@@ -11,17 +11,20 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
 import HorizontalLineWithText from '@/components/HorizontalLineWithText';
+import {useAuth} from '@/hooks/use-auth';
 
 function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { setToken } = useAuth();
 
   const resetFields = () => {
     setUsername('');
     setPassword('');
   };
   const login = () => {
+    setToken(username);
     navigate('/explore');
     resetFields();
   };

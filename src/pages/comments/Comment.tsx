@@ -1,7 +1,7 @@
 import { Comment as CommentType } from '@/types';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
 import defaultUserImage from '../../assets/defaultUserImage.png';
-import { calculateTimeAgo } from '@/utils/calculateTimeAgo';
+import { calculateTimeAgo } from '@/utils/calculate-time-ago.ts';
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 function Comment({ comment }: Props) {
-  const [timeAgo, setTimeAgo] = useState<string>('');
+  const [timeAgo, setTimeAgo] = useState('');
 
   useEffect(() => {
     setTimeAgo(calculateTimeAgo(comment.createdAt));
