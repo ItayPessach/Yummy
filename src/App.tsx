@@ -16,14 +16,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/"
-          element={
-            <RequireAuth>
-              <Layout />
-            </RequireAuth>
-          }
-        >
+        <Route path="/" element={<RequireAuth children={<Layout />} />}>
           <Route index element={<Explore />} />
           <Route path="comments/:postId" element={<Comments />} />
           <Route path="upload" element={<UploadPost />} />

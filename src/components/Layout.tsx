@@ -1,5 +1,5 @@
 import { useState, MouseEvent } from "react";
-import { Outlet, useNavigate, Navigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -14,7 +14,6 @@ import FoodIcon from "@mui/icons-material/Fastfood";
 import NavButton from "./NavButton";
 import { LinkItem } from "@/types";
 import { useUserContext } from "@/context/useUserContext";
-import { useAuth } from "@/hooks/useAuth";
 
 const pages: Array<LinkItem> = [
   {
@@ -41,7 +40,6 @@ const settings: Array<LinkItem> = [
 function Layout() {
   const { user } = useUserContext();
   const navigate = useNavigate();
-  const { getToken } = useAuth();
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -57,7 +55,7 @@ function Layout() {
     navigate(path);
   };
 
-  return getToken() ? (
+  return (
     <>
       <AppBar position="static">
         <Toolbar>
@@ -106,8 +104,6 @@ function Layout() {
       </AppBar>
       <Outlet />
     </>
-  ) : (
-    <Navigate to="/login" />
   );
 }
 

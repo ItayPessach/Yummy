@@ -1,33 +1,25 @@
+import { fetchUser } from "@/api/user";
 import { useUserContext } from "@/context/useUserContext";
 import { Navigate } from "react-router-dom";
+// import { useAuth } from "@/hooks/useAuth";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const RequireAuth = ({ children }: Props) => {
-  const { user, setUser } = useUserContext();
+  //   const { getToken } = useAuth();
+  const { user } = useUserContext();
 
+  // We use this function because after a refresh, the user is not yet set in the context.
   const isLoggedIn = () => {
-    if (user) {
-      return true;
-    } else {
-      // TODO: get user _id from the token (localStorage or cookie) and fetch user from server
-      const userFromLocalStorage = localStorage.getItem("user");
-      if (userFromLocalStorage) {
-        setUser({
-          _id: "123",
-          username: "HASOS",
-          fullname: "Itay Hasson",
-          email: "123@123.123",
-          homeCity: "Tel Aviv",
-          token: "123",
-        });
-        return true;
-      } else {
+    if (!user) {
+      const userFromDb = fetchUser(); // getToken();
+      if (!userFromDb) {
         return false;
       }
     }
+    return true;
   };
 
   return isLoggedIn() ? children : <Navigate to="/login" replace={true} />;
