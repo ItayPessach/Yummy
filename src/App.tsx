@@ -8,6 +8,7 @@ import Layout from "@/components/Layout";
 import UserContextProvider from "@/context/UserContext";
 import Comments from "@/pages/comments/Comments";
 import Profile from "./pages/profile/Profile";
+import EditProfile from "./pages/edit-profile/EditProfile";
 import RequireAuth from "./components/RequireAuth";
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
           <Route path="upload" element={<UploadPost />} />
           <Route path="profile">
             <Route index element={<Profile />} />
-            <Route path="edit" element={<></>} />
+            <Route path="edit" element={<EditProfile />} />
           </Route>
         </Route>
         <Route path="*" element={<>404 Not Found</>} />

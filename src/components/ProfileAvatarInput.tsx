@@ -1,15 +1,17 @@
 import { useState, useRef, ChangeEvent } from "react";
 import ProfileAvatarUploadModal from "./ProfileAvatarUploadModal";
 import "../styles/AvatarUpload.css";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 interface Props {
   src?: File;
   changeProfileImage: (newProfileImage?: File) => void;
+  width: number;
+  height: number;
 }
 
-function ProfileAvatarInput({ src, changeProfileImage }: Props) {
+function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
   const [preview, setPreview] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [profileModalImage, setProfileModalImage] = useState(src);
@@ -39,16 +41,23 @@ function ProfileAvatarInput({ src, changeProfileImage }: Props) {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        position: "relative",
+        width: width,
+        height: height,
+      }}
+    >
       {preview && (
         <IconButton
-          sx={{ position: "absolute", top: 130, left: 120 }}
+          sx={{ position: "absolute", top: 0, left: 0 }}
           onClick={resetProfileImage}
         >
           <CancelOutlinedIcon />
         </IconButton>
       )}
-      <div className="avatar-upload-container">
+      <Box className="avatar-upload-container" sx={{ mx: "auto" }}>
         {profileModalImage && (
           <ProfileAvatarUploadModal
             modalOpen={modalOpen}
@@ -63,17 +72,17 @@ function ProfileAvatarInput({ src, changeProfileImage }: Props) {
           ref={inputRef}
           onChange={handleImgChange}
         />
-        <div className="img-container">
+        <Box className="img-container">
           <img
             src={preview || "./add-user.jpeg"}
             alt=""
-            width="200"
-            height="200"
+            width={width}
+            height={height}
             onClick={handleInputClick}
           />
-        </div>
-      </div>
-    </>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

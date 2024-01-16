@@ -80,10 +80,12 @@ function Register() {
             <Typography variant="subtitle1" sx={{ color: "secondary.main" }}>
               Let’s get started
             </Typography>
-            <Stack sx={{ mt: 6 }} spacing={4}>
+            <Stack sx={{ mt: 6, alignItems: "center" }} spacing={4}>
               <ProfileAvatarInput
                 changeProfileImage={setStateProfileImage}
                 src={profileImage}
+                width={200}
+                height={200}
               />
               <TextField
                 label="username"
@@ -100,6 +102,7 @@ function Register() {
                     </InputAdornment>
                   ),
                 }}
+                sx={{ width: "30vw" }}
               />
               <TextField
                 label="password"
@@ -107,8 +110,8 @@ function Register() {
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   setPassword(event.target.value);
                 }}
-                sx={{ mt: 3 }}
-                placeholder="paswword"
+                sx={{ width: "30vw" }}
+                placeholder="password"
                 variant="outlined"
                 type="password"
                 InputProps={{
@@ -129,6 +132,7 @@ function Register() {
                     </InputAdornment>
                   ),
                 }}
+                sx={{ width: "30vw" }}
               />
             </Stack>
             <Button
@@ -146,7 +150,7 @@ function Register() {
               }}
               onClick={createAccount}
             >
-              <Typography variant="subtitle1" sx={{ color: "white" }}>
+              <Typography variant="h6" sx={{ color: "white" }}>
                 Create Account
               </Typography>
             </Button>
