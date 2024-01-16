@@ -12,9 +12,11 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useUserContext } from "@/context/useUserContext";
+import { useNavigate } from "react-router-dom";
 
 function EditProfile() {
   const { user } = useUserContext();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState(""); // TODO: decide if we want to allow users to change their password
@@ -43,15 +45,7 @@ function EditProfile() {
   };
 
   const cancelEdit = () => {
-    setUsername(user?.username ?? "");
-    setPassword("password");
-    if (user?.profilePicture) {
-      setProfileImage(
-        new File([user.profilePicture], "profile-picture", {
-          type: "image/png",
-        })
-      );
-    }
+    navigate("/profile");
   };
 
   return (
