@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { useUserContext } from "@/context/useUserContext";
+import { useUserContext } from "@/common/context/useUserContext";
 import defaultUserImage from "@/assets/defaultUserImage.png";
 
 function Profile() {

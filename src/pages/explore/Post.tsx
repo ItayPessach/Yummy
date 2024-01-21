@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import { useNavigate } from "react-router-dom";
-import { Post as PostType } from "@/types";
+import { Post as PostType } from "@/common/types";
 import PostActions from "./PostActions";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 

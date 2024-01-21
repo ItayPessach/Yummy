@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { User } from "@/types";
+import { User } from "@/common/types";
 import { UserContext } from "./useUserContext";
 import { fetchUser } from "@/api/user";
 

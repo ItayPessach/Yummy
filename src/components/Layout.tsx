@@ -12,8 +12,8 @@ import {
 } from "@mui/material";
 import FoodIcon from "@mui/icons-material/Fastfood";
 import NavButton from "./NavButton";
-import { LinkItem } from "@/types";
-import { useUserContext } from "@/context/useUserContext";
+import { LinkItem } from "@/common/types";
+import { useUserContext } from "@/common/context/useUserContext";
 
 const pages: Array<LinkItem> = [
   {

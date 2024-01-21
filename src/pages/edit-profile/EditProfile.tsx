@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useUserContext } from "@/context/useUserContext";
+import { useUserContext } from "@/common/context/useUserContext";
 import { useNavigate } from "react-router-dom";
 
 function EditProfile() {

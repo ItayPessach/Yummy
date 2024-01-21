@@ -1,5 +1,5 @@
 import { fetchUser } from "@/api/user";
-import { useUserContext } from "@/context/useUserContext";
+import { useUserContext } from "@/common/context/useUserContext";
 import { Navigate } from "react-router-dom";
 // import { useAuth } from "@/hooks/useAuth";
 

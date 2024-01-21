@@ -5,7 +5,7 @@ import Register from "@/pages/register/Register";
 import Explore from "@/pages/explore/Explore";
 import UploadPost from "@/pages/upload-post/UploadPost";
 import Layout from "@/components/Layout";
-import UserContextProvider from "@/context/UserContext";
+import UserContextProvider from "@/common/context/UserContext";
 import Comments from "@/pages/comments/Comments";
 import Profile from "./pages/profile/Profile";
 import EditProfile from "./pages/edit-profile/EditProfile";

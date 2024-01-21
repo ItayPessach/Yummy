@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
-import { Comment as CommentType } from "@/types";
+import { Comment as CommentType } from "@/common/types";
 import Comment from "./Comment";
-import { useUserContext } from "@/context/useUserContext";
+import { useUserContext } from "@/common/context/useUserContext";
 
 const mockComment: CommentType = {
   _id: "172658781",

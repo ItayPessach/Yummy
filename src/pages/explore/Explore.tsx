@@ -10,7 +10,7 @@ import {
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import AntSwitch from "../../components/AntSwitch";
 import Post from "./Post";
-import { useUserContext } from "@/context/useUserContext";
+import { useUserContext } from "@/common/context/useUserContext";
 
 function Explore() {
   const { user } = useUserContext();

@@ -11,8 +11,9 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
 import HorizontalLineWithText from "@/components/HorizontalLineWithText";
-import { useAuth } from "@/hooks/useAuth";
-import { useUserContext } from "@/context/useUserContext";
+import { useAuth } from "@/common/hooks/useAuth";
+import { useUserContext } from "@/common/context/useUserContext";
+import authService from "@/services/authService";
 
 function Login() {
   const { setUser } = useUserContext();
@@ -26,6 +27,23 @@ function Login() {
     setPassword("");
   };
   const login = () => {
+    const { request } = authService.login({
+      email: username,
+      password,
+    });
+
+    request
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    request.catch((err) => {
+      console.log(err);
+    });
+
     setToken(username);
     setUser({
       _id: "123",

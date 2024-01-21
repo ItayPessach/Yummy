@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { LinkItem as Props } from "@/types";
+import { LinkItem as Props } from "@/common/types";
 
 function NavButton({ path, title }: Props) {
   return (

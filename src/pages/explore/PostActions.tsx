@@ -2,7 +2,7 @@ import { Box, IconButton } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import OpenWithOutlinedIcon from "@mui/icons-material/OpenWithOutlined";
-import { useUserContext } from "@/context/useUserContext";
+import { useUserContext } from "@/common/context/useUserContext";
 
 interface Props {
   userId: string;
