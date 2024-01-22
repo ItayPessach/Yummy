@@ -15,28 +15,24 @@ import { Post as PostType } from "@/common/types";
 import PostActions from "./PostActions";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 
-// TODO: remove mock data
-import userBase64Png from "../../images/profiles/user";
-import gdbBase64Png from "../../images/posts/gdb";
-
 const mockPost = {
   _id: "123456789",
   restaurant: "GDB",
   description:
     "Yesterday I eat at this place And It was amazing, the fries were so crispy and i cant even describe this uniuqunique burger ",
-  image: gdbBase64Png,
+  image: "https://img.mako.co.il/2020/02/11/GDB2_i.jpg",
   city: "Tel Aviv",
   user: {
     _id: "123456710",
     email: "hasos@gmail.com",
     fullname: "HASOS",
-    email: "123@123.123",
-    profilePicture: userBase64Png,
+    profileImage:
+      "https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1403",
     homeCity: "Tel Aviv",
     token: "1",
   },
-  comments: ["172658781"],
   createdAt: new Date(),
+  comments: [],
 };
 
 interface Props {
@@ -110,8 +106,8 @@ function Post({ post = mockPost }: Props) {
                 <Tooltip title={post.user.fullname} placement="top">
                   <Avatar
                     src={
-                      post.user.profilePicture
-                        ? post.user.profilePicture
+                      post.user.profileImage
+                        ? post.user.profileImage
                         : defaultUserImage
                     }
                     alt={post.user.fullname}

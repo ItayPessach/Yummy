@@ -71,7 +71,7 @@ function Layout() {
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={openUserMenu} sx={{ p: 0 }}>
               <Avatar
-                src={user?.profilePicture ? user.profilePicture : "profile.png"}
+                src={user?.profileImage ? user.profileImage : "profile.png"}
               />
             </IconButton>
             <Menu

@@ -13,10 +13,13 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
+import authService from "@/services/authService";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [homeCity, setHomeCity] = useState("");
   const [profileImage, setProfileImage] = useState<File>();
   const navigate = useNavigate();
 
@@ -25,7 +28,22 @@ function Register() {
   };
 
   const createAccount = () => {
-    console.log(profileImage);
+    const { request } = authService.register({
+      email,
+      password,
+      fullName,
+      homeCity: homeCity === "" ? "Tel Aviv" : homeCity, // TODO: delete this line when we add home city logic
+      profileImage, // TODO: figure out why mimetype is always 'application/octet-stream' which does not work with multer
+    });
+
+    request
+      .then((res) => {
+        console.log(res);
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const signIn = () => {
@@ -80,7 +98,7 @@ function Register() {
             <Typography variant="subtitle1" sx={{ color: "secondary.main" }}>
               Let’s get started
             </Typography>
-            <Stack sx={{ mt: 6, alignItems: "center" }} spacing={4}>
+            <Stack sx={{ mt: 6, alignItems: "center" }} spacing={3}>
               <ProfileAvatarInput
                 changeProfileImage={setStateProfileImage}
                 src={profileImage}
@@ -122,9 +140,30 @@ function Register() {
                   ),
                 }}
               />
-
+              <TextField
+                label="fullName"
+                placeholder="fullName"
+                value={fullName}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  setFullName(event.target.value);
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonOutlineIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: "30vw" }}
+              />
               <TextField
                 select
+                label="homeCity"
+                placeholder="homeCity"
+                value={homeCity}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  setHomeCity(event.target.value);
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

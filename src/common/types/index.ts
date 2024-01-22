@@ -7,25 +7,23 @@ export interface Post {
   _id: string;
   restaurant: string;
   description: string;
-  image: string; // base64
+  image: string;
   city: string;
   user: User;
-  comments: Array<string>; // not populated object ids
+  comments: Array<Comment>;
   createdAt: Date;
 }
 
 export interface Comment {
-  _id: string;
   user: User;
-  createdAt: Date;
   body: string;
+  date: Date;
 }
 
 export interface User {
   _id: string;
   fullname: string;
   email: string;
-  profilePicture?: string; //base64
+  profileImage?: string;
   homeCity: string;
-  token: string;
 }

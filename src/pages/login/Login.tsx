@@ -11,16 +11,15 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
 import HorizontalLineWithText from "@/components/HorizontalLineWithText";
-import { useAuth } from "@/common/hooks/useAuth";
 import { useUserContext } from "@/common/context/useUserContext";
 import authService from "@/services/authService";
+import usersService from "@/services/usersService";
 
 function Login() {
   const { setUser } = useUserContext();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setToken } = useAuth();
 
   const resetFields = () => {
     setEmail("");
@@ -33,29 +32,25 @@ function Login() {
     });
 
     request
-      .then((res: {accessToken: string, refreshToken: string}) => {
-        // save the cookies
+      .then((res) => {
+        document.cookie = `access_token=${res.data.accessToken}; path=/`;
+        document.cookie = `refresh_token=${res.data.refreshToken}; path=/`;
 
-        // get me from the server and load to context
+        const { request } = usersService.getMe();
+
+        request
+          .then((res) => {
+            setUser(res.data);
+            navigate("/");
+            resetFields();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
       });
-
-    request.catch((err) => {
-      console.log(err);
-    });
-
-    setToken(email);
-    setUser({
-      _id: "123",
-      email: "hasos@gmail.com",
-      fullname: "Itay Hasson",
-      homeCity: "Tel Aviv",
-      token: "123",
-    });
-    navigate("/");
-    resetFields();
   };
 
   const register = () => {

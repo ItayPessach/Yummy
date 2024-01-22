@@ -24,7 +24,7 @@ function Profile() {
         Welcome {user?.fullname.split(" ")[0]}!
       </Typography>
       <Avatar
-        src={user?.profilePicture ?? defaultUserImage}
+        src={user?.profileImage ?? defaultUserImage}
         sx={{ width: 280, height: 280, mx: "auto" }}
       ></Avatar>
       <Typography

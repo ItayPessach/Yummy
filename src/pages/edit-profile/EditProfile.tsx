@@ -26,9 +26,9 @@ function EditProfile() {
   useEffect(() => {
     setEmail(user?.email ?? "");
     setPassword("password");
-    if (user?.profilePicture) {
+    if (user?.profileImage) {
       setProfileImage(
-        new File([user.profilePicture], "profile-picture", {
+        new File([user.profileImage], "profile-picture", {
           type: "image/png",
         })
       );
@@ -49,7 +49,7 @@ function EditProfile() {
   };
 
   return (
-    <Stack sx={{ p: 12, alignItems: "center" }} spacing={5}>
+    <Stack sx={{ p: 10, alignItems: "center" }} spacing={5}>
       <ProfileAvatarInput
         changeProfileImage={setStateProfileImage}
         src={profileImage}

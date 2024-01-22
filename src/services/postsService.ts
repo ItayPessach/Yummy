@@ -10,22 +10,33 @@ class PostsService {
     this.endpoint = "/posts";
   }
 
-  addPost(post: Post) {
+  uploadPost(post: Post) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.post<Post>(this.endpoint, post, {
-      signal: controller.signal,
+    const formData = new FormData();
+
+    Object.entries(post).forEach(([key, value]) => {
+      if (key === "image" && value instanceof File) {
+        formData.append("picture", value);
+      } else {
+        formData.set(key, value);
+      }
     });
+
+    const request = apiClientWithAuth.post(this.endpoint, formData, {
+      signal: controller.signal,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
     return { request, cancel: () => controller.abort() };
   }
 
   getByCity(city: string) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.get<Post[]>(
-      `${this.endpoint}/city/${city}`,
-      {
-        signal: controller.signal,
-      }
-    );
+    const request = apiClientWithAuth.get(`${this.endpoint}/city/${city}`, {
+      signal: controller.signal,
+    });
     return { request, cancel: () => controller.abort() };
   }
 
@@ -43,18 +54,15 @@ class PostsService {
 
   getPostsByUser(userId: string) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.get<Post[]>(
-      `${this.endpoint}/user/${userId}`,
-      {
-        signal: controller.signal,
-      }
-    );
+    const request = apiClientWithAuth.get(`${this.endpoint}/user/${userId}`, {
+      signal: controller.signal,
+    });
     return { request, cancel: () => controller.abort() };
   }
 
   editPost(post: Post) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.put<Post>(
+    const request = apiClientWithAuth.put(
       `${this.endpoint}/${post._id}`,
       post,
       {
@@ -66,12 +74,9 @@ class PostsService {
 
   deletePost(postId: string) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.delete<Post>(
-      `${this.endpoint}/${postId}`,
-      {
-        signal: controller.signal,
-      }
-    );
+    const request = apiClientWithAuth.delete(`${this.endpoint}/${postId}`, {
+      signal: controller.signal,
+    });
     return { request, cancel: () => controller.abort() };
   }
 }

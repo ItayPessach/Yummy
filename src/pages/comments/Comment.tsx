@@ -28,7 +28,7 @@ function Comment({ comment }: Props) {
       }}
     >
       <Avatar
-        src={comment.user.profilePicture ?? defaultUserImage}
+        src={comment.user.profileImage ?? defaultUserImage}
         sx={{ width: 56, height: 56 }}
       ></Avatar>
       <Stack

@@ -7,17 +7,15 @@ import Comment from "./Comment";
 import { useUserContext } from "@/common/context/useUserContext";
 
 const mockComment: CommentType = {
-  _id: "172658781",
   user: {
     _id: "172658781",
     fullname: "Itay Pessach",
     email: "hasos@gmail.com",
-    profilePicture: undefined, // base64
+    profileImage: undefined,
     homeCity: "Tel Aviv",
-    token: "1",
   },
-  createdAt: new Date(),
   body: "This looks such a good place. i must go there and try the new burger! ",
+  date: new Date(),
 };
 
 function Comments() {

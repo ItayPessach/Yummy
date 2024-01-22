@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { User } from "@/common/types";
 import { UserContext } from "./useUserContext";
-import { fetchUser } from "@/api/user";
+import usersService from "@/services/usersService";
 
 interface UserContextProviderProps {
   children: ReactNode;
@@ -11,16 +11,19 @@ function UserContextProvider({ children }: UserContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const userFromDb = fetchUser();
-    if (userFromDb) {
-      setUser({
-        _id: "123",
-        fullname: "Itay Hasson",
-        email: "hasos@gmail.com",
-        homeCity: "Tel Aviv",
-        token: "123",
+    const { request, cancel } = usersService.getMe();
+
+    request
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    }
+
+    return () => {
+      cancel();
+    };
   }, []);
 
   return (

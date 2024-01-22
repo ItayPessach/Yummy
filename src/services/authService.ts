@@ -1,5 +1,4 @@
 import { apiClient, CanceledError } from "./apiClient";
-import { User } from "../common/types";
 import { gatherCookie } from "@/common/utils/token";
 
 export { CanceledError };
@@ -11,35 +10,37 @@ class AuthService {
     this.endpoint = "/auth";
   }
 
-  register(user: User) {
+  register(registerDto: {
+    email: string;
+    password: string;
+    fullName: string;
+    homeCity: string;
+    profileImage?: File;
+  }) {
     const controller = new AbortController();
     const formData = new FormData();
 
-    Object.entries(user).forEach(([key, value]) => {
-      if (key === "profilePicture" && value instanceof File) {
-        formData.append(key, value);
+    Object.entries(registerDto).forEach(([key, value]) => {
+      if (key === "profileImage" && value instanceof File) {
+        formData.append("picture", value, value.name);
       } else {
         formData.set(key, value);
       }
     });
 
-    const request = apiClient.post<User>(
-      `${this.endpoint}/register`,
-      formData,
-      {
-        signal: controller.signal,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const request = apiClient.post(`${this.endpoint}/register`, formData, {
+      signal: controller.signal,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return { request, cancel: () => controller.abort() };
   }
 
   login(loginDto: { email: string; password: string }) {
     const controller = new AbortController();
-    const request = apiClient.post<User>(`${this.endpoint}/login`, loginDto, {
+    const request = apiClient.post(`${this.endpoint}/login`, loginDto, {
       signal: controller.signal,
     });
     return { request, cancel: () => controller.abort() };
@@ -47,7 +48,7 @@ class AuthService {
 
   logout() {
     const controller = new AbortController();
-    const request = apiClient.post<User>(
+    const request = apiClient.post(
       `${this.endpoint}/logout`,
       {
         Authorization: `Bearer ${gatherCookie("refresh_token")}`,
