@@ -28,7 +28,7 @@ const mockPost = {
   city: "Tel Aviv",
   user: {
     _id: "123456710",
-    username: "HASOS",
+    email: "hasos@gmail.com",
     fullname: "HASOS",
     email: "123@123.123",
     profilePicture: userBase64Png,
@@ -114,7 +114,7 @@ function Post({ post = mockPost }: Props) {
                         ? post.user.profilePicture
                         : defaultUserImage
                     }
-                    alt={post.user.username}
+                    alt={post.user.fullname}
                     sx={{
                       width: "3vh",
                       height: "3vh",

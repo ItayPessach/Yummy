@@ -18,23 +18,25 @@ import authService from "@/services/authService";
 function Login() {
   const { setUser } = useUserContext();
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { setToken } = useAuth();
 
   const resetFields = () => {
-    setUsername("");
+    setEmail("");
     setPassword("");
   };
   const login = () => {
     const { request } = authService.login({
-      email: username,
+      email,
       password,
     });
 
     request
-      .then((res) => {
-        console.log(res);
+      .then((res: {accessToken: string, refreshToken: string}) => {
+        // save the cookies
+
+        // get me from the server and load to context
       })
       .catch((err) => {
         console.log(err);
@@ -44,12 +46,11 @@ function Login() {
       console.log(err);
     });
 
-    setToken(username);
+    setToken(email);
     setUser({
       _id: "123",
-      username: "HASOS",
+      email: "hasos@gmail.com",
       fullname: "Itay Hasson",
-      email: "123@123.123",
       homeCity: "Tel Aviv",
       token: "123",
     });
@@ -77,13 +78,13 @@ function Login() {
         Welcome To Yummy Food Community
       </Typography>
       <TextField
-        label="username"
-        value={username}
+        label="email"
+        value={email}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setUsername(event.target.value);
+          setEmail(event.target.value);
         }}
         sx={{ width: "60%", mx: "auto" }}
-        placeholder="username"
+        placeholder="email"
         variant="outlined"
         InputProps={{
           startAdornment: (

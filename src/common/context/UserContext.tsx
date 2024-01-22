@@ -15,9 +15,8 @@ function UserContextProvider({ children }: UserContextProviderProps) {
     if (userFromDb) {
       setUser({
         _id: "123",
-        username: "HASOS",
         fullname: "Itay Hasson",
-        email: "123@123.123",
+        email: "hasos@gmail.com",
         homeCity: "Tel Aviv",
         token: "123",
       });

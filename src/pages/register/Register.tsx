@@ -15,7 +15,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 
 function Register() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profileImage, setProfileImage] = useState<File>();
   const navigate = useNavigate();
@@ -88,12 +88,12 @@ function Register() {
                 height={200}
               />
               <TextField
-                label="username"
-                value={username}
+                label="email"
+                value={email}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  setUsername(event.target.value);
+                  setEmail(event.target.value);
                 }}
-                placeholder="username"
+                placeholder="email"
                 variant="outlined"
                 InputProps={{
                   startAdornment: (

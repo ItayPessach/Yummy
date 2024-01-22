@@ -18,13 +18,13 @@ function EditProfile() {
   const { user } = useUserContext();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState(""); // TODO: decide if we want to allow users to change their password
   const [profileImage, setProfileImage] = useState<File | undefined>();
   // TODO: Need to add home city logic
 
   useEffect(() => {
-    setUsername(user?.username ?? "");
+    setEmail(user?.email ?? "");
     setPassword("password");
     if (user?.profilePicture) {
       setProfileImage(
@@ -41,7 +41,7 @@ function EditProfile() {
 
   const editProfile = () => {
     // TODO: edit profile in the database and return the updated user to the context
-    console.log(username, password, profileImage);
+    console.log(email, password, profileImage);
   };
 
   const cancelEdit = () => {
@@ -57,12 +57,12 @@ function EditProfile() {
         height={280}
       />
       <TextField
-        label="username"
-        value={username}
+        label="email"
+        value={email}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setUsername(event.target.value);
+          setEmail(event.target.value);
         }}
-        placeholder="username"
+        placeholder="email"
         variant="outlined"
         InputProps={{
           startAdornment: (
@@ -108,7 +108,7 @@ function EditProfile() {
         <Button
           disableElevation
           variant="contained"
-          disabled={!username && !password && !profileImage}
+          disabled={!email && !password && !profileImage}
           onClick={editProfile}
           sx={{
             color: "white",
