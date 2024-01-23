@@ -14,33 +14,13 @@ import { useNavigate } from "react-router-dom";
 import { Post as PostType } from "@/common/types";
 import PostActions from "./PostActions";
 import defaultUserImage from "../../assets/defaultUserImage.png";
-
-const mockPost = {
-  _id: "123456789",
-  restaurant: "GDB",
-  description:
-    "Yesterday I eat at this place And It was amazing, the fries were so crispy and i cant even describe this uniuqunique burger ",
-  image: "https://img.mako.co.il/2020/02/11/GDB2_i.jpg",
-  city: "Tel Aviv",
-  user: {
-    _id: "123456710",
-    email: "hasos@gmail.com",
-    fullname: "HASOS",
-    profileImage:
-      "https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1403",
-    homeCity: "Tel Aviv",
-    token: "1",
-  },
-  createdAt: new Date(),
-  comments: [],
-};
+const env = import.meta.env;
 
 interface Props {
-  // TODO: replace with real post type that must be passed from parent (remove optional)
-  post?: PostType;
+  post: PostType;
 }
 
-function Post({ post = mockPost }: Props) {
+function Post({ post }: Props) {
   const navigate = useNavigate();
 
   const showPostComments = () => {
@@ -63,7 +43,7 @@ function Post({ post = mockPost }: Props) {
         >
           <Box
             component="img"
-            src={post.image}
+            src={env.VITE_UPLOAD_FOLDER_PATH + post.image}
             alt={post.restaurant}
             sx={{
               position: "absolute",
@@ -76,7 +56,7 @@ function Post({ post = mockPost }: Props) {
           />
           <Box
             component="img"
-            src={post.image}
+            src={env.VITE_UPLOAD_FOLDER_PATH + post.image}
             alt={post.restaurant}
             sx={{
               position: "relative",
@@ -103,14 +83,14 @@ function Post({ post = mockPost }: Props) {
                 >
                   {post.restaurant}
                 </Typography>
-                <Tooltip title={post.user.fullname} placement="top">
+                <Tooltip title={post.user.fullName} placement="top">
                   <Avatar
                     src={
                       post.user.profileImage
-                        ? post.user.profileImage
+                        ? env.VITE_UPLOAD_FOLDER_PATH + post.user.profileImage
                         : defaultUserImage
                     }
-                    alt={post.user.fullname}
+                    alt={post.user.fullName}
                     sx={{
                       width: "3vh",
                       height: "3vh",
@@ -155,7 +135,7 @@ function Post({ post = mockPost }: Props) {
               }}
             >
               <Typography variant="body2" color="white">
-                {post.createdAt.toLocaleDateString()}
+                {new Date(post.createdAt).toLocaleDateString()}
               </Typography>
             </Grid>
           </Grid>

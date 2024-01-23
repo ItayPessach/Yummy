@@ -3,6 +3,7 @@ import { Avatar, Box, Stack, Typography } from "@mui/material";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 import { calculateTimeAgo } from "@/common/utils/calculateTimeAgo";
 import { useEffect, useState } from "react";
+const env = import.meta.env;
 
 interface Props {
   comment: CommentType;
@@ -12,8 +13,8 @@ function Comment({ comment }: Props) {
   const [timeAgo, setTimeAgo] = useState("");
 
   useEffect(() => {
-    setTimeAgo(calculateTimeAgo(comment.createdAt));
-  }, [comment.createdAt]);
+    setTimeAgo(calculateTimeAgo(new Date(comment.date)));
+  }, [comment.date]);
 
   return (
     <Box
@@ -28,11 +29,14 @@ function Comment({ comment }: Props) {
       }}
     >
       <Avatar
-        src={comment.user.profileImage ?? defaultUserImage}
+        src={
+          comment.user.profileImage
+            ? env.VITE_UPLOAD_FOLDER_PATH + comment.user.profileImage
+            : defaultUserImage
+        }
         sx={{ width: 56, height: 56 }}
       ></Avatar>
       <Stack
-        key={comment._id}
         sx={{
           gap: 1,
         }}
@@ -46,7 +50,7 @@ function Comment({ comment }: Props) {
           }}
         >
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            {comment.user.fullname}
+            {comment.user.fullName}
           </Typography>
           <Typography variant="body2" color="secondary.100">
             {timeAgo}

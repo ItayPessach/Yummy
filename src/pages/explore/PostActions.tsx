@@ -9,6 +9,7 @@ interface Props {
   onExpandClick: () => void;
 }
 
+// TODO: implement delete post and edit post
 function PostActions({ userId, onExpandClick }: Props) {
   const { user } = useUserContext();
 

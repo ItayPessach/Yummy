@@ -19,7 +19,7 @@ function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
   const inputRef = useRef(null);
 
   const setPreviewState = (blob: Blob) => {
-    changeProfileImage(new File([blob], "profile-image.png",));
+    changeProfileImage(profileModalImage);
     setPreview(URL.createObjectURL(blob));
   };
 

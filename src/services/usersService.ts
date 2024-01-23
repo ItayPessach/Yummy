@@ -1,5 +1,4 @@
 import { apiClientWithAuth, CanceledError } from "./apiClient";
-import { User } from "../common/types";
 
 export { CanceledError };
 
@@ -12,15 +11,22 @@ class UsersService {
 
   getMe() {
     const controller = new AbortController();
-    const request = apiClientWithAuth.get<User>(`${this.endpoint}/me`, {
+    const request = apiClientWithAuth.get(`${this.endpoint}/me`, {
       signal: controller.signal,
     });
     return { request, cancel: () => controller.abort() };
   }
 
-  editProfile(user: User) {
+  editProfile(
+    editDto: Partial<{
+      fullName: string;
+      email: string;
+      homeCity: string;
+      profileImage: File;
+    }>
+  ) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.put<User>(`${this.endpoint}`, user, {
+    const request = apiClientWithAuth.put(this.endpoint, editDto, {
       signal: controller.signal,
     });
     return { request, cancel: () => controller.abort() };

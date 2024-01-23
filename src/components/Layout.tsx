@@ -14,6 +14,7 @@ import FoodIcon from "@mui/icons-material/Fastfood";
 import NavButton from "./NavButton";
 import { LinkItem } from "@/common/types";
 import { useUserContext } from "@/common/context/useUserContext";
+const env = import.meta.env;
 
 const pages: Array<LinkItem> = [
   {
@@ -71,7 +72,11 @@ function Layout() {
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={openUserMenu} sx={{ p: 0 }}>
               <Avatar
-                src={user?.profileImage ? user.profileImage : "profile.png"}
+                src={
+                  user?.profileImage
+                    ? env.VITE_UPLOAD_FOLDER_PATH + user.profileImage
+                    : "profile.png"
+                }
               />
             </IconButton>
             <Menu

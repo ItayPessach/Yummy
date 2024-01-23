@@ -3,12 +3,14 @@ import { Avatar, Button, Stack, Typography } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useUserContext } from "@/common/context/useUserContext";
 import defaultUserImage from "@/assets/defaultUserImage.png";
+const env = import.meta.env;
 
 function Profile() {
   const { user } = useUserContext();
   const navigate = useNavigate();
 
   const editProfile = () => {
+    console.log(env.VITE_UPLOAD_FOLDER_PATH + user?.profileImage);
     console.log("edit profile");
     navigate("/profile/edit");
   };
@@ -21,10 +23,14 @@ function Profile() {
         color="secondary.main"
         fontWeight="bold"
       >
-        Welcome {user?.fullname.split(" ")[0]}!
+        Welcome {user?.fullName.split(" ")[0]}!
       </Typography>
       <Avatar
-        src={user?.profileImage ?? defaultUserImage}
+        src={
+          user?.profileImage
+            ? env.VITE_UPLOAD_FOLDER_PATH + user.profileImage
+            : defaultUserImage
+        }
         sx={{ width: 280, height: 280, mx: "auto" }}
       ></Avatar>
       <Typography

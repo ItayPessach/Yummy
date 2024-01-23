@@ -1,26 +1,37 @@
-import {Stack, Typography, Paper, styled, IconButton, TextField, InputAdornment, Button, Box } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Paper,
+  styled,
+  IconButton,
+  TextField,
+  InputAdornment,
+  Button,
+  Box,
+} from "@mui/material";
 import { useState, ChangeEvent } from "react";
-import CancelIcon from '@mui/icons-material/Cancel';
-import RestaurantMenuOutlinedIcon from '@mui/icons-material/RestaurantMenuOutlined';
+import CancelIcon from "@mui/icons-material/Cancel";
+import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import postsService from "@/services/postsService";
 
-const VisuallyHiddenInput = styled('input')({
-  clipPath: 'inset(50%)',
+const VisuallyHiddenInput = styled("input")({
+  clipPath: "inset(50%)",
   height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
+  overflow: "hidden",
+  position: "absolute",
   bottom: 0,
   left: 0,
-  whiteSpace: 'nowrap',
+  whiteSpace: "nowrap",
   width: 1,
 });
 function UploadPost() {
   const [postImage, setPostImage] = useState<File>();
-  const [restaurantName, setRestaurant ] = useState('');
-  const [selectedCity, setSelectedCity] = useState('sd');
-  const [description, setDescription] = useState('');
+  const [restaurant, setRestaurant] = useState("");
+  const [city, setCity] = useState("Tel Aviv"); // TODO: change to empty string after implementing cities api
+  const [description, setDescription] = useState("");
 
   const changeProfileImage = (e: ChangeEvent) => {
     setPostImage((e.target as any).files[0]);
@@ -31,49 +42,81 @@ function UploadPost() {
   };
 
   const uploadPost = () => {
-    console.log('post uploaded');
+    const { request } = postsService.uploadPost({
+      picture: postImage!,
+      restaurant,
+      city,
+      description,
+    });
+
+    request
+      .then((res) => {
+        console.log(res);
+        clearFields();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const clearFields = () => {
     setPostImage(undefined);
-    setRestaurant('');
-    setSelectedCity('');
-    setDescription('');
+    setRestaurant("");
+    setCity("");
+    setDescription("");
   };
 
   return (
-    <Stack sx={{alignItems: 'center', mt: 5, gap: 2, height: '100vh'}}>
-      <Typography variant="h2" sx={{ fontWeight: "bold", mb: 5, color: 'secondary.main' }}>
+    <Stack sx={{ alignItems: "center", mt: 5, gap: 2, height: "100vh" }}>
+      <Typography
+        variant="h2"
+        sx={{ fontWeight: "bold", mb: 5, color: "secondary.main" }}
+      >
         Upload Your New Food Experience Here
       </Typography>
-      { postImage ?
-        <div style={{position: 'relative'}}>
-          <img src={URL.createObjectURL(postImage)} width={200} height={200} style={{borderRadius: '2rem'}} alt=''/>
+      {postImage ? (
+        <div style={{ position: "relative" }}>
+          <img
+            src={URL.createObjectURL(postImage)}
+            width={200}
+            height={200}
+            style={{ borderRadius: "2rem" }}
+            alt=""
+          />
           <IconButton
-            sx={{ position: "absolute", color: 'primary.main' }}
+            sx={{ position: "absolute", color: "primary.main" }}
             onClick={resetPostImage}
-            size='large'
+            size="large"
           >
             <CancelIcon />
           </IconButton>
         </div>
-        : <Paper component="label" sx={{
-          width: '20%',
-          height: '20%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: '2rem',
-          backgroundColor: 'white'
-        }}>
-          <img src="./add-photo.png" alt=''/>
-          <VisuallyHiddenInput type="file" accept="image/*" onChange={changeProfileImage} />
-        </Paper>}
-      <Stack sx={{width: '30%', alignItems: 'center', mt: 4, gap: 4}}>
+      ) : (
+        <Paper
+          component="label"
+          sx={{
+            width: "20%",
+            height: "20%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "2rem",
+            backgroundColor: "white",
+          }}
+        >
+          <img src="./add-photo.png" alt="" />
+          <VisuallyHiddenInput
+            type="file"
+            accept="image/*"
+            onChange={changeProfileImage}
+          />
+        </Paper>
+      )}
+      <Stack sx={{ width: "30%", alignItems: "center", mt: 4, gap: 4 }}>
         <TextField
           fullWidth
           label="restaurant"
-          value={restaurantName}
+          value={restaurant}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             setRestaurant(event.target.value);
           }}
@@ -91,7 +134,7 @@ function UploadPost() {
           select
           fullWidth
           label="city"
-          placeholder='city'
+          placeholder="city"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -100,8 +143,8 @@ function UploadPost() {
             ),
           }}
           sx={{ height: "5vh" }}
-          value={selectedCity}
-          onChange={(event) => setSelectedCity(event.target.value)}
+          value={city}
+          onChange={(event) => setCity(event.target.value)}
         />
         <TextField
           multiline
@@ -121,12 +164,14 @@ function UploadPost() {
           inputProps={{ sx: { color: "#53606D" } }}
         ></TextField>
       </Stack>
-      <Box sx={{display: 'flex', width: '30%', justifyContent: 'center', gap: 2}}>
+      <Box
+        sx={{ display: "flex", width: "30%", justifyContent: "center", gap: 2 }}
+      >
         <Button
           disableElevation
           variant="contained"
           endIcon={<CloudUploadIcon />}
-          disabled={!postImage || !restaurantName || !selectedCity || !description}
+          disabled={!postImage || !restaurant || !city || !description}
           onClick={uploadPost}
           sx={{
             color: "white",

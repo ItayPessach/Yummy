@@ -7,28 +7,31 @@ import {
   Typography,
 } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useUserContext } from "@/common/context/useUserContext";
 import { useNavigate } from "react-router-dom";
+import usersService from "@/services/usersService";
 
 function EditProfile() {
   const { user } = useUserContext();
   const navigate = useNavigate();
 
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); // TODO: decide if we want to allow users to change their password
+  const [homeCity, setHomeCity] = useState("");
   const [profileImage, setProfileImage] = useState<File | undefined>();
   // TODO: Need to add home city logic
 
   useEffect(() => {
     setEmail(user?.email ?? "");
-    setPassword("password");
+    setFullName(user?.fullName ?? "");
+    setHomeCity(user?.homeCity ?? "Tel Aviv"); // TODO: change to empty string after implementing cities api
     if (user?.profileImage) {
       setProfileImage(
-        new File([user.profileImage], "profile-picture", {
+        new File([user.profileImage], "profile-picture.png", {
           type: "image/png",
         })
       );
@@ -40,8 +43,21 @@ function EditProfile() {
   };
 
   const editProfile = () => {
-    // TODO: edit profile in the database and return the updated user to the context
-    console.log(email, password, profileImage);
+    const { request } = usersService.editProfile({
+      fullName,
+      email,
+      homeCity,
+      ...(profileImage && { profileImage }),
+    });
+
+    request
+      .then((res) => {
+        console.log(res);
+        navigate("/profile");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const cancelEdit = () => {
@@ -67,32 +83,38 @@ function EditProfile() {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <PersonOutlineIcon />
+              <EmailOutlinedIcon />
             </InputAdornment>
           ),
         }}
         sx={{ width: "25vw" }}
       />
       <TextField
-        label="password"
-        value={password}
+        label="fullName"
+        value={fullName}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setPassword(event.target.value);
+          setFullName(event.target.value);
         }}
         sx={{ width: "25vw" }}
-        placeholder="password"
+        placeholder="fullName"
         variant="outlined"
-        type="password"
+        type="fullName"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <LockOutlinedIcon />
+              <PersonOutlineIcon />
             </InputAdornment>
           ),
         }}
       />
       <TextField
         select
+        label="homeCity"
+        placeholder="homeCity"
+        value={homeCity}
+        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+          setHomeCity(event.target.value);
+        }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -108,7 +130,7 @@ function EditProfile() {
         <Button
           disableElevation
           variant="contained"
-          disabled={!email && !password && !profileImage}
+          disabled={!email && !fullName && !homeCity}
           onClick={editProfile}
           sx={{
             color: "white",

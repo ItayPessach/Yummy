@@ -1,5 +1,6 @@
 import { apiClientWithAuth, CanceledError } from "./apiClient";
 import { Post, Comment } from "../common/types";
+const env = import.meta.env;
 
 export { CanceledError };
 
@@ -10,12 +11,17 @@ class PostsService {
     this.endpoint = "/posts";
   }
 
-  uploadPost(post: Post) {
+  uploadPost(uploadDto: {
+    restaurant: string;
+    description: string;
+    picture: File;
+    city: string;
+  }) {
     const controller = new AbortController();
     const formData = new FormData();
 
-    Object.entries(post).forEach(([key, value]) => {
-      if (key === "image" && value instanceof File) {
+    Object.entries(uploadDto).forEach(([key, value]) => {
+      if (key === "picture" && value instanceof File) {
         formData.append("picture", value);
       } else {
         formData.set(key, value);
@@ -32,19 +38,22 @@ class PostsService {
     return { request, cancel: () => controller.abort() };
   }
 
-  getByCity(city: string) {
+  getPost(postId: string) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.get(`${this.endpoint}/city/${city}`, {
+    const request = apiClientWithAuth.get<Post>(`${this.endpoint}/${postId}`, {
       signal: controller.signal,
     });
     return { request, cancel: () => controller.abort() };
   }
 
-  addCommentToPost(comment: Comment, postId: string) {
+  getByCity(
+    city: string,
+    page: number = 1,
+    pageSize: number = env.VITE_DEFAULT_PAGE_SIZE
+  ) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.post<Comment>(
-      `${this.endpoint}/${postId}/comment`,
-      comment,
+    const request = apiClientWithAuth.get(
+      `${this.endpoint}/city/${city}?page=${page}&pageSize=${pageSize}`,
       {
         signal: controller.signal,
       }
@@ -52,11 +61,29 @@ class PostsService {
     return { request, cancel: () => controller.abort() };
   }
 
-  getPostsByUser(userId: string) {
+  addCommentToPost(
+    addCommentDto: { body: string; date: Date },
+    postId: string
+  ) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.get(`${this.endpoint}/user/${userId}`, {
-      signal: controller.signal,
-    });
+    const request = apiClientWithAuth.post<Comment>(
+      `${this.endpoint}/${postId}/comment`,
+      addCommentDto,
+      {
+        signal: controller.signal,
+      }
+    );
+    return { request, cancel: () => controller.abort() };
+  }
+
+  getByUser(page: number = 1, pageSize: number = env.VITE_DEFAULT_PAGE_SIZE) {
+    const controller = new AbortController();
+    const request = apiClientWithAuth.get(
+      `${this.endpoint}/user/me?page=${page}&pageSize=${pageSize}`,
+      {
+        signal: controller.signal,
+      }
+    );
     return { request, cancel: () => controller.abort() };
   }
 

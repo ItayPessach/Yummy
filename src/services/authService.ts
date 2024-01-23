@@ -15,14 +15,14 @@ class AuthService {
     password: string;
     fullName: string;
     homeCity: string;
-    profileImage?: File;
+    picture?: File;
   }) {
     const controller = new AbortController();
     const formData = new FormData();
 
     Object.entries(registerDto).forEach(([key, value]) => {
-      if (key === "profileImage" && value instanceof File) {
-        formData.append("picture", value, value.name);
+      if (key === "picture" && value instanceof File) {
+        formData.append("picture", value);
       } else {
         formData.set(key, value);
       }
@@ -50,6 +50,20 @@ class AuthService {
     const controller = new AbortController();
     const request = apiClient.post(
       `${this.endpoint}/logout`,
+      {
+        Authorization: `Bearer ${gatherCookie("refresh_token")}`,
+      },
+      {
+        signal: controller.signal,
+      }
+    );
+    return { request, cancel: () => controller.abort() };
+  }
+
+  refresh() {
+    const controller = new AbortController();
+    const request = apiClient.post(
+      `${this.endpoint}/refresh`,
       {
         Authorization: `Bearer ${gatherCookie("refresh_token")}`,
       },

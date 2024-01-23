@@ -1,42 +1,54 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
 import { Comment as CommentType } from "@/common/types";
 import Comment from "./Comment";
-import { useUserContext } from "@/common/context/useUserContext";
-
-const mockComment: CommentType = {
-  user: {
-    _id: "172658781",
-    fullname: "Itay Pessach",
-    email: "hasos@gmail.com",
-    profileImage: undefined,
-    homeCity: "Tel Aviv",
-  },
-  body: "This looks such a good place. i must go there and try the new burger! ",
-  date: new Date(),
-};
+import postsService from "@/services/postsService";
 
 function Comments() {
-  const { user } = useUserContext();
+  const navigate = useNavigate();
   const { postId } = useParams();
   const [comments, setComments] = useState<CommentType[]>([]);
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
-    // TODO: fetch comments by postId and setComments
-    setComments([mockComment]);
+    if (!postId) navigate("/");
+
+    const { request, cancel } = postsService.getPost(postId!);
+
+    request
+      .then((res) => {
+        if (!res.data) navigate("/");
+        setComments(res.data.comments);
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/");
+      });
+
+    return () => {
+      cancel();
+    };
   }, [postId]);
 
   const postComment = () => {
-    const commentToPost = {
-      user,
-      body: commentText,
-      createdAt: new Date(),
-    };
-    // TODO: Post request - send comment to server
-    console.log(commentToPost);
+    const { request } = postsService.addCommentToPost(
+      {
+        body: commentText,
+        date: new Date(),
+      },
+      postId!
+    );
+
+    request
+      .then((res) => {
+        setComments(res.data as unknown as CommentType[]);
+        setCommentText("");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

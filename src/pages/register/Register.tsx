@@ -9,6 +9,7 @@ import {
   Button,
   Box,
 } from "@mui/material";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -33,7 +34,7 @@ function Register() {
       password,
       fullName,
       homeCity: homeCity === "" ? "Tel Aviv" : homeCity, // TODO: delete this line when we add home city logic
-      profileImage, // TODO: figure out why mimetype is always 'application/octet-stream' which does not work with multer
+      picture: profileImage,
     });
 
     request
@@ -116,7 +117,7 @@ function Register() {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <PersonOutlineIcon />
+                      <EmailOutlinedIcon />
                     </InputAdornment>
                   ),
                 }}

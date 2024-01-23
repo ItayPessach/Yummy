@@ -11,19 +11,19 @@ export interface Post {
   city: string;
   user: User;
   comments: Array<Comment>;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface Comment {
   user: User;
   body: string;
-  date: Date;
+  date: string;
 }
 
 export interface User {
   _id: string;
-  fullname: string;
+  fullName: string;
   email: string;
-  profileImage?: string;
   homeCity: string;
+  profileImage?: string;
 }
