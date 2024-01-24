@@ -22,12 +22,25 @@ class UsersService {
       fullName: string;
       email: string;
       homeCity: string;
-      profileImage: File;
+      picture: File;
     }>
   ) {
     const controller = new AbortController();
+    const formData = new FormData();
+
+    Object.entries(editDto).forEach(([key, value]) => {
+      if (key === "picture" && value instanceof File) {
+        formData.append("picture", value);
+      } else {
+        formData.set(key, value);
+      }
+    });
+
     const request = apiClientWithAuth.put(this.endpoint, editDto, {
       signal: controller.signal,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return { request, cancel: () => controller.abort() };
   }

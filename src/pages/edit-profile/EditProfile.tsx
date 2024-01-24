@@ -14,31 +14,33 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useUserContext } from "@/common/context/useUserContext";
 import { useNavigate } from "react-router-dom";
 import usersService from "@/services/usersService";
+import defaultUserImage from "@/assets/defaultUserImage.png";
+const env = import.meta.env;
 
 function EditProfile() {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
   const navigate = useNavigate();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [homeCity, setHomeCity] = useState("");
-  const [profileImage, setProfileImage] = useState<File | undefined>();
+  const [profileImage, setProfileImage] = useState<File | string>(
+    defaultUserImage
+  );
   // TODO: Need to add home city logic
 
   useEffect(() => {
     setEmail(user?.email ?? "");
     setFullName(user?.fullName ?? "");
     setHomeCity(user?.homeCity ?? "Tel Aviv"); // TODO: change to empty string after implementing cities api
-    if (user?.profileImage) {
-      setProfileImage(
-        new File([user.profileImage], "profile-picture.png", {
-          type: "image/png",
-        })
-      );
-    }
+    setProfileImage(
+      user?.profileImage
+        ? env.VITE_UPLOAD_FOLDER_PATH + user.profileImage
+        : defaultUserImage
+    );
   }, [user]);
 
-  const setStateProfileImage = (newProfileImage?: File) => {
+  const setStateProfileImage = (newProfileImage: File | string) => {
     setProfileImage(newProfileImage);
   };
 
@@ -47,12 +49,12 @@ function EditProfile() {
       fullName,
       email,
       homeCity,
-      ...(profileImage && { profileImage }),
+      ...(typeof profileImage !== "string" && { picture: profileImage }),
     });
 
     request
       .then((res) => {
-        console.log(res);
+        setUser(res.data);
         navigate("/profile");
       })
       .catch((err) => {

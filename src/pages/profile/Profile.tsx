@@ -10,8 +10,6 @@ function Profile() {
   const navigate = useNavigate();
 
   const editProfile = () => {
-    console.log(env.VITE_UPLOAD_FOLDER_PATH + user?.profileImage);
-    console.log("edit profile");
     navigate("/profile/edit");
   };
 

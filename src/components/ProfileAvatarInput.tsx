@@ -3,16 +3,17 @@ import ProfileAvatarUploadModal from "./ProfileAvatarUploadModal";
 import "../styles/AvatarUpload.css";
 import { Box, IconButton } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import defaultUserImage from "@/assets/defaultUserImage.png";
 
 interface Props {
-  src?: File;
-  changeProfileImage: (newProfileImage?: File) => void;
+  src: File | string;
+  changeProfileImage: (newProfileImage: File | string) => void;
   width: number;
   height: number;
 }
 
 function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
-  const [preview, setPreview] = useState("");
+  const [preview, setPreview] = useState(defaultUserImage);
   const [modalOpen, setModalOpen] = useState(false);
   const [profileModalImage, setProfileModalImage] = useState(src);
 
@@ -37,7 +38,7 @@ function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
 
   const resetProfileImage = () => {
     setPreview("");
-    changeProfileImage(undefined);
+    changeProfileImage(defaultUserImage);
   };
 
   return (
@@ -74,7 +75,7 @@ function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
         />
         <Box className="img-container">
           <img
-            src={preview || "./add-user.jpeg"}
+            src={preview}
             alt=""
             width={width}
             height={height}

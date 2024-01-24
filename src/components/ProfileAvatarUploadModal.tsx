@@ -3,7 +3,7 @@ import { Box, Modal, Slider, Stack } from "@mui/material";
 import AvatarEditor from "react-avatar-editor";
 import Button from "@mui/material/Button";
 interface Props {
-  src: File;
+  src: File | string;
   modalOpen: boolean;
   setModalOpen: (open: boolean) => void;
   setPreview: (blob: Blob) => void;

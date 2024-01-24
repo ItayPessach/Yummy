@@ -15,13 +15,14 @@ function UserContextProvider({ children }: UserContextProviderProps) {
   useEffect(() => {
     const { request, cancel } = usersService.getMe();
 
+    // TODO: find prettier way to handle this
     request
       .then((res) => {
         setUser(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         if (err.response?.status === 401) {
-          // TODO: check if it's working
           const { request } = authService.refresh();
 
           request
@@ -31,17 +32,23 @@ function UserContextProvider({ children }: UserContextProviderProps) {
 
               const { request } = usersService.getMe();
 
-              request.then((res) => {
-                setUser(res.data);
-              });
+              request
+                .then((res) => {
+                  setUser(res.data);
+                  setLoading(false);
+                })
+                .catch((err) => {
+                  setLoading(false);
+                  console.log(err);
+                });
             })
             .catch((err) => {
+              setLoading(false);
               console.log(err);
             });
+        } else {
+          setLoading(false);
         }
-      })
-      .finally(() => {
-        setLoading(false);
       });
 
     return () => {

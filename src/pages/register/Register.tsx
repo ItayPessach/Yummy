@@ -15,16 +15,19 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 import authService from "@/services/authService";
+import defaultUserImage from "@/assets/defaultUserImage.png";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [homeCity, setHomeCity] = useState("");
-  const [profileImage, setProfileImage] = useState<File>();
+  const [profileImage, setProfileImage] = useState<File | string>(
+    defaultUserImage
+  );
   const navigate = useNavigate();
 
-  const setStateProfileImage = (newProfileImage?: File) => {
+  const setStateProfileImage = (newProfileImage: File | string) => {
     setProfileImage(newProfileImage);
   };
 
@@ -34,7 +37,7 @@ function Register() {
       password,
       fullName,
       homeCity: homeCity === "" ? "Tel Aviv" : homeCity, // TODO: delete this line when we add home city logic
-      picture: profileImage,
+      ...(typeof profileImage !== "string" && { picture: profileImage }),
     });
 
     request

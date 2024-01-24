@@ -48,29 +48,23 @@ class AuthService {
 
   logout() {
     const controller = new AbortController();
-    const request = apiClient.post(
-      `${this.endpoint}/logout`,
-      {
+    const request = apiClient.get(`${this.endpoint}/logout`, {
+      signal: controller.signal,
+      headers: {
         Authorization: `Bearer ${gatherCookie("refresh_token")}`,
       },
-      {
-        signal: controller.signal,
-      }
-    );
+    });
     return { request, cancel: () => controller.abort() };
   }
 
   refresh() {
     const controller = new AbortController();
-    const request = apiClient.post(
-      `${this.endpoint}/refresh`,
-      {
+    const request = apiClient.get(`${this.endpoint}/refresh`, {
+      signal: controller.signal,
+      headers: {
         Authorization: `Bearer ${gatherCookie("refresh_token")}`,
       },
-      {
-        signal: controller.signal,
-      }
-    );
+    });
     return { request, cancel: () => controller.abort() };
   }
 }
