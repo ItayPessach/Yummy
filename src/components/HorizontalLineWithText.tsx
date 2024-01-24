@@ -10,6 +10,7 @@ function HorizontalLineWithText({ text }: Props) {
       sx={{
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
         width: "25vw",
         my: 1,
         mx: "auto",

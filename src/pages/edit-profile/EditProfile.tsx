@@ -14,7 +14,6 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useUserContext } from "@/common/context/useUserContext";
 import { useNavigate } from "react-router-dom";
 import usersService from "@/services/usersService";
-import defaultUserImage from "@/assets/defaultUserImage.png";
 const env = import.meta.env;
 
 function EditProfile() {
@@ -24,9 +23,7 @@ function EditProfile() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [homeCity, setHomeCity] = useState("");
-  const [profileImage, setProfileImage] = useState<File | string>(
-    defaultUserImage
-  );
+  const [profileImage, setProfileImage] = useState<File | string>("");
   // TODO: Need to add home city logic
 
   useEffect(() => {
@@ -34,9 +31,7 @@ function EditProfile() {
     setFullName(user?.fullName ?? "");
     setHomeCity(user?.homeCity ?? "Tel Aviv"); // TODO: change to empty string after implementing cities api
     setProfileImage(
-      user?.profileImage
-        ? env.VITE_UPLOAD_FOLDER_PATH + user.profileImage
-        : defaultUserImage
+      user?.profileImage ? env.VITE_UPLOAD_FOLDER_PATH + user.profileImage : ""
     );
   }, [user]);
 

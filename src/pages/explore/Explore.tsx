@@ -12,12 +12,12 @@ import AntSwitch from "../../components/AntSwitch";
 import Post from "./Post";
 import { useUserContext } from "@/common/context/useUserContext";
 import postsService from "@/services/postsService";
-import { Post as PostType } from "@/common/types";
+import { IPost } from "@/common/types";
 
 function Explore() {
   const { user } = useUserContext();
   const [isShowOnlyMyPosts, setIsShowOnlyMyPosts] = useState(false);
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [page, setPage] = useState(1);
   const [selectedCity, setSelectedCity] = useState(
     user?.homeCity ?? "Tel Aviv" // TODO: change to empty string after implementing cities api

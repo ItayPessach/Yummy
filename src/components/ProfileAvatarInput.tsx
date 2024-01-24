@@ -1,9 +1,9 @@
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
 import ProfileAvatarUploadModal from "./ProfileAvatarUploadModal";
 import "../styles/AvatarUpload.css";
 import { Box, IconButton } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import defaultUserImage from "@/assets/defaultUserImage.png";
+const env = import.meta.env;
 
 interface Props {
   src: File | string;
@@ -13,9 +13,16 @@ interface Props {
 }
 
 function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
-  const [preview, setPreview] = useState(defaultUserImage);
+  const [preview, setPreview] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [profileModalImage, setProfileModalImage] = useState(src);
+  const [profileModalImage, setProfileModalImage] = useState("");
+
+  useEffect(() => {
+    if (typeof src === "string") {
+      setPreview(src);
+      setProfileModalImage(src);
+    }
+  }, [src]);
 
   const inputRef = useRef(null);
 
@@ -38,7 +45,7 @@ function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
 
   const resetProfileImage = () => {
     setPreview("");
-    changeProfileImage(defaultUserImage);
+    changeProfileImage("");
   };
 
   return (
@@ -75,7 +82,11 @@ function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
         />
         <Box className="img-container">
           <img
-            src={preview}
+            src={
+              preview !== ""
+                ? preview
+                : env.VITE_PUBLIC_FOLDER_URL + "add-user.jpeg"
+            }
             alt=""
             width={width}
             height={height}

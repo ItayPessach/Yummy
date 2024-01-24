@@ -34,7 +34,7 @@ const settings: Array<LinkItem> = [
   },
   {
     path: "/login",
-    title: "Logout",
+    title: "Logout", // TODO: add logout request
   },
 ];
 

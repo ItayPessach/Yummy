@@ -15,16 +15,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 import authService from "@/services/authService";
-import defaultUserImage from "@/assets/defaultUserImage.png";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [homeCity, setHomeCity] = useState("");
-  const [profileImage, setProfileImage] = useState<File | string>(
-    defaultUserImage
-  );
+  const [profileImage, setProfileImage] = useState<File | string>("");
   const navigate = useNavigate();
 
   const setStateProfileImage = (newProfileImage: File | string) => {

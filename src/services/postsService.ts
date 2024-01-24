@@ -1,5 +1,5 @@
 import { apiClientWithAuth, CanceledError } from "./apiClient";
-import { Post, Comment } from "../common/types";
+import { IPost, IComment } from "../common/types";
 const env = import.meta.env;
 
 export { CanceledError };
@@ -40,7 +40,7 @@ class PostsService {
 
   getPost(postId: string) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.get<Post>(`${this.endpoint}/${postId}`, {
+    const request = apiClientWithAuth.get<IPost>(`${this.endpoint}/${postId}`, {
       signal: controller.signal,
     });
     return { request, cancel: () => controller.abort() };
@@ -66,7 +66,7 @@ class PostsService {
     postId: string
   ) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.post<Comment>(
+    const request = apiClientWithAuth.post<IComment>(
       `${this.endpoint}/${postId}/comment`,
       addCommentDto,
       {
@@ -87,7 +87,7 @@ class PostsService {
     return { request, cancel: () => controller.abort() };
   }
 
-  editPost(post: Post) {
+  editPost(post: IPost) {
     const controller = new AbortController();
     const request = apiClientWithAuth.put(
       `${this.endpoint}/${post._id}`,

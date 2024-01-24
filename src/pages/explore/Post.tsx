@@ -11,13 +11,13 @@ import {
 } from "@mui/material";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import { useNavigate } from "react-router-dom";
-import { Post as PostType } from "@/common/types";
+import { IPost } from "@/common/types";
 import PostActions from "./PostActions";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 const env = import.meta.env;
 
 interface Props {
-  post: PostType;
+  post: IPost;
 }
 
 function Post({ post }: Props) {
@@ -135,7 +135,7 @@ function Post({ post }: Props) {
               }}
             >
               <Typography variant="body2" color="white">
-                {new Date(post.createdAt).toLocaleDateString()}
+                {new Date(post.createdAt).toLocaleDateString("he-IL")}
               </Typography>
             </Grid>
           </Grid>

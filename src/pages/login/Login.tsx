@@ -7,7 +7,7 @@ import {
   InputAdornment,
   Stack,
 } from "@mui/material";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
 import HorizontalLineWithText from "@/components/HorizontalLineWithText";
@@ -84,7 +84,7 @@ function Login() {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <PersonOutlineIcon />
+              <EmailOutlinedIcon />
             </InputAdornment>
           ),
         }}
@@ -96,7 +96,7 @@ function Login() {
           setPassword(event.target.value);
         }}
         sx={{ width: "60%", mx: "auto" }}
-        placeholder="paswword"
+        placeholder="password"
         variant="outlined"
         type="password"
         InputProps={{

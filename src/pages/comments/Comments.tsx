@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
-import { Comment as CommentType } from "@/common/types";
+import { IComment } from "@/common/types";
 import Comment from "./Comment";
 import postsService from "@/services/postsService";
 
 function Comments() {
   const navigate = useNavigate();
   const { postId } = useParams();
-  const [comments, setComments] = useState<CommentType[]>([]);
+  const [comments, setComments] = useState<IComment[]>([]);
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function Comments() {
 
     request
       .then((res) => {
-        setComments(res.data as unknown as CommentType[]);
+        setComments(res.data as unknown as IComment[]);
         setCommentText("");
       })
       .catch((err) => {

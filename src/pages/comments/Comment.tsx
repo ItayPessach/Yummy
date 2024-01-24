@@ -1,4 +1,4 @@
-import { Comment as CommentType } from "@/common/types";
+import { IComment } from "@/common/types";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 import { calculateTimeAgo } from "@/common/utils/calculateTimeAgo";
@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const env = import.meta.env;
 
 interface Props {
-  comment: CommentType;
+  comment: IComment;
 }
 
 function Comment({ comment }: Props) {

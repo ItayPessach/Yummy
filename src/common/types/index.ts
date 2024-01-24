@@ -3,24 +3,24 @@ export interface LinkItem {
   title: string;
 }
 
-export interface Post {
+export interface IPost {
   _id: string;
   restaurant: string;
   description: string;
   image: string;
   city: string;
-  user: User;
-  comments: Array<Comment>;
+  user: IUser;
+  comments: Array<IComment>;
   createdAt: string;
 }
 
-export interface Comment {
-  user: User;
+export interface IComment {
+  user: IUser;
   body: string;
   date: string;
 }
 
-export interface User {
+export interface IUser {
   _id: string;
   fullName: string;
   email: string;
