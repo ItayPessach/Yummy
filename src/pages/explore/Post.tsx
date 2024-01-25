@@ -13,14 +13,14 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import { useNavigate } from "react-router-dom";
 import { IPost } from "@/common/types";
 import PostActions from "./PostActions";
-import defaultUserImage from "../../assets/defaultUserImage.png";
 const env = import.meta.env;
 
 interface Props {
   post: IPost;
+  deletePost: (postId: string) => void;
 }
 
-function Post({ post }: Props) {
+function Post({ post, deletePost }: Props) {
   const navigate = useNavigate();
 
   const showPostComments = () => {
@@ -33,7 +33,11 @@ function Post({ post }: Props) {
         elevation={0}
         sx={{ backgroundColor: "primary.main", position: "relative" }}
       >
-        <PostActions userId={post.user._id} onExpandClick={showPostComments} />
+        <PostActions
+          userId={post.user._id}
+          onDeleteClick={() => deletePost(post._id)}
+          onExpandClick={showPostComments}
+        />
         <CardMedia
           title={post.restaurant}
           sx={{
@@ -43,7 +47,7 @@ function Post({ post }: Props) {
         >
           <Box
             component="img"
-            src={env.VITE_UPLOAD_FOLDER_PATH + post.image}
+            src={env.VITE_UPLOAD_FOLDER_URL + post.image}
             alt={post.restaurant}
             sx={{
               position: "absolute",
@@ -56,7 +60,7 @@ function Post({ post }: Props) {
           />
           <Box
             component="img"
-            src={env.VITE_UPLOAD_FOLDER_PATH + post.image}
+            src={env.VITE_UPLOAD_FOLDER_URL + post.image}
             alt={post.restaurant}
             sx={{
               position: "relative",
@@ -87,8 +91,8 @@ function Post({ post }: Props) {
                   <Avatar
                     src={
                       post.user.profileImage
-                        ? env.VITE_UPLOAD_FOLDER_PATH + post.user.profileImage
-                        : defaultUserImage
+                        ? env.VITE_UPLOAD_FOLDER_URL + post.user.profileImage
+                        : env.VITE_PUBLIC_FOLDER_URL + "profile.png"
                     }
                     alt={post.user.fullName}
                     sx={{

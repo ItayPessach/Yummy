@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useUserContext } from "@/common/context/useUserContext";
-import defaultUserImage from "@/assets/defaultUserImage.png";
 const env = import.meta.env;
 
 function Profile() {
@@ -26,8 +25,8 @@ function Profile() {
       <Avatar
         src={
           user?.profileImage
-            ? env.VITE_UPLOAD_FOLDER_PATH + user.profileImage
-            : defaultUserImage
+            ? env.VITE_UPLOAD_FOLDER_URL + user.profileImage
+            : env.VITE_PUBLIC_FOLDER_URL + "profile.png"
         }
         sx={{ width: 280, height: 280, mx: "auto" }}
       ></Avatar>

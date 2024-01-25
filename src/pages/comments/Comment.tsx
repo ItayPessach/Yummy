@@ -1,6 +1,5 @@
 import { IComment } from "@/common/types";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
-import defaultUserImage from "../../assets/defaultUserImage.png";
 import { calculateTimeAgo } from "@/common/utils/calculateTimeAgo";
 import { useEffect, useState } from "react";
 const env = import.meta.env;
@@ -31,8 +30,8 @@ function Comment({ comment }: Props) {
       <Avatar
         src={
           comment.user.profileImage
-            ? env.VITE_UPLOAD_FOLDER_PATH + comment.user.profileImage
-            : defaultUserImage
+            ? env.VITE_UPLOAD_FOLDER_URL + comment.user.profileImage
+            : env.VITE_PUBLIC_FOLDER_URL + "profile.png"
         }
         sx={{ width: 56, height: 56 }}
       ></Avatar>

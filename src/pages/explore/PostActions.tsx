@@ -7,10 +7,11 @@ import { useUserContext } from "@/common/context/useUserContext";
 interface Props {
   userId: string;
   onExpandClick: () => void;
+  onDeleteClick: () => void;
 }
 
 // TODO: implement delete post and edit post
-function PostActions({ userId, onExpandClick }: Props) {
+function PostActions({ userId, onExpandClick, onDeleteClick }: Props) {
   const { user } = useUserContext();
 
   return (
@@ -28,6 +29,7 @@ function PostActions({ userId, onExpandClick }: Props) {
       {user?._id === userId && (
         <Box sx={{ mr: "auto" }}>
           <IconButton
+            onClick={onDeleteClick}
             sx={{
               color: "primary.main",
               "&:hover": {

@@ -31,7 +31,7 @@ function EditProfile() {
     setFullName(user?.fullName ?? "");
     setHomeCity(user?.homeCity ?? "Tel Aviv"); // TODO: change to empty string after implementing cities api
     setProfileImage(
-      user?.profileImage ? env.VITE_UPLOAD_FOLDER_PATH + user.profileImage : ""
+      user?.profileImage ? env.VITE_UPLOAD_FOLDER_URL + user.profileImage : ""
     );
   }, [user]);
 

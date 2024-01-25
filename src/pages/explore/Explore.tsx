@@ -69,6 +69,20 @@ function Explore() {
     };
   }, []);
 
+  const deletePost = (postId: string) => {
+    const { request } = postsService.deletePost(postId);
+
+    request
+      .then(() => {
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post._id !== postId)
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <Stack sx={{ p: 4, gap: 2 }}>
       <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
@@ -106,7 +120,7 @@ function Explore() {
         sx={{ maxHeight: "75vh", overflowY: "auto", mt: 1, pr: 2 }}
       >
         {posts.map((post, index) => (
-          <Post post={post} key={index} />
+          <Post post={post} deletePost={deletePost} key={index} />
         ))}
       </Grid>
     </Stack>

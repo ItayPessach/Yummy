@@ -84,8 +84,8 @@ function Layout() {
               <Avatar
                 src={
                   user?.profileImage
-                    ? env.VITE_UPLOAD_FOLDER_PATH + user.profileImage
-                    : "profile.png"
+                    ? env.VITE_UPLOAD_FOLDER_URL + user.profileImage
+                    : env.VITE_PUBLIC_FOLDER_URL + "profile.png"
                 }
               />
             </IconButton>
