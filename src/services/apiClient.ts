@@ -20,6 +20,10 @@ apiClientWithAuth.interceptors.request.use((config) => {
 apiClientWithAuth.interceptors.response.use(
   (response) => response,
   async (error) => {
+    if (axios.isCancel(error)) {
+      return Promise.reject(error);
+    }
+
     const originalRequest = error.config;
     if (
       error.response.status === 401 &&

@@ -10,7 +10,7 @@ interface Props {
   onDeleteClick: () => void;
 }
 
-// TODO: implement delete post and edit post
+// TODO: implement edit post
 function PostActions({ userId, onExpandClick, onDeleteClick }: Props) {
   const { user } = useUserContext();
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -22,6 +22,7 @@ function Explore() {
   const [selectedCity, setSelectedCity] = useState(
     user?.homeCity ?? "Tel Aviv" // TODO: change to empty string after implementing cities api
   );
+  const scrolledElementRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setPosts([]);
@@ -35,7 +36,8 @@ function Explore() {
 
     request
       .then((res) => {
-        setPosts((prevPosts) => [...prevPosts, ...res.data]);
+        if (res.data.length !== 0)
+          setPosts((prevPosts) => [...prevPosts, ...res.data]);
       })
       .catch((err) => {
         console.log(err);
@@ -46,28 +48,32 @@ function Explore() {
     };
   }, [page, selectedCity, isShowOnlyMyPosts]);
 
-  // TODO: check if it's working
   useEffect(() => {
     const handleScroll = () => {
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const gridElement = scrolledElementRef.current as HTMLDivElement;
+      if (gridElement) {
+        const { scrollTop, scrollHeight, clientHeight } = gridElement;
+        const heightRemainToScroll = scrollHeight - scrollTop - clientHeight;
+        const treshold = (scrollHeight - scrollTop) * 0.1;
 
-      // Define a threshold (e.g., 80% from the bottom) to trigger loading more posts
-      const threshold = 0.8;
-
-      if (scrollTop + windowHeight >= threshold * documentHeight) {
-        // When the scroll position is close to the bottom, update the page number
-        setPage((prevPage) => prevPage + 1);
+        if (heightRemainToScroll <= treshold) {
+          gridElement.removeEventListener("scroll", handleScroll);
+          setPage((prevPage) => prevPage + 1);
+        }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const gridElement = scrolledElementRef.current as HTMLDivElement;
+    if (gridElement) {
+      gridElement.addEventListener("scroll", handleScroll);
+    }
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (gridElement) {
+        gridElement.removeEventListener("scroll", handleScroll);
+      }
     };
-  }, []);
+  }, [posts]);
 
   const deletePost = (postId: string) => {
     const { request } = postsService.deletePost(postId);
@@ -118,6 +124,7 @@ function Explore() {
         container
         spacing={3}
         sx={{ maxHeight: "75vh", overflowY: "auto", mt: 1, pr: 2 }}
+        ref={scrolledElementRef}
       >
         {posts.map((post, index) => (
           <Post post={post} deletePost={deletePost} key={index} />

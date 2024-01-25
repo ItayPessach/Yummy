@@ -15,6 +15,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 import authService from "@/services/authService";
+const env = import.meta.env;
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -84,7 +85,7 @@ function Register() {
           item
           md={7}
           sx={{
-            backgroundImage: "url(./enjoy-food.jpg)",
+            backgroundImage: `url(${env.VITE_PUBLIC_FOLDER_URL}enjoy-food.jpg)`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",

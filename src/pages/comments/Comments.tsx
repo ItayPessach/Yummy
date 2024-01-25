@@ -30,7 +30,7 @@ function Comments() {
     return () => {
       cancel();
     };
-  }, [postId]);
+  }, [postId, navigate]);
 
   const postComment = () => {
     const { request } = postsService.addCommentToPost(

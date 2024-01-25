@@ -121,11 +121,19 @@ function Post({ post, deletePost }: Props) {
             </Box>
           </Stack>
           <Grid container>
-            <Grid item md={10}>
-              <Typography variant="body2" color="white" sx={{ mt: 0.5 }}>
+            <Grid item md={10} height="10vh">
+              <Typography variant="body2" color="white">
                 {post.city}
               </Typography>
-              <Typography variant="body1" color="white">
+              <Typography
+                variant="body1"
+                color="white"
+                sx={{
+                  mt: 1,
+                  maxHeight: "8vh",
+                  overflowY: "auto",
+                }}
+              >
                 {post.description}
               </Typography>
             </Grid>
@@ -138,7 +146,7 @@ function Post({ post, deletePost }: Props) {
                 justifyContent: "end",
               }}
             >
-              <Typography variant="body2" color="white">
+              <Typography variant="body2" color="white" sx={{ ml: 1 }}>
                 {new Date(post.createdAt).toLocaleDateString("he-IL")}
               </Typography>
             </Grid>
