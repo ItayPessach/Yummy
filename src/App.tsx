@@ -10,6 +10,7 @@ import Comments from "@/pages/comments/Comments";
 import Profile from "./pages/profile/Profile";
 import EditProfile from "./pages/edit-profile/EditProfile";
 import RequireAuth from "./components/RequireAuth";
+import NotFound from "./pages/not-found/NotFound";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
             <Route path="edit" element={<EditProfile />} />
           </Route>
         </Route>
-        <Route path="*" element={<>404 Not Found</>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </UserContextProvider>
   );
