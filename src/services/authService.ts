@@ -56,17 +56,6 @@ class AuthService {
     });
     return { request, cancel: () => controller.abort() };
   }
-
-  refresh() {
-    const controller = new AbortController();
-    const request = apiClient.get(`${this.endpoint}/refresh`, {
-      signal: controller.signal,
-      headers: {
-        Authorization: `Bearer ${gatherCookie("refresh_token")}`,
-      },
-    });
-    return { request, cancel: () => controller.abort() };
-  }
 }
 
 const authService = new AuthService();

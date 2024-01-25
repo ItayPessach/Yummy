@@ -14,6 +14,7 @@ import FoodIcon from "@mui/icons-material/Fastfood";
 import NavButton from "./NavButton";
 import { LinkItem } from "@/common/types";
 import { useUserContext } from "@/common/context/useUserContext";
+import authService from "@/services/authService";
 const env = import.meta.env;
 
 const pages: Array<LinkItem> = [
@@ -35,6 +36,15 @@ const settings: Array<LinkItem> = [
   {
     path: "/login",
     title: "Logout", // TODO: add logout request
+    callback: () => {
+      const { request } = authService.logout();
+
+      request
+        .then(() => {})
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 ];
 
@@ -98,7 +108,10 @@ function Layout() {
               {settings.map((setting) => (
                 <MenuItem
                   key={setting.title}
-                  onClick={() => selectMenuOption(setting.path)}
+                  onClick={() => {
+                    setting.callback && setting.callback();
+                    selectMenuOption(setting.path);
+                  }}
                 >
                   <Typography textAlign="center">{setting.title}</Typography>
                 </MenuItem>
