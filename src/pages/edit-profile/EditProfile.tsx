@@ -8,12 +8,12 @@ import {
 } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useUserContext } from "@/common/context/useUserContext";
 import { useNavigate } from "react-router-dom";
 import usersService from "@/services/usersService";
+import SelectCity from "@/components/SelectCity";
 const env = import.meta.env;
 
 function EditProfile() {
@@ -24,12 +24,11 @@ function EditProfile() {
   const [email, setEmail] = useState("");
   const [homeCity, setHomeCity] = useState("");
   const [profileImage, setProfileImage] = useState<File | string>("");
-  // TODO: Need to add home city logic
 
   useEffect(() => {
     setEmail(user?.email ?? "");
     setFullName(user?.fullName ?? "");
-    setHomeCity(user?.homeCity ?? "Tel Aviv"); // TODO: change to empty string after implementing cities api
+    setHomeCity(user?.homeCity ?? "");
     setProfileImage(
       user?.profileImage ? env.VITE_UPLOAD_FOLDER_URL + user.profileImage : ""
     );
@@ -104,21 +103,9 @@ function EditProfile() {
           ),
         }}
       />
-      <TextField
-        select
-        label="homeCity"
-        placeholder="homeCity"
-        value={homeCity}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setHomeCity(event.target.value);
-        }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <HomeOutlinedIcon />
-            </InputAdornment>
-          ),
-        }}
+      <SelectCity
+        city={homeCity}
+        setCity={setHomeCity}
         sx={{ width: "25vw" }}
       />
       <Box

@@ -12,10 +12,10 @@ import {
 import { useState, ChangeEvent } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import postsService from "@/services/postsService";
+import SelectCity from "@/components/SelectCity";
 const env = import.meta.env;
 
 const VisuallyHiddenInput = styled("input")({
@@ -31,7 +31,7 @@ const VisuallyHiddenInput = styled("input")({
 function UploadPost() {
   const [postImage, setPostImage] = useState<File>();
   const [restaurant, setRestaurant] = useState("");
-  const [city, setCity] = useState("Tel Aviv"); // TODO: change to empty string after implementing cities api
+  const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
 
   const changeProfileImage = (e: ChangeEvent) => {
@@ -131,21 +131,10 @@ function UploadPost() {
             ),
           }}
         />
-        <TextField
-          select
-          fullWidth
-          label="city"
-          placeholder="city"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <HomeOutlinedIcon />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ height: "5vh" }}
-          value={city}
-          onChange={(event) => setCity(event.target.value)}
+        <SelectCity
+          city={city}
+          setCity={setCity}
+          sx={{ height: "5vh", width: "30vw" }}
         />
         <TextField
           multiline

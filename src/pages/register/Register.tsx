@@ -12,9 +12,9 @@ import {
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 import authService from "@/services/authService";
+import SelectCity from "@/components/SelectCity";
 const env = import.meta.env;
 
 function Register() {
@@ -34,7 +34,7 @@ function Register() {
       email,
       password,
       fullName,
-      homeCity: homeCity === "" ? "Tel Aviv" : homeCity, // TODO: delete this line when we add home city logic
+      homeCity,
       ...(typeof profileImage !== "string" && { picture: profileImage }),
     });
 
@@ -158,21 +158,9 @@ function Register() {
                 }}
                 sx={{ width: "30vw" }}
               />
-              <TextField
-                select
-                label="homeCity"
-                placeholder="homeCity"
-                value={homeCity}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  setHomeCity(event.target.value);
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <HomeOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
+              <SelectCity
+                city={homeCity}
+                setCity={setHomeCity}
                 sx={{ width: "30vw" }}
               />
             </Stack>

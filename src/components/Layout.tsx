@@ -35,7 +35,7 @@ const settings: Array<LinkItem> = [
   },
   {
     path: "/login",
-    title: "Logout", // TODO: add logout request
+    title: "Logout",
     callback: () => {
       const { request } = authService.logout();
 

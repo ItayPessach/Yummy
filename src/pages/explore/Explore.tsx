@@ -1,28 +1,23 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Typography,
-  TextField,
-  InputAdornment,
-  Stack,
-  Grid,
-} from "@mui/material";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import { Box, Typography, Stack, Grid } from "@mui/material";
 import AntSwitch from "../../components/AntSwitch";
 import Post from "./Post";
 import { useUserContext } from "@/common/context/useUserContext";
 import postsService from "@/services/postsService";
 import { IPost } from "@/common/types";
+import SelectCity from "@/components/SelectCity";
 
 function Explore() {
   const { user } = useUserContext();
   const [isShowOnlyMyPosts, setIsShowOnlyMyPosts] = useState(false);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [page, setPage] = useState(1);
-  const [selectedCity, setSelectedCity] = useState(
-    user?.homeCity ?? "Tel Aviv" // TODO: change to empty string after implementing cities api
-  );
+  const [selectedCity, setSelectedCity] = useState("");
   const scrolledElementRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setSelectedCity(user?.homeCity ?? "");
+  }, [user]);
 
   useEffect(() => {
     setPosts([]);
@@ -106,18 +101,10 @@ function Explore() {
         />
       </Box>
       {!isShowOnlyMyPosts && (
-        <TextField
-          select
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <HomeOutlinedIcon />
-              </InputAdornment>
-            ),
-          }}
+        <SelectCity
+          city={selectedCity}
+          setCity={setSelectedCity}
           sx={{ width: "20vw", height: "5vh" }}
-          value={selectedCity}
-          onChange={(event) => setSelectedCity(event.target.value)}
         />
       )}
       <Grid
