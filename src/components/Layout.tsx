@@ -11,10 +11,11 @@ import {
   MenuItem,
 } from "@mui/material";
 import FoodIcon from "@mui/icons-material/Fastfood";
+import { observer } from "mobx-react-lite";
 import NavButton from "./NavButton";
 import { LinkItem } from "@/common/types";
-import { useUserContext } from "@/common/context/useUserContext";
 import authService from "@/services/authService";
+import userStore from "@/common/store/user.store";
 const env = import.meta.env;
 
 const pages: Array<LinkItem> = [
@@ -48,8 +49,8 @@ const settings: Array<LinkItem> = [
   },
 ];
 
-function Layout() {
-  const { user } = useUserContext();
+const Layout = observer(() => {
+  const { user } = userStore;
   const navigate = useNavigate();
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -123,6 +124,6 @@ function Layout() {
       <Outlet />
     </>
   );
-}
+});
 
 export default Layout;

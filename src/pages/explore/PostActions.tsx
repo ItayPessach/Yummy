@@ -2,7 +2,8 @@ import { Box, IconButton } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import OpenWithOutlinedIcon from "@mui/icons-material/OpenWithOutlined";
-import { useUserContext } from "@/common/context/useUserContext";
+import { observer } from "mobx-react-lite";
+import userStore from "@/common/store/user.store";
 
 interface Props {
   userId: string;
@@ -11,60 +12,62 @@ interface Props {
 }
 
 // TODO: implement edit post
-function PostActions({ userId, onExpandClick, onDeleteClick }: Props) {
-  const { user } = useUserContext();
+const PostActions = observer(
+  ({ userId, onExpandClick, onDeleteClick }: Props) => {
+    const { user } = userStore;
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        position: "absolute",
-        width: "100%",
-        zIndex: 1,
-        pt: 1,
-      }}
-    >
-      {user?._id === userId && (
-        <Box sx={{ mr: "auto" }}>
-          <IconButton
-            onClick={onDeleteClick}
-            sx={{
-              color: "primary.main",
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.75)",
-              },
-            }}
-          >
-            <DeleteOutlinedIcon />
-          </IconButton>
-          <IconButton
-            sx={{
-              color: "primary.main",
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.75)",
-              },
-            }}
-          >
-            <EditOutlinedIcon />
-          </IconButton>
-        </Box>
-      )}
-      <IconButton
-        onClick={onExpandClick}
+    return (
+      <Box
         sx={{
-          ml: "auto",
-          color: "primary.main",
-          "&:hover": {
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
-          },
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          position: "absolute",
+          width: "100%",
+          zIndex: 1,
+          pt: 1,
         }}
       >
-        <OpenWithOutlinedIcon />
-      </IconButton>
-    </Box>
-  );
-}
+        {user?._id === userId && (
+          <Box sx={{ mr: "auto" }}>
+            <IconButton
+              onClick={onDeleteClick}
+              sx={{
+                color: "primary.main",
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.75)",
+                },
+              }}
+            >
+              <DeleteOutlinedIcon />
+            </IconButton>
+            <IconButton
+              sx={{
+                color: "primary.main",
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.75)",
+                },
+              }}
+            >
+              <EditOutlinedIcon />
+            </IconButton>
+          </Box>
+        )}
+        <IconButton
+          onClick={onExpandClick}
+          sx={{
+            ml: "auto",
+            color: "primary.main",
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.75)",
+            },
+          }}
+        >
+          <OpenWithOutlinedIcon />
+        </IconButton>
+      </Box>
+    );
+  }
+);
 
 export default PostActions;

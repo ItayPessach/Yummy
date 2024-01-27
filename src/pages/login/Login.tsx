@@ -11,12 +11,12 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
 import HorizontalLineWithText from "@/components/HorizontalLineWithText";
-import { useUserContext } from "@/common/context/useUserContext";
 import authService from "@/services/authService";
 import usersService from "@/services/usersService";
+import userStore from "@/common/store/user.store";
 
 function Login() {
-  const { setUser } = useUserContext();
+  const { setUser } = userStore;
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

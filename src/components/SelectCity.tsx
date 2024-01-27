@@ -1,7 +1,8 @@
 import { Autocomplete, InputAdornment, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import axios from "axios";
+import { observer } from "mobx-react-lite";
+import citiesStore from "@/common/store/cities.store";
 
 interface Props {
   city: string;
@@ -9,27 +10,12 @@ interface Props {
   sx?: any;
 }
 
-function SelectCity({ city, setCity, sx }: Props) {
-  const [cities, setCities] = useState<string[]>([]);
+const SelectCity = observer(({ city, setCity, sx }: Props) => {
+  const { cities, fetchCities } = citiesStore;
 
   useEffect(() => {
-    const cities = localStorage.getItem("cities");
-    if (!cities) {
-      // TODO: consider using an env variable for the url, and maybe create a config file for the app
-      axios
-        .get(
-          "https://data.gov.il/api/3/action/datastore_search?resource_id=d4901968-dad3-4845-a9b0-a57d027f11ab"
-        )
-        .then((res) => {
-          const cities = res.data?.result?.records.map((city: any) =>
-            city["שם_ישוב_לועזי"].trim()
-          );
-          localStorage.setItem("cities", JSON.stringify(cities));
-        });
-    } else {
-      setCities(JSON.parse(cities));
-    }
-  }, []);
+    fetchCities();
+  }, [fetchCities]);
 
   return (
     <Autocomplete // TODO: need to set padding exactly like the textfield
@@ -54,6 +40,6 @@ function SelectCity({ city, setCity, sx }: Props) {
       sx={sx}
     />
   );
-}
+});
 
 export default SelectCity;

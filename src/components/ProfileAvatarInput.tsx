@@ -1,6 +1,6 @@
 import { useState, useRef, ChangeEvent, useEffect } from "react";
 import ProfileAvatarUploadModal from "./ProfileAvatarUploadModal";
-import "../styles/AvatarUpload.css";
+import "../common/styles/AvatarUpload.css";
 import { Box, IconButton } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 const env = import.meta.env;

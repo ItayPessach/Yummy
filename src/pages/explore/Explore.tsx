@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Typography, Stack, Grid } from "@mui/material";
 import AntSwitch from "../../components/AntSwitch";
 import Post from "./Post";
-import { useUserContext } from "@/common/context/useUserContext";
 import postsService from "@/services/postsService";
 import { IPost } from "@/common/types";
 import SelectCity from "@/components/SelectCity";
+import userStore from "@/common/store/user.store";
+import { observer } from "mobx-react-lite";
 
-function Explore() {
-  const { user } = useUserContext();
+const Explore = observer(() => {
+  const { user } = userStore;
   const [isShowOnlyMyPosts, setIsShowOnlyMyPosts] = useState(false);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [page, setPage] = useState(1);
@@ -119,6 +120,6 @@ function Explore() {
       </Grid>
     </Stack>
   );
-}
+});
 
 export default Explore;
