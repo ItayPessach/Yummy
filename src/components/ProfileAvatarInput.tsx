@@ -3,7 +3,7 @@ import ProfileAvatarUploadModal from "./ProfileAvatarUploadModal";
 import "../common/styles/AvatarUpload.css";
 import { Box, IconButton } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-const env = import.meta.env;
+import { config } from "@/config";
 
 interface Props {
   src: File | string;
@@ -85,7 +85,7 @@ function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
             src={
               preview !== ""
                 ? preview
-                : env.VITE_PUBLIC_FOLDER_URL + "add-user.jpeg"
+                : config.publicFolderUrl + "add-user.jpeg"
             }
             alt=""
             width={width}

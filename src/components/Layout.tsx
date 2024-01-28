@@ -16,7 +16,7 @@ import NavButton from "./NavButton";
 import { LinkItem } from "@/common/types";
 import authService from "@/services/authService";
 import userStore from "@/common/store/user.store";
-const env = import.meta.env;
+import { config } from "@/config";
 
 const pages: Array<LinkItem> = [
   {
@@ -85,8 +85,8 @@ const Layout = observer(() => {
               <Avatar
                 src={
                   user?.profileImage
-                    ? env.VITE_UPLOAD_FOLDER_URL + user.profileImage
-                    : env.VITE_PUBLIC_FOLDER_URL + "profile.png"
+                    ? config.uploadFolderUrl + user.profileImage
+                    : config.publicFolderUrl + "profile.png"
                 }
               />
             </IconButton>

@@ -2,7 +2,7 @@ import { IComment } from "@/common/types";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import { calculateTimeAgo } from "@/common/utils/calculateTimeAgo";
 import { useEffect, useState } from "react";
-const env = import.meta.env;
+import { config } from "@/config";
 
 interface Props {
   comment: IComment;
@@ -30,8 +30,8 @@ function Comment({ comment }: Props) {
       <Avatar
         src={
           comment.user.profileImage
-            ? env.VITE_UPLOAD_FOLDER_URL + comment.user.profileImage
-            : env.VITE_PUBLIC_FOLDER_URL + "profile.png"
+            ? config.uploadFolderUrl + comment.user.profileImage
+            : config.publicFolderUrl + "profile.png"
         }
         sx={{ width: 56, height: 56 }}
       ></Avatar>

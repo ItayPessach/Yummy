@@ -13,7 +13,7 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import { useNavigate } from "react-router-dom";
 import { IPost } from "@/common/types";
 import PostActions from "./PostActions";
-const env = import.meta.env;
+import { config } from "@/config";
 
 interface Props {
   post: IPost;
@@ -47,7 +47,7 @@ function Post({ post, deletePost }: Props) {
         >
           <Box
             component="img"
-            src={env.VITE_UPLOAD_FOLDER_URL + post.image}
+            src={config.uploadFolderUrl + post.image}
             alt={post.restaurant}
             sx={{
               position: "absolute",
@@ -60,7 +60,7 @@ function Post({ post, deletePost }: Props) {
           />
           <Box
             component="img"
-            src={env.VITE_UPLOAD_FOLDER_URL + post.image}
+            src={config.uploadFolderUrl + post.image}
             alt={post.restaurant}
             sx={{
               position: "relative",
@@ -91,8 +91,8 @@ function Post({ post, deletePost }: Props) {
                   <Avatar
                     src={
                       post.user.profileImage
-                        ? env.VITE_UPLOAD_FOLDER_URL + post.user.profileImage
-                        : env.VITE_PUBLIC_FOLDER_URL + "profile.png"
+                        ? config.uploadFolderUrl + post.user.profileImage
+                        : config.publicFolderUrl + "profile.png"
                     }
                     alt={post.user.fullName}
                     sx={{

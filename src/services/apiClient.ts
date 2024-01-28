@@ -1,15 +1,15 @@
 import { gatherCookie } from "@/common/utils/token";
 import axios, { CanceledError } from "axios";
-const env = import.meta.env;
+import { config } from "@/config";
 
 export { CanceledError };
 
 const apiClient = axios.create({
-  baseURL: env.VITE_BACKEND_API_URL,
+  baseURL: config.backendUrl,
 });
 
 const apiClientWithAuth = axios.create({
-  baseURL: env.VITE_BACKEND_API_URL,
+  baseURL: config.backendUrl,
 });
 
 apiClientWithAuth.interceptors.request.use((config) => {

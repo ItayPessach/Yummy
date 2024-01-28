@@ -18,10 +18,10 @@ const SelectCity = observer(({ city, setCity, sx }: Props) => {
   }, [fetchCities]);
 
   return (
-    <Autocomplete // TODO: need to set padding exactly like the textfield
+    <Autocomplete
       value={city}
       onChange={(_event, value: string | null) => setCity(value ?? "")}
-      options={cities}
+      options={[...cities, ""]}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -37,7 +37,17 @@ const SelectCity = observer(({ city, setCity, sx }: Props) => {
           }}
         />
       )}
-      sx={sx}
+      sx={{
+        ...sx,
+        "& .MuiOutlinedInput-root": {
+          pl: 1.75,
+          pt: 1,
+          pb: 1,
+        },
+        "& .MuiOutlinedInput-root .MuiAutocomplete-input": {
+          pl: 0,
+        },
+      }}
     />
   );
 });

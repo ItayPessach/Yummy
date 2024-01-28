@@ -3,7 +3,7 @@ import { Avatar, Button, Stack, Typography } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { observer } from "mobx-react-lite";
 import userStore from "@/common/store/user.store";
-const env = import.meta.env;
+import { config } from "@/config";
 
 const Profile = observer(() => {
   const { user } = userStore;
@@ -26,8 +26,8 @@ const Profile = observer(() => {
       <Avatar
         src={
           user?.profileImage
-            ? env.VITE_UPLOAD_FOLDER_URL + user.profileImage
-            : env.VITE_PUBLIC_FOLDER_URL + "profile.png"
+            ? config.uploadFolderUrl + user.profileImage
+            : config.publicFolderUrl + "profile.png"
         }
         sx={{ width: 280, height: 280, mx: "auto" }}
       ></Avatar>

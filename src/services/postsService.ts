@@ -1,6 +1,6 @@
 import { apiClientWithAuth, CanceledError } from "./apiClient";
 import { IPost, IComment } from "../common/types";
-const env = import.meta.env;
+import { config } from "@/config";
 
 export { CanceledError };
 
@@ -49,7 +49,7 @@ class PostsService {
   getByCity(
     city: string,
     page: number = 1,
-    pageSize: number = env.VITE_DEFAULT_PAGE_SIZE
+    pageSize: number = config.defaultPageSize
   ) {
     const controller = new AbortController();
     const request = apiClientWithAuth.get(
@@ -76,7 +76,7 @@ class PostsService {
     return { request, cancel: () => controller.abort() };
   }
 
-  getByUser(page: number = 1, pageSize: number = env.VITE_DEFAULT_PAGE_SIZE) {
+  getByUser(page: number = 1, pageSize: number = config.defaultPageSize) {
     const controller = new AbortController();
     const request = apiClientWithAuth.get(
       `${this.endpoint}/user/me?page=${page}&pageSize=${pageSize}`,

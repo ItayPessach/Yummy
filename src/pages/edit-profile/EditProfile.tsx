@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import usersService from "@/services/usersService";
 import SelectCity from "@/components/SelectCity";
 import userStore from "@/common/store/user.store";
-const env = import.meta.env;
+import { config } from "@/config";
 
 const EditProfile = observer(() => {
   const { user, setUser } = userStore;
@@ -31,7 +31,7 @@ const EditProfile = observer(() => {
     setFullName(user?.fullName ?? "");
     setHomeCity(user?.homeCity ?? "");
     setProfileImage(
-      user?.profileImage ? env.VITE_UPLOAD_FOLDER_URL + user.profileImage : ""
+      user?.profileImage ? config.uploadFolderUrl + user.profileImage : ""
     );
   }, [user]);
 

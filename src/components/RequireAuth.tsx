@@ -13,7 +13,8 @@ const RequireAuth = observer(({ children }: Props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { request, cancel } = usersService.getMe();
+    // Chose not to use "cancel" for this function because when running vite on dev environment it aborts
+    const { request } = usersService.getMe();
 
     request
       .then((res) => {
@@ -25,10 +26,6 @@ const RequireAuth = observer(({ children }: Props) => {
       .finally(() => {
         setLoading(false);
       });
-
-    return () => {
-      cancel();
-    };
   }, [setUser]);
 
   return (

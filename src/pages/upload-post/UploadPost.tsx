@@ -16,7 +16,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import postsService from "@/services/postsService";
 import SelectCity from "@/components/SelectCity";
-const env = import.meta.env;
+import { config } from "@/config";
 
 const VisuallyHiddenInput = styled("input")({
   clipPath: "inset(50%)",
@@ -105,7 +105,7 @@ function UploadPost() {
             backgroundColor: "white",
           }}
         >
-          <img src={env.VITE_PUBLIC_FOLDER_URL + "add-photo.png"} alt="" />
+          <img src={config.publicFolderUrl + "add-photo.png"} alt="" />
           <VisuallyHiddenInput
             type="file"
             accept="image/*"
