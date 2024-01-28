@@ -26,10 +26,20 @@ const Explore = observer(() => {
   }, [selectedCity, isShowOnlyMyPosts]);
 
   useEffect(() => {
-    const { request, cancel } = isShowOnlyMyPosts
-      ? postsService.getByUser(page)
-      : postsService.getByCity(selectedCity, page);
+    let postsRequest;
+    if (isShowOnlyMyPosts) {
+      postsRequest = () => {
+        return postsService.getByUser(page);
+      };
+    } else if (selectedCity) {
+      postsRequest = () => {
+        return postsService.getByCity(selectedCity, page);
+      };
+    } else {
+      return;
+    }
 
+    const { request, cancel } = postsRequest();
     request
       .then((res) => {
         if (res.data.length !== 0)
