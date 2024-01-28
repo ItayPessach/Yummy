@@ -13,10 +13,8 @@ import GoogleIcon from "@mui/icons-material/Google";
 import HorizontalLineWithText from "@/components/HorizontalLineWithText";
 import authService from "@/services/authService";
 import usersService from "@/services/usersService";
-import userStore from "@/common/store/user.store";
 
 function Login() {
-  const { setUser } = userStore;
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,8 +37,7 @@ function Login() {
         const { request } = usersService.getMe();
 
         request
-          .then((res) => {
-            setUser(res.data);
+          .then(() => {
             navigate("/");
             resetFields();
           })
