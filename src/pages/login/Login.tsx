@@ -11,12 +11,10 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
 import HorizontalLineWithText from "@/components/HorizontalLineWithText";
-import { useUserContext } from "@/common/context/useUserContext";
 import authService from "@/services/authService";
 import usersService from "@/services/usersService";
 
 function Login() {
-  const { setUser } = useUserContext();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,8 +37,7 @@ function Login() {
         const { request } = usersService.getMe();
 
         request
-          .then((res) => {
-            setUser(res.data);
+          .then(() => {
             navigate("/");
             resetFields();
           })

@@ -10,14 +10,15 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useUserContext } from "@/common/context/useUserContext";
+import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import usersService from "@/services/usersService";
 import SelectCity from "@/components/SelectCity";
+import userStore from "@/common/store/user.store";
 const env = import.meta.env;
 
-function EditProfile() {
-  const { user, setUser } = useUserContext();
+const EditProfile = observer(() => {
+  const { user, setUser } = userStore;
   const navigate = useNavigate();
 
   const [fullName, setFullName] = useState("");
@@ -149,6 +150,6 @@ function EditProfile() {
       </Box>
     </Stack>
   );
-}
+});
 
 export default EditProfile;

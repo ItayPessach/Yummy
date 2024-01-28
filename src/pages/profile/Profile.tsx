@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { useUserContext } from "@/common/context/useUserContext";
+import { observer } from "mobx-react-lite";
+import userStore from "@/common/store/user.store";
 const env = import.meta.env;
 
-function Profile() {
-  const { user } = useUserContext();
+const Profile = observer(() => {
+  const { user } = userStore;
   const navigate = useNavigate();
 
   const editProfile = () => {
@@ -58,6 +59,6 @@ function Profile() {
       </Button>
     </Stack>
   );
-}
+});
 
 export default Profile;
