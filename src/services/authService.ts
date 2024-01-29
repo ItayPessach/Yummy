@@ -46,6 +46,15 @@ class AuthService {
     return { request, cancel: () => controller.abort() };
   }
 
+  loginByGoogle(token: string) {
+    const controller = new AbortController();
+    const request = apiClient.post(`${this.endpoint}/google-login`, { token } , {
+      signal: controller.signal,
+    });
+
+    return { request, cancel: () => controller.abort() };
+  }
+
   logout() {
     const controller = new AbortController();
     const request = apiClient.get(`${this.endpoint}/logout`, {

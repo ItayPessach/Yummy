@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import GoogleIcon from "@mui/icons-material/Google";
 import HorizontalLineWithText from "@/components/HorizontalLineWithText";
 import authService from "@/services/authService";
 import usersService from "@/services/usersService";
+import GoogleAuth from "@/components/GoogleAuth";
 
 function Login() {
   const navigate = useNavigate();
@@ -63,6 +63,7 @@ function Login() {
         width: "60%",
         mx: "auto",
         justifyContent: "space-between",
+        alignItems: "center",
         gap: 5,
       }}
     >
@@ -120,20 +121,7 @@ function Login() {
         Login
       </Button>
       <HorizontalLineWithText text="OR" />
-      <Button
-        variant="contained"
-        sx={{
-          color: "black",
-          backgroundColor: "white",
-          ":hover": { backgroundColor: "white" },
-          width: "25vw",
-          height: "6vh",
-          mx: "auto",
-        }}
-        startIcon={<GoogleIcon />}
-      >
-        Sign in with google
-      </Button>
+      <GoogleAuth />
       <Button
         variant="contained"
         onClick={register}

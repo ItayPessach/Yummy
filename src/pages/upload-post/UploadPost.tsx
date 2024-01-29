@@ -17,6 +17,7 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 import postsService from "@/services/postsService";
 import SelectCity from "@/components/SelectCity";
 import { config } from "@/config";
+import {useNavigate} from "react-router-dom";
 
 const VisuallyHiddenInput = styled("input")({
   clipPath: "inset(50%)",
@@ -33,6 +34,7 @@ function UploadPost() {
   const [restaurant, setRestaurant] = useState("");
   const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   const changeProfileImage = (e: ChangeEvent) => {
     setPostImage((e.target as any).files[0]);
@@ -42,22 +44,20 @@ function UploadPost() {
     setPostImage(undefined);
   };
 
-  const uploadPost = () => {
-    const { request } = postsService.uploadPost({
+  const uploadPost = async () => {
+    const {request: uploadPost} = postsService.uploadPost({
       picture: postImage!,
       restaurant,
       city,
       description,
     });
 
-    request
-      .then((res) => {
-        console.log(res);
-        clearFields();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      await uploadPost;
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const clearFields = () => {
