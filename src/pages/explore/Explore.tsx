@@ -36,6 +36,7 @@ const Explore = observer(() => {
         return postsService.getByCity(selectedCity, page);
       };
     } else {
+      // TODO: get posts by no condition
       return;
     }
 
@@ -81,43 +82,32 @@ const Explore = observer(() => {
     };
   }, [posts]);
 
-  const deletePost = (postId: string) => {
-    const { request } = postsService.deletePost(postId);
-
-    request
-      .then(() => {
-        setPosts((prevPosts) =>
-          prevPosts.filter((post) => post._id !== postId)
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <Stack sx={{ p: 4, gap: 2 }}>
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
-        <Typography
-          variant="h6"
-          sx={{ color: "secondary.main", fontWeight: "bold" }}
-        >
-          Only My Posts
-        </Typography>
-        <AntSwitch
-          checked={isShowOnlyMyPosts}
-          onChange={(event) => setIsShowOnlyMyPosts(event.target.checked)}
-          inputProps={{ "aria-label": "ant design" }}
-          sx={{ my: "auto" }}
-        />
-      </Box>
-      {!isShowOnlyMyPosts && (
-        <SelectCity
-          city={selectedCity}
-          setCity={setSelectedCity}
-          sx={{ width: "20vw", height: "5vh" }}
-        />
-      )}
+      <Stack spacing={2} sx={{ height: '10vh'}}>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+          <Typography
+            variant="h6"
+            sx={{ color: "secondary.main", fontWeight: "bold" }}
+          >
+            Only My Posts
+          </Typography>
+          <AntSwitch
+            checked={isShowOnlyMyPosts}
+            onChange={(event) => setIsShowOnlyMyPosts(event.target.checked)}
+            inputProps={{ "aria-label": "ant design" }}
+            sx={{ my: "auto" }}
+          />
+        </Box>
+        {!isShowOnlyMyPosts && (
+          <SelectCity
+            city={selectedCity}
+            setCity={setSelectedCity}
+            sx={{ width: "20vw", height: "5vh" }}
+          />
+        )}
+      </Stack>
       <Grid
         container
         spacing={3}
@@ -125,7 +115,7 @@ const Explore = observer(() => {
         ref={scrolledElementRef}
       >
         {posts.map((post, index) => (
-          <Post post={post} deletePost={deletePost} key={index} />
+          <Post post={post} setPosts={setPosts} key={index} />
         ))}
       </Grid>
     </Stack>

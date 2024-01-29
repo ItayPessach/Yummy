@@ -14,14 +14,29 @@ import { useNavigate } from "react-router-dom";
 import { IPost } from "@/common/types";
 import PostActions from "./PostActions";
 import { config } from "@/config";
+import postsService from "@/services/postsService.ts";
+import {Dispatch, SetStateAction} from "react";
 
 interface Props {
   post: IPost;
-  deletePost: (postId: string) => void;
+  setPosts: Dispatch<SetStateAction<IPost[]>>;
 }
 
-function Post({ post, deletePost }: Props) {
+function Post({ post, setPosts }: Props) {
   const navigate = useNavigate();
+
+  const deletePost = async (postId: string) => {
+    const { request: deletePost } = postsService.deletePost(postId);
+
+    try {
+      await deletePost;
+      setPosts((prevPosts) =>
+        prevPosts.filter((post) => post._id !== postId)
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const showPostComments = () => {
     navigate(`/comments/${post._id}`);

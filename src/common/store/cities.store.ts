@@ -1,5 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import axios from "axios";
+import { config } from '@/config';
+
+const LOCATION_NAME_FIELD =  'שם_ישוב_לועזי';
 
 class CitiesStore {
   cities: string[] = [];
@@ -11,16 +14,13 @@ class CitiesStore {
 
   async fetchCities() {
     try {
-      // TODO: consider using an env variable for the url, and maybe create a config file for the app
-      const res = await axios.get(
-        "https://data.gov.il/api/3/action/datastore_search?resource_id=d4901968-dad3-4845-a9b0-a57d027f11ab"
-      );
+      const res = await axios.get(config.citiesApiUrl);
       runInAction(() => {
         // Use set constructor and destruct afterwards in order to remove duplicates
         this.cities = [
           ...new Set(
             res.data?.result?.records
-              .map((city: any) => city["שם_ישוב_לועזי"].trim())
+              .map((city: any) => city[LOCATION_NAME_FIELD].trim())
               .filter(Boolean)
           ),
         ] as string[];
