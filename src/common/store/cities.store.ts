@@ -27,7 +27,6 @@ class CitiesStore {
         this.isDataLoaded = true;
       });
     } catch (err) {
-      // TODO: give the user a message that the data is not available instead of logging to console
       console.log(err);
     }
   }

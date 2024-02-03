@@ -1,34 +1,19 @@
-import { apiClientWithAuth, CanceledError } from "./apiClient";
-import { IPost, IComment } from "../common/types";
+import { apiClientWithAuth } from "./apiClient";
+import { IPost, IComment, UploadPostDto } from "@/common/types";
 import { config } from "@/config";
-
-export { CanceledError };
+import { createFormData } from '@/common/utils/createFormData';
 
 class PostsService {
-  private endpoint;
+  private readonly endpoint;
 
   constructor() {
     this.endpoint = "/posts";
   }
 
-  uploadPost(uploadDto: {
-    restaurant: string;
-    description: string;
-    picture: File;
-    city: string;
-  }) {
+  uploadPost(uploadDto: UploadPostDto) {
     const controller = new AbortController();
-    const formData = new FormData();
 
-    Object.entries(uploadDto).forEach(([key, value]) => {
-      if (key === "picture" && value instanceof File) {
-        formData.append("picture", value);
-      } else {
-        formData.set(key, value);
-      }
-    });
-
-    const request = apiClientWithAuth.post(this.endpoint, formData, {
+    const request = apiClientWithAuth.post(this.endpoint, createFormData(uploadDto), {
       signal: controller.signal,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -43,6 +28,7 @@ class PostsService {
     const request = apiClientWithAuth.get<IPost>(`${this.endpoint}/${postId}`, {
       signal: controller.signal,
     });
+
     return { request, cancel: () => controller.abort() };
   }
 
@@ -53,11 +39,12 @@ class PostsService {
   ) {
     const controller = new AbortController();
     const request = apiClientWithAuth.get(
-      `${this.endpoint}/city/${city}?page=${page}&pageSize=${pageSize}`,
+      `${this.endpoint}/city/${city ? city : 'all'}?page=${page}&pageSize=${pageSize}`,
       {
         signal: controller.signal,
       }
     );
+
     return { request, cancel: () => controller.abort() };
   }
 
@@ -73,6 +60,7 @@ class PostsService {
         signal: controller.signal,
       }
     );
+
     return { request, cancel: () => controller.abort() };
   }
 
@@ -87,15 +75,16 @@ class PostsService {
     return { request, cancel: () => controller.abort() };
   }
 
-  editPost(post: IPost) {
+  editPost(postId: string, editDto: UploadPostDto) {
     const controller = new AbortController();
-    const request = apiClientWithAuth.put(
-      `${this.endpoint}/${post._id}`,
-      post,
-      {
-        signal: controller.signal,
-      }
-    );
+
+    const request = apiClientWithAuth.put(`${this.endpoint}/${postId}`, createFormData(editDto), {
+      signal: controller.signal,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
     return { request, cancel: () => controller.abort() };
   }
 
@@ -104,6 +93,7 @@ class PostsService {
     const request = apiClientWithAuth.delete(`${this.endpoint}/${postId}`, {
       signal: controller.signal,
     });
+
     return { request, cancel: () => controller.abort() };
   }
 }

@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { Box, Typography, Stack, Grid } from "@mui/material";
 import AntSwitch from "../../components/AntSwitch";
+import EditPostDialog from '@/pages/edit-post/EditPost';
 import Post from "./Post";
 import postsService from "@/services/postsService";
-import { IPost } from "@/common/types";
+import {IPost, PostToEdit} from "@/common/types";
 import SelectCity from "@/components/SelectCity";
 import userStore from "@/common/store/user.store";
 import { observer } from "mobx-react-lite";
+import { fetchImageAndConvertToFile } from '@/common/utils/fetch-image';
 
 const Explore = observer(() => {
   const { user } = userStore;
@@ -15,6 +17,8 @@ const Explore = observer(() => {
   const [page, setPage] = useState(1);
   const [selectedCity, setSelectedCity] = useState("");
   const scrolledElementRef = useRef<HTMLDivElement | null>(null);
+  const [openEditPostDialog, setOpenEditPostDialog] = useState(false);
+  const [postToEdit, setPostToEdit] = useState<PostToEdit>();
 
   useEffect(() => {
     setSelectedCity(user?.homeCity ?? "");
@@ -26,34 +30,33 @@ const Explore = observer(() => {
   }, [selectedCity, isShowOnlyMyPosts]);
 
   useEffect(() => {
-    let postsRequest;
-    if (isShowOnlyMyPosts) {
-      postsRequest = () => {
-        return postsService.getByUser(page);
+    if (!openEditPostDialog) {
+      let postsRequest;
+      if (isShowOnlyMyPosts) {
+        postsRequest = () => {
+          return postsService.getByUser(page);
+        };
+      } else {
+        postsRequest = () => {
+          return postsService.getByCity(selectedCity, page);
+        };
+      }
+
+      const { request, cancel } = postsRequest();
+      request
+        .then((res) => {
+          if (res.data.length !== 0)
+            setPosts((prevPosts) => [...prevPosts, ...res.data]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      return () => {
+        cancel();
       };
-    } else if (selectedCity) {
-      postsRequest = () => {
-        return postsService.getByCity(selectedCity, page);
-      };
-    } else {
-      // TODO: get posts by no condition
-      return;
     }
-
-    const { request, cancel } = postsRequest();
-    request
-      .then((res) => {
-        if (res.data.length !== 0)
-          setPosts((prevPosts) => [...prevPosts, ...res.data]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    return () => {
-      cancel();
-    };
-  }, [page, selectedCity, isShowOnlyMyPosts]);
+  }, [page, selectedCity, isShowOnlyMyPosts, openEditPostDialog]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,43 +85,68 @@ const Explore = observer(() => {
     };
   }, [posts]);
 
+  const handleCloseEditDialog = () => {
+    setOpenEditPostDialog(false);
+
+    setPosts([]);
+    setPage(1);
+  };
+
+
+  const onOpenEditPostDialog = async (post: IPost) => {
+    const picture =  await fetchImageAndConvertToFile(post.image);
+
+    setPostToEdit({
+      picture,
+      restaurant: post.restaurant,
+      city: post.city,
+      description: post.description,
+      postId: post._id,
+    });
+
+    setOpenEditPostDialog(true);
+  };
+
 
   return (
-    <Stack sx={{ p: 4, gap: 2 }}>
-      <Stack spacing={2} sx={{ height: '10vh'}}>
-        <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
-          <Typography
-            variant="h6"
-            sx={{ color: "secondary.main", fontWeight: "bold" }}
-          >
-            Only My Posts
-          </Typography>
-          <AntSwitch
-            checked={isShowOnlyMyPosts}
-            onChange={(event) => setIsShowOnlyMyPosts(event.target.checked)}
-            inputProps={{ "aria-label": "ant design" }}
-            sx={{ my: "auto" }}
-          />
-        </Box>
-        {!isShowOnlyMyPosts && (
-          <SelectCity
-            city={selectedCity}
-            setCity={setSelectedCity}
-            sx={{ width: "20vw", height: "5vh" }}
-          />
-        )}
+    <>
+      <Stack sx={{ p: 4, gap: 2 }}>
+        <Stack spacing={2} sx={{ height: '10vh'}}>
+          <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+            <Typography
+              variant="h6"
+              sx={{ color: "secondary.main", fontWeight: "bold" }}
+            >
+              Only My Posts
+            </Typography>
+            <AntSwitch
+              checked={isShowOnlyMyPosts}
+              onChange={(event) => setIsShowOnlyMyPosts(event.target.checked)}
+              inputProps={{ "aria-label": "ant design" }}
+              sx={{ my: "auto" }}
+            />
+          </Box>
+          {!isShowOnlyMyPosts && (
+            <SelectCity
+              city={selectedCity}
+              setCity={setSelectedCity}
+              sx={{ width: "20vw", height: "5vh" }}
+            />
+          )}
+        </Stack>
+        <Grid
+          container
+          spacing={3}
+          sx={{ maxHeight: "75vh", overflowY: "auto", mt: 1, pr: 2 }}
+          ref={scrolledElementRef}
+        >
+          {posts.map((post, index) => (
+            <Post post={post} setPosts={setPosts} key={index} openEditPostDialog={onOpenEditPostDialog} />
+          ))}
+        </Grid>
       </Stack>
-      <Grid
-        container
-        spacing={3}
-        sx={{ maxHeight: "75vh", overflowY: "auto", mt: 1, pr: 2 }}
-        ref={scrolledElementRef}
-      >
-        {posts.map((post, index) => (
-          <Post post={post} setPosts={setPosts} key={index} />
-        ))}
-      </Grid>
-    </Stack>
+      {postToEdit && <EditPostDialog open={openEditPostDialog} postToEdit={postToEdit} onClose={handleCloseEditDialog} />}
+    </>
   );
 });
 

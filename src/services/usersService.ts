@@ -1,9 +1,8 @@
-import { apiClientWithAuth, CanceledError } from "./apiClient";
-
-export { CanceledError };
+import { apiClientWithAuth } from "./apiClient";
+import {createFormData} from "@/common/utils/createFormData.ts";
 
 class UsersService {
-  private endpoint;
+  private readonly endpoint;
 
   constructor() {
     this.endpoint = "/users";
@@ -14,6 +13,7 @@ class UsersService {
     const request = apiClientWithAuth.get(`${this.endpoint}/me`, {
       signal: controller.signal,
     });
+
     return { request, cancel: () => controller.abort() };
   }
 
@@ -26,17 +26,8 @@ class UsersService {
     }>
   ) {
     const controller = new AbortController();
-    const formData = new FormData();
 
-    Object.entries(editDto).forEach(([key, value]) => {
-      if (key === "picture" && value instanceof File) {
-        formData.append("picture", value);
-      } else {
-        formData.set(key, value);
-      }
-    });
-
-    const request = apiClientWithAuth.put(this.endpoint, editDto, {
+    const request = apiClientWithAuth.put(this.endpoint, createFormData(editDto), {
       signal: controller.signal,
       headers: {
         "Content-Type": "multipart/form-data",

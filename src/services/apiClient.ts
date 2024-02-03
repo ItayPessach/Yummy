@@ -1,8 +1,6 @@
 import { gatherCookie } from "@/common/utils/token";
-import axios, { CanceledError } from "axios";
+import axios from "axios";
 import { config } from "@/config";
-
-export { CanceledError };
 
 const apiClient = axios.create({
   baseURL: config.backendUrl,

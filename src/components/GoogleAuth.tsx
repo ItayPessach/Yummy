@@ -17,8 +17,6 @@ function GoogleAuth() {
       await usersService.getMe().request;
 
       navigate("/");
-
-
     } catch (err: any) {
       console.error(err);
     }

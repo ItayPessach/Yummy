@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent, useEffect } from "react";
+import {useState, useRef, ChangeEvent, Dispatch, SetStateAction, useEffect} from "react";
 import ProfileAvatarUploadModal from "./ProfileAvatarUploadModal";
 import "../common/styles/AvatarUpload.css";
 import { Box, IconButton } from "@mui/material";
@@ -6,46 +6,44 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { config } from "@/config";
 
 interface Props {
-  src: File | string;
-  changeProfileImage: (newProfileImage: File | string) => void;
+  profileImage?: File;
+  changeProfileImage: Dispatch<SetStateAction<File | undefined>>;
   width: number;
   height: number;
 }
 
-function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
-  const [preview, setPreview] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [profileModalImage, setProfileModalImage] = useState("");
+function ProfileAvatarInput({ profileImage, changeProfileImage, width, height }: Props) {
+  const [preview, setPreview] = useState(profileImage);
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [profileModalImage, setProfileModalImage] = useState<File>();
 
   useEffect(() => {
-    if (typeof src === "string") {
-      setPreview(src);
-      setProfileModalImage(src);
+    setPreview(profileImage);
+    setProfileModalImage(profileImage);
+  }, [profileImage]);
+
+  const hiddenFileInput = useRef<HTMLInputElement>(null);
+
+  const onSaveCroppedImage = (blob: Blob) => {
+    changeProfileImage(new File([blob], 'profile.png', { type: "image/png" }));
+    setPreview(new File([blob], 'profile.png', { type: "image/png" }));
+    setProfileModalOpen(false);
+  };
+
+  const openFileInput = () => {
+    hiddenFileInput?.current?.click();
+  };
+
+  const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0 ) {
+      setProfileModalImage(e.target?.files[0]);
+      setProfileModalOpen(true);
     }
-  }, [src]);
-
-  const inputRef = useRef(null);
-
-  const setPreviewState = (blob: Blob) => {
-    changeProfileImage(profileModalImage);
-    setPreview(URL.createObjectURL(blob));
-  };
-
-  const setModalState = (open: boolean) => {
-    setModalOpen(open);
-  };
-  const handleInputClick = () => {
-    (inputRef.current! as any).click();
-  };
-
-  const handleImgChange = (e: ChangeEvent) => {
-    setProfileModalImage((e.target as any).files[0]);
-    setModalOpen(true);
   };
 
   const resetProfileImage = () => {
-    setPreview("");
-    changeProfileImage("");
+    setPreview(undefined);
+    changeProfileImage(undefined);
   };
 
   return (
@@ -68,29 +66,25 @@ function ProfileAvatarInput({ src, changeProfileImage, width, height }: Props) {
       <Box className="avatar-upload-container" sx={{ mx: "auto" }}>
         {profileModalImage && (
           <ProfileAvatarUploadModal
-            modalOpen={modalOpen}
-            src={profileModalImage}
-            setPreview={setPreviewState}
-            setModalOpen={setModalState}
+            profileModalOpen={profileModalOpen}
+            profileImage={profileModalImage}
+            onSaveCroppedImage={onSaveCroppedImage}
+            setProfileModalOpen={setProfileModalOpen}
           />
         )}
         <input
           type="file"
           accept="image/*"
-          ref={inputRef}
-          onChange={handleImgChange}
+          ref={hiddenFileInput}
+          onChange={onSelectFile}
         />
         <Box className="img-container">
           <img
-            src={
-              preview !== ""
-                ? preview
-                : config.publicFolderUrl + "add-user.jpeg"
-            }
-            alt=""
+            src = {preview ? URL.createObjectURL(preview) : config.publicFolderUrl + "add-user.jpeg"}
+            alt="Preview"
             width={width}
             height={height}
-            onClick={handleInputClick}
+            onClick={openFileInput}
           />
         </Box>
       </Box>

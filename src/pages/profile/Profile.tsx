@@ -14,14 +14,14 @@ const Profile = observer(() => {
   };
 
   return (
-    <Stack sx={{ p: 10, mx: "auto", justifyContent: "space-between", gap: 4 }}>
+    <Stack sx={{ p: 10, gap: 4, alignItems: 'center' }}>
       <Typography
         variant="h4"
         textAlign="center"
         color="secondary.main"
         fontWeight="bold"
       >
-        Welcome {user?.fullName.split(" ")[0]}!
+        Welcome {user?.fullName}!
       </Typography>
       <Avatar
         src={
@@ -29,7 +29,7 @@ const Profile = observer(() => {
             ? config.uploadFolderUrl + user.profileImage
             : config.publicFolderUrl + "profile.png"
         }
-        sx={{ width: 280, height: 280, mx: "auto" }}
+        sx={{ width: 280, height: 280 }}
       ></Avatar>
       <Typography
         variant="h4"
@@ -37,16 +37,16 @@ const Profile = observer(() => {
         color="secondary.main"
         fontWeight="bold"
       >
-        Subscribing For Restaurants In {user?.homeCity}
+        { user?.homeCity ? `Subscribing For Restaurants In ${user?.homeCity}` : 'Subscribing For All The Restaurants' }
       </Typography>
       <Button
+        variant='contained'
         sx={{
           backgroundColor: "primary.main",
           color: "white",
-          width: "13vw",
+          width: "15vw",
           height: "6vh",
           mt: 2,
-          mx: "auto",
           gap: 1,
           ":hover": { backgroundColor: "primary.main" },
         }}

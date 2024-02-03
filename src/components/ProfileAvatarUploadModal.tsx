@@ -1,18 +1,18 @@
-import { useState, useRef } from "react";
+import {useState, useRef, Dispatch, SetStateAction} from "react";
 import { Box, Modal, Slider, Stack } from "@mui/material";
 import AvatarEditor from "react-avatar-editor";
 import Button from "@mui/material/Button";
 interface Props {
-  src: File | string;
-  modalOpen: boolean;
-  setModalOpen: (open: boolean) => void;
-  setPreview: (blob: Blob) => void;
+  profileImage: File;
+  profileModalOpen: boolean;
+  setProfileModalOpen: Dispatch<SetStateAction<boolean>>;
+  onSaveCroppedImage: (blob: Blob) => void;
 }
 function ProfileAvatarUploadModal({
-  src,
-  modalOpen,
-  setModalOpen,
-  setPreview,
+  profileImage,
+  profileModalOpen,
+  setProfileModalOpen,
+  onSaveCroppedImage,
 }: Props) {
   const [slideValue, setSlideValue] = useState(10);
 
@@ -27,15 +27,14 @@ function ProfileAvatarUploadModal({
       const dataUrl = (cropRef.current! as any).getImage().toDataURL();
       const result = await fetch(dataUrl);
       const blob = await result.blob();
-      setPreview(blob);
-      setModalOpen(false);
+      onSaveCroppedImage(blob);
     }
   };
 
   return (
     <Modal
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-      open={modalOpen}
+      open={profileModalOpen}
     >
       <Stack
         sx={{
@@ -47,7 +46,7 @@ function ProfileAvatarUploadModal({
       >
         <AvatarEditor
           ref={cropRef}
-          image={src}
+          image={profileImage}
           style={{ width: "100%", height: "100%" }}
           border={50}
           borderRadius={150}
@@ -80,7 +79,7 @@ function ProfileAvatarUploadModal({
               borderColor: "white",
             }}
             variant="contained"
-            onClick={() => setModalOpen(false)}
+            onClick={() => setProfileModalOpen(false)}
           >
             cancel
           </Button>

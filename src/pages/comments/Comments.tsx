@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
 import { IComment } from "@/common/types";
 import Comment from "./Comment";
@@ -13,9 +13,11 @@ function Comments() {
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
-    if (!postId) navigate("/");
+    if (!postId) {
+      navigate("/");
+    }
 
-    const { request, cancel } = postsService.getPost(postId!);
+    const { request } = postsService.getPost(postId!);
 
     request
       .then((res) => {
@@ -26,11 +28,7 @@ function Comments() {
         console.log(err);
         navigate("/");
       });
-
-    return () => {
-      cancel();
-    };
-  }, [postId, navigate]);
+  }, []);
 
   const postComment = () => {
     const { request } = postsService.addCommentToPost(
@@ -52,19 +50,19 @@ function Comments() {
   };
 
   return (
-    <Stack sx={{ p: 4 }}>
+    <Stack sx={{ p: 4, width: '60%', mx: 'auto' }}>
       <Typography
         variant="h4"
         color="secondary.main"
-        sx={{ fontWeight: "bold", textAlign: "center", mb: 1.5 }}
+        sx={{ fontWeight: "bold", textAlign: "center" }}
       >
         Post Comments
       </Typography>
-      <Box sx={{ height: "58vh", overflowY: "auto" }}>
-        {comments.map((comment) => (
-          <Comment comment={comment} />
+      <Stack sx={{ height: "55vh", overflowY: "auto", pr: 1, gap: 3, mt: 4 }}>
+        {comments.map((comment, index) => (
+          <Comment comment={comment} key={index} />
         ))}
-      </Box>
+      </Stack>
       <TextField
         multiline
         placeholder="Enter your Comment here... "
@@ -72,7 +70,7 @@ function Comments() {
         value={commentText}
         onChange={(event) => setCommentText(event.target.value)}
         sx={{
-          mt: 3,
+          mt: 5,
           backgroundColor: "background.paper",
           borderRadius: 7,
           "& .MuiOutlinedInput-root": {
@@ -87,16 +85,16 @@ function Comments() {
           color: "white",
           width: "15vw",
           height: "5vh",
-          mt: 3,
+          mt: 2,
           mx: "auto",
           gap: 1,
           ":hover": { backgroundColor: "primary.main" },
         }}
+        variant='contained'
         onClick={postComment}
+        disabled={!commentText}
       >
-        <Typography variant="button" fontWeight="bold">
-          Add Your Own Comment
-        </Typography>
+        <Typography>Add Your Own Comment</Typography>
         <ControlPointOutlinedIcon />
       </Button>
     </Stack>

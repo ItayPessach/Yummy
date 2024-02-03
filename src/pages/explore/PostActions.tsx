@@ -9,11 +9,11 @@ interface Props {
   userId: string;
   onExpandClick: () => void;
   onDeleteClick: () => void;
+  onEditClick: () => void;
 }
 
-// TODO: implement edit post
 const PostActions = observer(
-  ({ userId, onExpandClick, onDeleteClick }: Props) => {
+  ({ userId, onExpandClick, onDeleteClick, onEditClick }: Props) => {
     const { user } = userStore;
 
     return (
@@ -42,6 +42,7 @@ const PostActions = observer(
               <DeleteOutlinedIcon />
             </IconButton>
             <IconButton
+              onClick={onEditClick}
               sx={{
                 color: "primary.main",
                 "&:hover": {

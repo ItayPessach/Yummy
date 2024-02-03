@@ -1,34 +1,19 @@
-import { apiClient, CanceledError } from "./apiClient";
+import { apiClient } from "./apiClient";
 import { gatherCookie } from "@/common/utils/token";
-
-export { CanceledError };
+import { LoginDto, RegisterDto } from '@/common/types';
+import { createFormData } from '@/common/utils/createFormData';
 
 class AuthService {
-  private endpoint;
+  private readonly endpoint;
 
   constructor() {
     this.endpoint = "/auth";
   }
 
-  register(registerDto: {
-    email: string;
-    password: string;
-    fullName: string;
-    homeCity: string;
-    picture?: File;
-  }) {
+  register(registerDto: RegisterDto) {
     const controller = new AbortController();
-    const formData = new FormData();
 
-    Object.entries(registerDto).forEach(([key, value]) => {
-      if (key === "picture" && value instanceof File) {
-        formData.append("picture", value);
-      } else {
-        formData.set(key, value);
-      }
-    });
-
-    const request = apiClient.post(`${this.endpoint}/register`, formData, {
+    const request = apiClient.post(`${this.endpoint}/register`, createFormData(registerDto), {
       signal: controller.signal,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -38,11 +23,12 @@ class AuthService {
     return { request, cancel: () => controller.abort() };
   }
 
-  login(loginDto: { email: string; password: string }) {
+  login(loginDto: LoginDto) {
     const controller = new AbortController();
     const request = apiClient.post(`${this.endpoint}/login`, loginDto, {
       signal: controller.signal,
     });
+
     return { request, cancel: () => controller.abort() };
   }
 
@@ -63,6 +49,7 @@ class AuthService {
         Authorization: `Bearer ${gatherCookie("refresh_token")}`,
       },
     });
+
     return { request, cancel: () => controller.abort() };
   }
 }

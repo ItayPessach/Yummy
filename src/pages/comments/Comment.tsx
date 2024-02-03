@@ -13,7 +13,7 @@ function Comment({ comment }: Props) {
 
   useEffect(() => {
     setTimeAgo(calculateTimeAgo(new Date(comment.date)));
-  }, [comment.date]);
+  }, [comment]);
 
   return (
     <Box
@@ -21,8 +21,7 @@ function Comment({ comment }: Props) {
         display: "flex",
         flexDirection: "row",
         backgroundColor: "background.paper",
-        borderRadius: 7,
-        mt: 3,
+        borderRadius: 8,
         p: 2,
         gap: 4,
       }}
@@ -35,11 +34,7 @@ function Comment({ comment }: Props) {
         }
         sx={{ width: 56, height: 56 }}
       ></Avatar>
-      <Stack
-        sx={{
-          gap: 1,
-        }}
-      >
+      <Stack>
         <Box
           sx={{
             display: "flex",

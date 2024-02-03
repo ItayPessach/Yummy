@@ -1,52 +1,16 @@
-import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Typography,
   Stack,
-  TextField,
-  InputAdornment,
   Button,
   Box,
 } from "@mui/material";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import ProfileAvatarInput from "@/components/ProfileAvatarInput";
-import authService from "@/services/authService";
-import SelectCity from "@/components/SelectCity";
+import RegisterForm from '@/pages/register/RegisterForm';
 import { config } from "@/config";
 
 function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [homeCity, setHomeCity] = useState("");
-  const [profileImage, setProfileImage] = useState<File | string>("");
   const navigate = useNavigate();
-
-  const setStateProfileImage = (newProfileImage: File | string) => {
-    setProfileImage(newProfileImage);
-  };
-
-  const createAccount = () => {
-    const { request } = authService.register({
-      email,
-      password,
-      fullName,
-      homeCity,
-      ...(typeof profileImage !== "string" && { picture: profileImage }),
-    });
-
-    request
-      .then((res) => {
-        console.log(res);
-        navigate("/login");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const signIn = () => {
     navigate("/login");
@@ -101,88 +65,8 @@ function Register() {
               Let’s get started
             </Typography>
             <Stack sx={{ mt: 6, alignItems: "center" }} spacing={3}>
-              <ProfileAvatarInput
-                changeProfileImage={setStateProfileImage}
-                src={profileImage}
-                width={200}
-                height={200}
-              />
-              <TextField
-                label="email"
-                value={email}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  setEmail(event.target.value);
-                }}
-                placeholder="email"
-                variant="outlined"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <EmailOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{ width: "30vw" }}
-              />
-              <TextField
-                label="password"
-                value={password}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  setPassword(event.target.value);
-                }}
-                sx={{ width: "30vw" }}
-                placeholder="password"
-                variant="outlined"
-                type="password"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                label="fullName"
-                placeholder="fullName"
-                value={fullName}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  setFullName(event.target.value);
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PersonOutlineIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{ width: "30vw" }}
-              />
-              <SelectCity
-                city={homeCity}
-                setCity={setHomeCity}
-                sx={{ width: "30vw" }}
-              />
+              <RegisterForm />
             </Stack>
-            <Button
-              variant="contained"
-              type="submit"
-              disableElevation
-              sx={{
-                color: "white",
-                backgroundColor: "primary.main",
-                ":hover": { backgroundColor: "primary.main" },
-                width: "60%",
-                height: "6vh",
-                mt: 10,
-                mx: "auto",
-              }}
-              onClick={createAccount}
-            >
-              <Typography variant="h6" sx={{ color: "white" }}>
-                Create Account
-              </Typography>
-            </Button>
           </Stack>
           <Box
             sx={{

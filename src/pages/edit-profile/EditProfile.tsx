@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   InputAdornment,
@@ -7,54 +8,66 @@ import {
   Typography,
 } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import ProfileAvatarInput from "@/components/ProfileAvatarInput";
-import { ChangeEvent, useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import usersService from "@/services/usersService";
-import SelectCity from "@/components/SelectCity";
 import userStore from "@/common/store/user.store";
-import { config } from "@/config";
+import { fetchImageAndConvertToFile } from '@/common/utils/fetch-image';
+import * as yup from "yup";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import { EditProfileFormInput } from '@/common/types';
+import citiesStore from "@/common/store/cities.store.ts";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+
+const schema = yup.object({
+  fullName: yup.string().required("fullName is required"),
+  homeCity: yup.string().optional(),
+});
 
 const EditProfile = observer(() => {
   const { user, setUser } = userStore;
+  const { cities, fetchCities } = citiesStore;
   const navigate = useNavigate();
 
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [homeCity, setHomeCity] = useState("");
-  const [profileImage, setProfileImage] = useState<File | string>("");
+  useEffect(() => {
+    fetchCities();
+  }, [fetchCities]);
+
+  const { control, handleSubmit, formState: { errors } } = useForm<EditProfileFormInput>({
+    values: {
+      fullName: user?.fullName ?? "",
+      homeCity: user?.homeCity ?? "",
+    },
+    resolver: yupResolver(schema),
+  });
+
+
+  const [profileImage, setProfileImage] = useState<File | undefined>();
 
   useEffect(() => {
-    setEmail(user?.email ?? "");
-    setFullName(user?.fullName ?? "");
-    setHomeCity(user?.homeCity ?? "");
-    setProfileImage(
-      user?.profileImage ? config.uploadFolderUrl + user.profileImage : ""
-    );
+    if (user?.profileImage) {
+      fetchImageAndConvertToFile(user?.profileImage).then((file) => {
+        setProfileImage(file);
+      });
+    }
   }, [user]);
 
-  const setStateProfileImage = (newProfileImage: File | string) => {
-    setProfileImage(newProfileImage);
-  };
-
-  const editProfile = () => {
-    const { request } = usersService.editProfile({
-      fullName,
-      email,
-      homeCity,
-      ...(typeof profileImage !== "string" && { picture: profileImage }),
+  const editProfile: SubmitHandler<EditProfileFormInput> = async (data) => {
+    const { request: editProfileRequest } = usersService.editProfile({
+      ...data,
+      picture: profileImage,
     });
 
-    request
-      .then((res) => {
-        setUser(res.data);
-        navigate("/profile");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const res = await editProfileRequest;
+      setUser(res.data);
+      navigate("/profile");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const cancelEdit = () => {
@@ -62,92 +75,110 @@ const EditProfile = observer(() => {
   };
 
   return (
-    <Stack sx={{ p: 10, alignItems: "center" }} spacing={5}>
+    <Stack sx={{p: 10, alignItems: "center"}} spacing={5}>
       <ProfileAvatarInput
-        changeProfileImage={setStateProfileImage}
-        src={profileImage}
+        changeProfileImage={setProfileImage}
+        profileImage={profileImage}
         width={280}
         height={280}
       />
-      <TextField
-        label="email"
-        value={email}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setEmail(event.target.value);
-        }}
-        placeholder="email"
-        variant="outlined"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <EmailOutlinedIcon />
-            </InputAdornment>
-          ),
-        }}
-        sx={{ width: "25vw" }}
-      />
-      <TextField
-        label="fullName"
-        value={fullName}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setFullName(event.target.value);
-        }}
-        sx={{ width: "25vw" }}
-        placeholder="fullName"
-        variant="outlined"
-        type="fullName"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <PersonOutlineIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <SelectCity
-        city={homeCity}
-        setCity={setHomeCity}
-        sx={{ width: "25vw" }}
-      />
-      <Box
-        sx={{ display: "flex", width: "30%", justifyContent: "center", gap: 2 }}
-      >
-        <Button
-          disableElevation
-          variant="contained"
-          disabled={!email && !fullName && !homeCity}
-          onClick={editProfile}
-          sx={{
-            color: "white",
-            backgroundColor: "primary.main",
-            ":hover": { backgroundColor: "primary.main" },
-            width: "30%",
-            height: "6vh",
-            mt: 3,
-          }}
-        >
-          <Typography variant="h6" fontWeight="bold">
-            Save Profile
-          </Typography>
-        </Button>
-        <Button
-          disableElevation
-          variant="contained"
-          onClick={cancelEdit}
-          sx={{
-            color: "white",
-            background: "#ff9800",
-            ":hover": { backgroundColor: "#ff9800" },
-            width: "30%",
-            height: "6vh",
-            mt: 3,
-          }}
-        >
-          <Typography variant="h6" fontWeight="bold">
-            Cancel
-          </Typography>
-        </Button>
-      </Box>
+      <form onSubmit={handleSubmit(editProfile)} style={{width: '80%'}}>
+        <Stack spacing={4} alignItems='center'>
+          <Controller
+            name="fullName"
+            control={control}
+            render={({field}) =>
+              <TextField
+                {...field}
+                error={!!errors.fullName}
+                fullWidth
+                label="fullName"
+                sx={{width: "25vw"}}
+                placeholder="email"
+                helperText={errors.fullName?.message}
+                variant="outlined"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonOutlineIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />}
+          />
+          <Controller name="homeCity" control={control} render={({ field, formState: { errors } }) => (
+            <Autocomplete
+              style={{marginBottom: 10, width: '25vw'}}
+              {...field}
+              options={cities}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="city"
+                  error={!!errors.homeCity}
+                  helperText={errors.homeCity?.message}
+                  placeholder="city"
+                  InputProps={{
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <HomeOutlinedIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  pl: 1.75,
+                  pt: 1,
+                  pb: 1,
+                },
+                "& .MuiOutlinedInput-root .MuiAutocomplete-input": {
+                  pl: 0,
+                },
+              }}
+              onChange={(_, data) => field.onChange(data)}
+            />
+          )} />
+          <Box
+            sx={{display: "flex", width: "30%", justifyContent: "center", gap: 2}}
+          >
+            <Button
+              type='submit'
+              variant="contained"
+              sx={{
+                color: "white",
+                backgroundColor: "primary.main",
+                ":hover": {backgroundColor: "primary.main"},
+                width: "50%",
+                height: "6vh",
+                mt: 3,
+              }}
+            >
+              <Typography variant="h6" fontWeight="bold">
+                Save Profile
+              </Typography>
+            </Button>
+            <Button
+              variant="contained"
+              onClick={cancelEdit}
+              sx={{
+                color: "white",
+                background: "#ff9800",
+                ":hover": {backgroundColor: "#ff9800"},
+                width: "50%",
+                height: "6vh",
+                mt: 3,
+              }}
+            >
+              <Typography variant="h6" fontWeight="bold">
+                Cancel
+              </Typography>
+            </Button>
+          </Box>
+        </Stack>
+      </form>
     </Stack>
   );
 });

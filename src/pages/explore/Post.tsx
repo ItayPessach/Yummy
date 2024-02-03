@@ -20,9 +20,10 @@ import {Dispatch, SetStateAction} from "react";
 interface Props {
   post: IPost;
   setPosts: Dispatch<SetStateAction<IPost[]>>;
+  openEditPostDialog: (post: IPost) => void;
 }
 
-function Post({ post, setPosts }: Props) {
+function Post({ post, setPosts, openEditPostDialog }: Props) {
   const navigate = useNavigate();
 
   const deletePost = async (postId: string) => {
@@ -52,6 +53,7 @@ function Post({ post, setPosts }: Props) {
           userId={post.user._id}
           onDeleteClick={() => deletePost(post._id)}
           onExpandClick={showPostComments}
+          onEditClick={() => openEditPostDialog(post)}
         />
         <CardMedia
           title={post.restaurant}

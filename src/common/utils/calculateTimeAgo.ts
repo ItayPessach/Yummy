@@ -9,7 +9,10 @@ export const calculateTimeAgo = (date: Date): string => {
   const months = Math.floor(days / 30);
   const years = Math.floor(months / 12);
 
-  if (seconds < 60) {
+  if (seconds === 0) {
+    return 'just now';
+  }
+  else if (seconds < 60) {
     return `${seconds} seconds ago`;
   } else if (minutes < 60) {
     return `${minutes} minutes ago`;
