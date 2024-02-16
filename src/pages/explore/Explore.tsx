@@ -30,33 +30,21 @@ const Explore = observer(() => {
   }, [selectedCity, isShowOnlyMyPosts]);
 
   useEffect(() => {
-    if (!openEditPostDialog) {
-      let postsRequest;
-      if (isShowOnlyMyPosts) {
-        postsRequest = () => {
-          return postsService.getByUser(page);
-        };
-      } else {
-        postsRequest = () => {
-          return postsService.getByCity(selectedCity, page);
-        };
-      }
+    const postsRequest = determinePostsRequest();
+    const { request, cancel } = postsRequest();
+    request
+      .then((res) => {
+        if (res.data.length !== 0)
+          setPosts((prevPosts) => [...prevPosts, ...res.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-      const { request, cancel } = postsRequest();
-      request
-        .then((res) => {
-          if (res.data.length !== 0)
-            setPosts((prevPosts) => [...prevPosts, ...res.data]);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      return () => {
-        cancel();
-      };
-    }
-  }, [page, selectedCity, isShowOnlyMyPosts, openEditPostDialog]);
+    return () => {
+      cancel();
+    };
+  }, [page, selectedCity, isShowOnlyMyPosts]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,12 +73,31 @@ const Explore = observer(() => {
     };
   }, [posts]);
 
+  const determinePostsRequest = () => {
+    if (isShowOnlyMyPosts) {
+      return () => {
+        return postsService.getByUser(page);
+      };
+    } else {
+      return () => {
+        return postsService.getByCity(selectedCity, page);
+      };
+    }
+  };
+
   const handleCloseEditDialog = (isEdited = false) => {
     setOpenEditPostDialog(false);
-
     if (isEdited) {
-      setPosts([]);
       setPage(1);
+      const postsRequest = determinePostsRequest();
+      const { request } = postsRequest();
+      request
+        .then((res) => {
+          if (res.data.length !== 0) setPosts(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
