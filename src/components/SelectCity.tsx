@@ -15,7 +15,7 @@ const SelectCity = observer(({ city, setCity, sx }: Props) => {
 
   useEffect(() => {
     fetchCities();
-  }, [fetchCities]);
+  }, []);
 
   return (
     <Autocomplete

@@ -1,14 +1,14 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Typography, Stack, Grid } from "@mui/material";
 import AntSwitch from "../../components/AntSwitch";
-import EditPostDialog from '@/pages/edit-post/EditPost';
+import EditPostDialog from "@/pages/edit-post/EditPost";
 import Post from "./Post";
 import postsService from "@/services/postsService";
-import {IPost, PostToEdit} from "@/common/types";
+import { IPost, PostToEdit } from "@/common/types";
 import SelectCity from "@/components/SelectCity";
 import userStore from "@/common/store/user.store";
 import { observer } from "mobx-react-lite";
-import { fetchImageAndConvertToFile } from '@/common/utils/fetch-image';
+import { fetchImageAndConvertToFile } from "@/common/utils/fetch-image";
 
 const Explore = observer(() => {
   const { user } = userStore;
@@ -85,16 +85,17 @@ const Explore = observer(() => {
     };
   }, [posts]);
 
-  const handleCloseEditDialog = () => {
+  const handleCloseEditDialog = (isEdited = false) => {
     setOpenEditPostDialog(false);
 
-    setPosts([]);
-    setPage(1);
+    if (isEdited) {
+      setPosts([]);
+      setPage(1);
+    }
   };
 
-
   const onOpenEditPostDialog = async (post: IPost) => {
-    const picture =  await fetchImageAndConvertToFile(post.image);
+    const picture = await fetchImageAndConvertToFile(post.image);
 
     setPostToEdit({
       picture,
@@ -107,11 +108,10 @@ const Explore = observer(() => {
     setOpenEditPostDialog(true);
   };
 
-
   return (
     <>
       <Stack sx={{ p: 4, gap: 2 }}>
-        <Stack spacing={2} sx={{ height: '10vh'}}>
+        <Stack spacing={2} sx={{ height: "10vh" }}>
           <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
             <Typography
               variant="h6"
@@ -141,11 +141,22 @@ const Explore = observer(() => {
           ref={scrolledElementRef}
         >
           {posts.map((post, index) => (
-            <Post post={post} setPosts={setPosts} key={index} openEditPostDialog={onOpenEditPostDialog} />
+            <Post
+              post={post}
+              setPosts={setPosts}
+              key={index}
+              openEditPostDialog={onOpenEditPostDialog}
+            />
           ))}
         </Grid>
       </Stack>
-      {postToEdit && <EditPostDialog open={openEditPostDialog} postToEdit={postToEdit} onClose={handleCloseEditDialog} />}
+      {postToEdit && (
+        <EditPostDialog
+          open={openEditPostDialog}
+          postToEdit={postToEdit}
+          onClose={handleCloseEditDialog}
+        />
+      )}
     </>
   );
 });

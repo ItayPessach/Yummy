@@ -1,12 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import {
-  Grid,
-  Typography,
-  Stack,
-  Button,
-  Box,
-} from "@mui/material";
-import RegisterForm from '@/pages/register/RegisterForm';
+import { Grid, Typography, Stack, Button, Box } from "@mui/material";
+import RegisterForm from "@/pages/register/RegisterForm";
 import { config } from "@/config";
 
 function Register() {
@@ -54,9 +48,11 @@ function Register() {
             backgroundSize: "cover",
             backgroundPosition: "center",
             opacity: "0.8",
+            minHeight: "100vh",
+            maxHeight: "100vh",
           }}
         />
-        <Grid item md={5} sx={{ p: "100px" }}>
+        <Grid item md={5} sx={{ p: 6 }}>
           <Stack sx={{ position: "relative" }}>
             <Typography variant="h4" sx={{ fontWeight: "bold" }}>
               Create an account

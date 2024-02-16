@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {useForm, Controller, SubmitHandler} from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
   Typography,
   Button,
@@ -12,8 +12,8 @@ import authService from "@/services/authService";
 import usersService from "@/services/usersService";
 import GoogleAuth from "@/components/GoogleAuth";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {useState} from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
@@ -29,12 +29,16 @@ const schema = yup.object({
 
 function Login() {
   const navigate = useNavigate();
-  const [serverError, setServerError] = useState('');
+  const [serverError, setServerError] = useState("");
 
-  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormInput>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInput>({
     values: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     resolver: yupResolver(schema),
   });
@@ -57,7 +61,7 @@ function Login() {
       navigate("/");
     } catch (err: any) {
       if (err.response.status === 401) {
-        setServerError('some of the details are incorrect');
+        setServerError("some of the details are incorrect");
       }
     }
   };
@@ -74,21 +78,21 @@ function Login() {
         gap: 5,
       }}
     >
-      <Typography variant="h2" sx={{fontWeight: "bold", mb: 5}}>
+      <Typography variant="h2" sx={{ fontWeight: "bold", mb: 5 }}>
         Welcome To Yummy Food Community
       </Typography>
-      <form onSubmit={handleSubmit(login)} style={{ width: '80%' }}>
-        <Stack spacing={4} alignItems='center'>
+      <form onSubmit={handleSubmit(login)} style={{ width: "80%" }}>
+        <Stack spacing={4} alignItems="center">
           <Controller
             name="email"
             control={control}
-            render={({field}) =>
+            render={({ field }) => (
               <TextField
                 {...field}
                 error={!!errors.email}
                 fullWidth
                 label="email"
-                sx={{width: "60%", mx: "auto"}}
+                sx={{ width: "60%", mx: "auto" }}
                 placeholder="email"
                 helperText={errors.email?.message}
                 variant="outlined"
@@ -99,18 +103,19 @@ function Login() {
                     </InputAdornment>
                   ),
                 }}
-              />}
+              />
+            )}
           />
           <Controller
             name="password"
             control={control}
-            render={({field}) =>
+            render={({ field }) => (
               <TextField
                 {...field}
                 error={!!errors.password}
                 fullWidth
                 label="password"
-                sx={{width: "60%", mx: "auto"}}
+                sx={{ width: "60%", mx: "auto" }}
                 placeholder="password"
                 type="password"
                 helperText={errors.password?.message}
@@ -122,15 +127,16 @@ function Login() {
                     </InputAdornment>
                   ),
                 }}
-              />}
+              />
+            )}
           />
           <Button
             variant="contained"
-            type='submit'
+            type="submit"
             sx={{
               color: "white",
               backgroundColor: "primary.main",
-              ":hover": {backgroundColor: "primary.main"},
+              ":hover": { backgroundColor: "primary.main" },
               width: "25vw",
               height: "6vh",
               mt: 3,
@@ -139,25 +145,29 @@ function Login() {
           >
             Login
           </Button>
-          {serverError && <Typography variant="caption" color='error'>{ serverError }</Typography>}
+          {serverError && (
+            <Typography variant="body1" color="error" fontWeight="bold">
+              {serverError}
+            </Typography>
+          )}
         </Stack>
       </form>
-      <HorizontalLineWithText text="OR"/>
-      <GoogleAuth/>
+      <HorizontalLineWithText text="OR" />
       <Button
         variant="contained"
         onClick={register}
         sx={{
           color: "white",
           backgroundColor: "black",
-          ":hover": {backgroundColor: "black"},
+          ":hover": { backgroundColor: "black" },
           width: "25vw",
           height: "6vh",
           mx: "auto",
         }}
       >
-          New to this website? Join Now
+        New to this website? Join Now
       </Button>
+      <GoogleAuth />
     </Stack>
   );
 }

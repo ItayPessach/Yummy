@@ -1,8 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import axios from "axios";
-import { config } from '@/config';
+import { config } from "@/config";
 
-const LOCATION_NAME_FIELD =  'שם_ישוב_לועזי';
+const LOCATION_NAME_FIELD = "שם_ישוב_לועזי";
 
 class CitiesStore {
   cities: string[] = [];
@@ -14,6 +14,8 @@ class CitiesStore {
 
   async fetchCities() {
     try {
+      if (this.isDataLoaded) return;
+
       const res = await axios.get(config.citiesApiUrl);
       runInAction(() => {
         // Use set constructor and destruct afterwards in order to remove duplicates
