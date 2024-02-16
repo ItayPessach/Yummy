@@ -1,10 +1,33 @@
-import './App.css'
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Login from "@/pages/login/Login";
+import Register from "@/pages/register/Register";
+import Explore from "@/pages/explore/Explore";
+import UploadPost from "@/pages/upload-post/UploadPost";
+import Layout from "@/components/Layout";
+import Comments from "@/pages/comments/Comments";
+import Profile from "./pages/profile/Profile";
+import EditProfile from "./pages/edit-profile/EditProfile";
+import RequireAuth from "./components/RequireAuth";
+import NotFound from "./pages/not-found/NotFound";
 
-const App = () => {
+function App() {
   return (
-    <div style={{display: 'flex', justifyContent: 'center'}}>
-       <span style={{textAlign: 'center', fontSize: '40px'}}>Initial Commit Of The app</span>
-    </div>
-)}
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<RequireAuth children={<Layout />} />}>
+        <Route index element={<Explore />} />
+        <Route path="comments/:postId" element={<Comments />} />
+        <Route path="upload" element={<UploadPost />} />
+        <Route path="profile">
+          <Route index element={<Profile />} />
+          <Route path="edit" element={<EditProfile />} />
+        </Route>
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
 
-export default App
+export default App;

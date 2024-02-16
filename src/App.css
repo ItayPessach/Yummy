@@ -1,4 +1,22 @@
 html {
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(223,250,255,1) 50%, rgba(126,233,255,1) 100%);
+  overflow-x: hidden;
   overflow-y: hidden;
-  background: linear-gradient(319deg, #FFF 1.26%, #FFF 32.93%, #00C2E8 108.82%);
+}
+
+body {
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 3px;
+  border-radius: 2rem;
+  background-color: #fafafa;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #00C2E8;
+  border-radius: 2rem;
 }
