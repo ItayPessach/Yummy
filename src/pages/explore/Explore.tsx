@@ -27,15 +27,20 @@ const Explore = observer(() => {
   useEffect(() => {
     setPosts([]);
     setPage(1);
+    scrolledElementRef.current!.scrollTop = 0;
   }, [selectedCity, isShowOnlyMyPosts]);
 
   useEffect(() => {
+    console.log(posts);
     const postsRequest = determinePostsRequest();
     const { request, cancel } = postsRequest();
     request
       .then((res) => {
-        if (res.data.length !== 0)
+        if (page === 1) {
+          setPosts(res.data);
+        } else {
           setPosts((prevPosts) => [...prevPosts, ...res.data]);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -89,11 +94,12 @@ const Explore = observer(() => {
     setOpenEditPostDialog(false);
     if (isEdited) {
       setPage(1);
+      scrolledElementRef.current!.scrollTop = 0;
       const postsRequest = determinePostsRequest();
       const { request } = postsRequest();
       request
         .then((res) => {
-          if (res.data.length !== 0) setPosts(res.data);
+          if (res.data.length) setPosts(res.data);
         })
         .catch((err) => {
           console.log(err);
